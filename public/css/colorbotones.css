@@ -1,0 +1,27 @@
+.azul{
+	background-color: #142f5a !important;
+	border-color: #142f5a;
+	opacity: .85;
+	color: #FFF;
+}
+
+.aqua{
+	background-color: #52AA92 !important;
+	border-color: #52AA92;
+	opacity: .8;
+	color: #FFF;
+}
+
+.naranja{
+	background-color: #F46547 !important;
+	border-color: #F46547;
+	opacity: 1;
+	color: #FFF;
+}
+
+.amarillo{
+	background-color: #F9CA46 !important;
+	border-color: #F9CA46;
+	color: black;
+	opacity: .8;
+}
