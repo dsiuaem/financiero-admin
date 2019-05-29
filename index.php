@@ -7,8 +7,7 @@ require_once 'libs/App.php';
 require_once 'config/config.php';
 
 
-$app=new App();
-
+$app = new App();
 
 
 ?>

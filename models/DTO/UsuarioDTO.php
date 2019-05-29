@@ -1,7 +1,10 @@
 <?php
-class UsuarioDTO{
+
+class UsuarioDTO
+{
     public $id;
     public $nombre;
     public $password;
 }
+
 ?>

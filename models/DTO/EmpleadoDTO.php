@@ -1,5 +1,7 @@
 <?php
-class EmpleadoDTO{
+
+class EmpleadoDTO
+{
 
     public $id;
 
@@ -10,4 +12,5 @@ class EmpleadoDTO{
     public $salario;
 
 }
+
 ?>

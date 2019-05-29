@@ -1,18 +1,21 @@
 <?php
-class SolicitudPagoArchivoDTO{
 
-	public $idFile;
+class SolicitudPagoArchivoDTO
+{
 
-	public $idSolicitud;
+    public $idFile;
 
-	public $tipoDocumento;
+    public $idSolicitud;
 
-	public $nombre;
+    public $tipoDocumento;
 
-	public $extension;
+    public $nombre;
 
-	public $ruta;
+    public $extension;
 
-	public $activo;
+    public $ruta;
+
+    public $activo;
 }
+
 ?>

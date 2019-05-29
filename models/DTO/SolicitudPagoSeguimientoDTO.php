@@ -1,13 +1,16 @@
 <?php
-class SolicitudPagoSeguimientoDTO{
 
-	public $idSolicitud;
+class SolicitudPagoSeguimientoDTO
+{
 
-	public $idStatus;
+    public $idSolicitud;
 
-	public $idUser;
+    public $idStatus;
 
-	public $ip;
+    public $idUser;
+
+    public $ip;
 
 }
+
 ?>

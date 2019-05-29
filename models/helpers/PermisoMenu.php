@@ -1,7 +1,10 @@
 <?php
-class PermisoMenu{
+
+class PermisoMenu
+{
     public $opcion;
     public $permitido;
     public $subModulo;
 }
+
 ?>

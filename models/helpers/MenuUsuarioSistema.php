@@ -1,6 +1,9 @@
-<?php 
-class UsuarioSistema{
-public $idUser;
-public $idSystem;
+<?php
+
+class UsuarioSistema
+{
+    public $idUser;
+    public $idSystem;
 }
+
 ?>

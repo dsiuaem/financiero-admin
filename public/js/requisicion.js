@@ -1,15 +1,15 @@
-$(document).ready(function() {
+$(document).ready(function () {
     // oculta las vistas del usuario hasta que el cambie la vista
     $('#captura_datos_articulo').hide();
-    $(function(){
+    $(function () {
         //Flat red color scheme for iCheck
         $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
-          checkboxClass: 'icheckbox_flat-green',
-          radioClass   : 'iradio_flat-green'
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
         });
-      });
+    });
 
-    
+
     // //carga el listado de recursos
     // recurso();
     // //carga el listadp de tipos de gastos
@@ -24,14 +24,14 @@ $(document).ready(function() {
     //jquery validator donde se corroboran que los datos esten introducidos y ningun campo se vaya en vacio
     $('form[id="registroDatosSolicitanteForm"]').validate({
         rules: {
-            fechaRequisicion:'required'
+            fechaRequisicion: 'required'
 
         },
-            messages: {
-                fechaRequisicion:'Ingresa FECHA!'
+        messages: {
+            fechaRequisicion: 'Ingresa FECHA!'
 
         },
-        submitHandler: function(form) {
+        submitHandler: function (form) {
             //se ejecuta el guardado de la solicitud de pago un vez que ya corrobora que todos los campos esten llenos
             $('#captura_datos_articulo').show();
             $('#captura_datos_solicitante').hide();
@@ -867,7 +867,7 @@ $(document).ready(function() {
 //             alert("SE NECESITA SELECCIONAR EL TIPO DE RECURSO");
 //             return false;
 //         }
-        
+
 //     }
 // });
 

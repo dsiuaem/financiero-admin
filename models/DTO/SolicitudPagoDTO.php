@@ -1,19 +1,21 @@
 <?php
-class SolicitudPagoDTO{
 
-	public $idTipoRecurso;
+class SolicitudPagoDTO
+{
 
-	public $idSolicitud;
+    public $idTipoRecurso;
 
-	public $idTipoOption;
+    public $idSolicitud;
 
-	public $idFile;
+    public $idTipoOption;
 
-	public $idUser;
+    public $idFile;
 
-	public $tramite;
+    public $idUser;
 
-	public $unidadAcademica;
+    public $tramite;
+
+    public $unidadAcademica;
 
     public $tipoRecurso;
 
@@ -32,4 +34,5 @@ class SolicitudPagoDTO{
     public $parametrosGet;
 
 }
+
 ?>

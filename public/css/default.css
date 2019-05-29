@@ -1,72 +1,72 @@
-*{
+* {
     padding: 0;
     margin: 0;
 }
 
-body{
+body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: #eee;
 }
 
-#header{
+#header {
     background: black;
     padding: 10px;
     height: 20px;
 }
 
-#header ul li{
+#header ul li {
     list-style: none;
     display: inline;
     padding: 10px;
 }
 
-#header ul li a{
+#header ul li a {
     color: white;
     text-decoration: none;
     padding: 10px;
 }
 
-#submenu{
+#submenu {
     background: white;
     padding: 10px;
 }
 
-#submenu ul li{
+#submenu ul li {
     list-style: none;
     display: inline;
     padding: 10px;
 }
 
-#submenu ul li a{
+#submenu ul li a {
     color: #1E90FF;
     text-decoration: none;
     padding: 10px;
 }
 
-#footer{
+#footer {
     background-color: #ccc;
     padding: 20px;
 }
 
-#main{
+#main {
     padding: 20px 0;
     width: 500px;
     margin: 0 auto;
 }
 
-.center{
+.center {
     text-align: center
 }
 
-.error{
+.error {
     color: #FF0000;
 }
 
-.pointer{
+.pointer {
     cursor: pointer;
 }
 
-.fondo{
+.fondo {
     outline: none;
     background-color: #eee;
     border: 0;
@@ -77,48 +77,48 @@ table, th, td, thead, tbody {
     padding: 10px;
 }
 
-input[type="text"], input[type="number"], input[type="date"], input[type="password"], textarea{
+input[type="text"], input[type="number"], input[type="date"], input[type="password"], textarea {
     height: 35px;
     width: 50%;
     font-size: 15px;
     text-indent: 25px;
 }
 
-input[type="checkbox"], input[type="radio"]{
+input[type="checkbox"], input[type="radio"] {
     height: 15px;
     width: 15px;
 }
 
-input[type="file"], button, select{
+input[type="file"], button, select {
     height: 35px;
     width: 20%;
     font-size: 15px;
 }
 
-.tabla{
+.tabla {
     height: 35px;
     width: 50%;
     font-size: 15px;
 }
 
-h2{
+h2 {
     float: left;
     text-indent: 150px;
 }
 
 form {
     width: 100%;
-    margin-left: auto ;
-    margin-right: auto ;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-label{
+label {
     text-indent: 300px;
-    float:left;
-    font-size:18;
+    float: left;
+    font-size: 18;
 }
 
-textarea{
+textarea {
     height: 100px;
     width: 50%;
     resize: none;
