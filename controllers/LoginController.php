@@ -60,7 +60,7 @@ class LoginController extends Controller
                 }
                 return false;
             } else {
-                $this->view->errorLogin = "Usuario incorrecto66";
+                $this->view->errorLogin = "Usuario incorrecto";
             }
 
         }
