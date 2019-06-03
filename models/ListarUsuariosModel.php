@@ -1,7 +1,7 @@
 <?php
 require_once 'controllers/helpers/JWT.php';
 
-class ListadoPerfilesModel extends Model
+class ListarUsuariosModel extends Model
 {
 
     public function __construct()
@@ -10,18 +10,18 @@ class ListadoPerfilesModel extends Model
     }
 
     //variables utilizadas para la deteccion de datos enviados hacia la api correspondiente
-    public $getPerfilesTableDTO;
+    public $getUsuariosTableDTO;
 
-    function obtenerPerfilesTable()
+    function obtenerUsuariosTable()
     {
         $ch = curl_init();
         //Encritar datos que llegan del formulario
         $jwt = new JWT();
-        $data = $jwt->TokenJWT($this->getPerfilesTableDTO);
+        $data = $jwt->TokenJWT($this->getUsuariosTableDTO);
         //var_dump($data);
         // define options
         $optArray = array(
-            CURLOPT_URL => constant('URL_API_ADMIN') . 'perfiles/table',
+            CURLOPT_URL => constant('URL_API_ADMIN') . 'usuarios',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_POSTFIELDS => $data,
@@ -38,11 +38,11 @@ class ListadoPerfilesModel extends Model
         if ($responseCode == 200) {
             //El resultado se deserializa en la clase DTO devuelta
             $dataDescrypt = $jwt->Desencriptar($result);
-            $this->perfilesDTO = $dataDescrypt->perfilesDTO;
+            $this->usuariosDTO = $dataDescrypt->usuariosDTO;
             $this->respuesta = $dataDescrypt->respuesta;
             //Retornar los datos correctos más la respuesta de OK, o en caso de que el servicio mande error, aqui se retorna
         } else {
-            $this->perfilesDTO = $this->perfilesDTO;
+            $this->usuariosDTO = $this->usuariosDTO;
             $this->respuesta = 500;
         }
     }

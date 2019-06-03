@@ -25,18 +25,20 @@
         <div class="card-body card-block">
             <div class="form-group">
                 <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
-                <table class="table table-striped table-bordered dt-responsive nowrap" id="listadoAsignacionPerfiles"
+                <table class="table table-striped table-bordered dt-responsive nowrap" id="tableUsuarios"
                        width="100%"
                        cellspacing="0">
                     <thead>
                     <tr>
-                        <th>Usuarios del sistema</th>
-                        <th>Perfil asignado</th>
-                        <th>Editar</th>
+                        <th>Acciones</th>
+                        <th></th>
+                        <th>Nombre</th>
+                        <th>Perfil Asignado</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -47,14 +49,11 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                     </tfoot>
                 </table>
             </div>
-        </div>
-
-        <div align="center">
-            <button id="btnSaveUserPerfil" name="btnSaveUserPerfil" class="btn btn-primary">Guardar</button>
         </div>
     </form>
 </div>

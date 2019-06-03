@@ -29,6 +29,118 @@ function showSystems() {
 
 }
 
+//Funciones para obtener información de los select
+$(document).on('change', '#systemName', function () {
+
+    var id_sistema = $('select[name=systemName]').val();
+
+    if (id_sistema != "0") {
+
+        $.ajax({
+            url: 'AsignarPerfiles/perfilesListSelect',
+            type: 'POST',
+            data: ({data: id_sistema}),
+            success: function (response) {
+
+                //console.log(response);
+
+                $('#perfilUser').empty();
+
+                var modules = jQuery.parseJSON(response);
+                //console.log(modules);
+                var arreglo = modules.perfilesDTO;
+                //console.log(typeof (arreglo));
+                arreglo = jQuery.parseJSON(arreglo);
+                //console.log(typeof (arreglo));
+                var $dropdown = $("select[name$='perfilUser']");
+                $dropdown.append($("<option />").val(0).text("-- Selecciona --"));
+                for (var i = arreglo.length - 1; i >= 0; i--) {
+                    $dropdown.append($("<option />").val(arreglo[i].idPerfil).text(arreglo[i].perfil));
+                }
+
+            },
+            error: function () {
+                alert("Error al obtener el servicio para cargar la lista");
+            }
+        });
+
+    }
+
+});
+
+var tableSubmodulos;
+//Para DataTable
+//Funciones para obtener información de los select
+$(document).on('change', '#systemName', function () {
+
+    /*
+    var id_modulo = $('select[name=moduleNameTable]').val();
+
+    console.log("entra id: " + " " + id_modulo);
+
+    $.ajax({
+        url: 'Submodulos/submoduleListTable',
+        type: 'POST',
+        data: ({id: id_modulo}),
+        success: function (response) {
+            console.log("datos");
+            console.log(response);
+
+        },
+        error: function () {
+            alertify.error("Error al obtener el servicio");
+        }
+    });
+
+     */
+
+
+    var id_system = $('select[name=systemName]').val();
+
+    if (id_system != "0") {
+
+        console.log("entra" + " " + id_system);
+
+        tableListadoAsignacionPerfiles = $('#tableListadoAsignacionPerfiles').DataTable({
+            destroy: true,
+            responsive: {
+                details: false
+            },
+            ajax: {
+                url: 'AsignarPerfiles/usuariosListTable',
+                type: 'POST',
+                data: ({id: id_system}),
+                dataSrc: "",
+            },
+            columns: [
+                {
+                    data: "idUser",
+                    visible: false,
+                    searchable: false
+                },
+
+                {data: "user"},
+                {data: "email"},
+                {
+                    data: null,
+                    render: function (data, type, row) {
+
+                        return '<input type="checkbox">';
+
+                    }
+                }
+
+            ],
+            fixedColumns: true,
+            language: {
+                "url": "public/plugins/DataTables/Spanish.json",
+            }
+        });
+
+    }
+
+});
+
 //Funcion para llevar a cabo el registro de un sistema
 function saveRegistroUsuarios() {
     var texto = $('#asignarPerfiles').serializeArray();

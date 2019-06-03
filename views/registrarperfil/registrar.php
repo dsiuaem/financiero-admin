@@ -52,24 +52,35 @@
                     <li>
                         <!-- Segundo nivel -->
                         <input type="checkbox" name="tall" id="tall">
-                        <label for="tall">Tall Things</label>
+                        <label for="tall">Módulos</label>
 
                         <ul>
                             <li>
                                 <!-- Tercer nivel -->
                                 <input type="checkbox" name="tall-1" id="tall-1">
-                                <label for="tall-1">Buildings</label>
+                                <label for="tall-1">Submodulos</label>
                             </li>
                             <li>
                                 <!-- Tercer nivel -->
                                 <input type="checkbox" name="tall-2" id="tall-2">
-                                <label for="tall-2">Giants</label>
+                                <label for="tall-2">Submodulos</label>
 
                                 <ul>
                                     <!-- Cuarto nivel -->
                                     <li>
                                         <input type="checkbox" name="tall-2-1" id="tall-2-1">
-                                        <label for="tall-2-1">Andre</label>
+                                        <label for="tall-2-1">Opciones</label>
+                                        <ul>
+                                            <!-- Cuarto nivel -->
+                                            <li>
+                                                <input type="checkbox" name="tall-2-2" id="tall-2-2">
+                                                <label for="tall-2-1">Tipo opciones</label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" name="tall-2-2" id="tall-2-2">
+                                                <label for="tall-2-1">Tipo opciones2</label>
+                                            </li>
+                                        </ul>
                                     </li>
                                 </ul>
                             </li>

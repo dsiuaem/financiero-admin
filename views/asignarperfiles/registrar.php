@@ -37,12 +37,15 @@
         <div class="card-body card-block">
             <div class="form-group">
                 <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
-                <table class="table table-striped table-bordered dt-responsive nowrap" id="listadoAsignacionPerfiles"
+                <table class="table table-striped table-bordered dt-responsive nowrap"
+                       id="tableListadoAsignacionPerfiles"
                        width="100%"
                        cellspacing="0">
                     <thead>
                     <tr>
-                        <th>Usuarios del sistema</th>
+                        <th></th>
+                        <th>Nombre de usuario</th>
+                        <th>Email</th>
                         <th>Seleccionar</th>
                     </tr>
                     </thead>
@@ -50,10 +53,14 @@
                     <tr>
                         <td></td>
                         <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     </tbody>
                     <tfoot>
                     <tr>
+                        <th></th>
+                        <th></th>
                         <th></th>
                         <th></th>
                     </tr>

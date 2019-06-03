@@ -26,6 +26,21 @@ class ListarUsuariosController extends Controller
         $this->view->render('listarusuarios/index');
     }
 
+    function usersListTable()
+    {
+        $listarUsuariosDTO = new ListarUsuariosDTO;
+        $listarUsuariosDTO->idSystem = $_POST["id"];
+        //echo $_POST['data'];
+        //exit;
+        $this->model->getUsuariosTableDTO = $listarUsuariosDTO;
+        //Recupera los datos del servicio web
+        $this->model->obtenerUsuariosTable();
+        //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+        //echo json_encode($this->model);
+        //Para tablas según -_-
+        echo $this->model->usuariosDTO;
+    }
+
 
 }
 
