@@ -49,42 +49,9 @@
             <div class="col col-md-2"></div>
             <div class="col-12 col-md-8">
                 <ul>
-                    <li>
-                        <!-- Segundo nivel -->
-                        <input type="checkbox" name="tall" id="tall">
-                        <label for="tall">Módulos</label>
+                    <li name="checkModulos" id="checkModulos">
+                        <!-- <input type="checkbox" name="checkModulos" id="checkModulos"> -->
 
-                        <ul>
-                            <li>
-                                <!-- Tercer nivel -->
-                                <input type="checkbox" name="tall-1" id="tall-1">
-                                <label for="tall-1">Submodulos</label>
-                            </li>
-                            <li>
-                                <!-- Tercer nivel -->
-                                <input type="checkbox" name="tall-2" id="tall-2">
-                                <label for="tall-2">Submodulos</label>
-
-                                <ul>
-                                    <!-- Cuarto nivel -->
-                                    <li>
-                                        <input type="checkbox" name="tall-2-1" id="tall-2-1">
-                                        <label for="tall-2-1">Opciones</label>
-                                        <ul>
-                                            <!-- Cuarto nivel -->
-                                            <li>
-                                                <input type="checkbox" name="tall-2-2" id="tall-2-2">
-                                                <label for="tall-2-1">Tipo opciones</label>
-                                            </li>
-                                            <li>
-                                                <input type="checkbox" name="tall-2-2" id="tall-2-2">
-                                                <label for="tall-2-1">Tipo opciones2</label>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
                     </li>
                 </ul>
             </div>
@@ -98,4 +65,48 @@
 </div>
 
 
+<div class="row form-group">
+    <div class="col col-md-2"></div>
+    <div class="col-12 col-md-8">
+        <ul>
+            <li>
+                <!-- Segundo nivel -->
+                <input type="checkbox" name="tall" id="tall">
+                <label for="tall">Módulos</label>
 
+                <ul>
+                    <li>
+                        <!-- Tercer nivel -->
+                        <input type="checkbox" name="tall-1" id="tall-1">
+                        <label for="tall-1">Submodulos</label>
+                    </li>
+                    <li>
+                        <!-- Tercer nivel -->
+                        <input type="checkbox" name="tall-2" id="tall-2">
+                        <label for="tall-2">Submodulos</label>
+
+                        <ul>
+                            <!-- Cuarto nivel -->
+                            <li>
+                                <input type="checkbox" name="tall-2-1" id="tall-2-1">
+                                <label for="tall-2-1">Opciones</label>
+                                <ul>
+                                    <!-- Cuarto nivel -->
+                                    <li>
+                                        <input type="checkbox" name="tall-2-2" id="tall-2-2">
+                                        <label for="tall-2-1">Tipo opciones</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="tall-2-2" id="tall-2-2">
+                                        <label for="tall-2-1">Tipo opciones2</label>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="col col-md-2"></div>
+</div>

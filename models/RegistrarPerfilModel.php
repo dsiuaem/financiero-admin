@@ -21,7 +21,7 @@ class RegistrarPerfilModel extends Model
         $data = $jwt->TokenJWT($this->getContentListSystemDTO);
         // define options
         $optArray = array(
-            CURLOPT_URL => constant('URL_API_ADMIN') . 'perfiles',
+            CURLOPT_URL => constant('URL_API_ADMIN') . 'perfilesListado',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_POSTFIELDS => $data,
@@ -38,7 +38,9 @@ class RegistrarPerfilModel extends Model
         if ($responseCode == 200) {
             //El resultado se deserializa en la clase DTO devuelta
             $dataDescrypt = $jwt->Desencriptar($result);
-            $this->sistemasDTO = $dataDescrypt->sistemasDTO;
+            //#############*************#####################
+            //Aqui se van a recibir todos los objetos
+            $this->perfilesModulosDTO = $dataDescrypt->perfilesModulosDTO;
             $this->respuesta = $dataDescrypt->respuesta;
             //Retornar los datos correctos más la respuesta de OK, o en caso de que el servicio mande error, aqui se retorna
         } else {

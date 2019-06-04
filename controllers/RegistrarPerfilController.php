@@ -36,9 +36,7 @@ class RegistrarPerfilController extends Controller
         //Recupera los datos del servicio web
         $this->model->obtenerContentListSystem();
         //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
-        //echo json_encode($this->model);
-        //Para tablas según -_-
-        echo $this->model->modulosDTO;
+        echo json_encode($this->model);
     }
 
 

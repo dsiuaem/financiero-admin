@@ -53,6 +53,44 @@ function showSystems() {
 
 }
 
+$(document).on('change', '#systemName', function () {
+
+    var id_sistema = $('select[name=systemName]').val();
+
+    if (id_sistema != "0") {
+
+        $.ajax({
+            url: 'RegistrarPerfil/contentListSystem',
+            type: 'POST',
+            data: ({data: id_sistema}),
+            success: function (response) {
+
+                //console.log(response);
+
+                $('#checkModulos').empty();
+
+                var modules = jQuery.parseJSON(response);
+                var modulesM = jQuery.parseJSON(modules.perfilesModulosDTO);
+
+                var $dropdown = $("li[name$='checkModulos']");
+                for (var i = modulesM.length - 1; i >= 0; i--) {
+                    $dropdown.append($("<input type=\"checkbox\" />").val(modulesM[i].idModule).text(modulesM[i].name));
+                    $dropdown.append($("<label />").text(modulesM[i].name));
+                    $dropdown.append($("<br />"));
+                    //$dropdown.append("<input type='checkbox'"+ modulesM[i].idModule +"> + modulesM[i].name");
+                }
+
+
+            },
+            error: function () {
+                alert("Error al obtener el servicio para cargar el contenido de los sistemas");
+            }
+        });
+
+    }
+
+});
+
 //Funcion para llevar a cabo el registro de un sistema
 function saveRegistroPerfiles() {
     var texto = $('#registroPerfiles').serializeArray();
@@ -89,36 +127,9 @@ function saveRegistroPerfiles() {
 
 }
 
-$(document).on('change', '#systemName', function () {
-
-    var id_sistema = $('select[name=systemName]').val();
-
-    if (id_sistema != "0") {
-
-        $.ajax({
-            url: 'RegistrarPerfil/contentListSystem',
-            type: 'POST',
-            data: ({data: id_sistema}),
-            success: function (response) {
-
-                var modules = jQuery.parseJSON(response);
-                var arreglo = modules.modulosDTO;
-                arreglo = jQuery.parseJSON(arreglo);
-                var $dropdown = $("select[name$='moduleNameTable']");
-                for (var i = arreglo.length - 1; i >= 0; i--) {
-                    $dropdown.append($("<option />").val(arreglo[i].idModule).text(arreglo[i].name));
-                }
-
-            },
-            error: function () {
-                alert("Error al obtener el servicio para cargar el contenido de los sistemas");
-            }
-        });
-
-    }
-
-});
-
+//####################################################################################################
+//####################################################################################################
+//JS para los checkbox
 $(document).ready(function () {
 
     $('input[type="checkbox"]').change(function (e) {
@@ -171,5 +182,6 @@ $(document).ready(function () {
     });
 
 });
-
+//####################################################################################################
+//####################################################################################################
 
