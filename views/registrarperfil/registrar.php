@@ -48,10 +48,16 @@
         <div class="row form-group">
             <div class="col col-md-2"></div>
             <div class="col-12 col-md-8">
+                <div name="listado" id="listado">
+
+                </div>
                 <ul>
                     <li name="checkModulos" id="checkModulos">
-                        <!-- <input type="checkbox" name="checkModulos" id="checkModulos"> -->
+                        <ul>
+                            <li name="checkSubModulos" id="checkSubModulos">
 
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>

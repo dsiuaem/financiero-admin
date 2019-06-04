@@ -19,6 +19,7 @@ class RegistrarPerfilModel extends Model
         //Encritar datos que llegan del formulario
         $jwt = new JWT();
         $data = $jwt->TokenJWT($this->getContentListSystemDTO);
+        //var_dump($data);
         // define options
         $optArray = array(
             CURLOPT_URL => constant('URL_API_ADMIN') . 'perfilesListado',
@@ -41,6 +42,7 @@ class RegistrarPerfilModel extends Model
             //#############*************#####################
             //Aqui se van a recibir todos los objetos
             $this->perfilesModulosDTO = $dataDescrypt->perfilesModulosDTO;
+            $this->perfilesSubModulosDTO = $dataDescrypt->perfilesSubModulosDTO;
             $this->respuesta = $dataDescrypt->respuesta;
             //Retornar los datos correctos más la respuesta de OK, o en caso de que el servicio mande error, aqui se retorna
         } else {

@@ -65,20 +65,55 @@ $(document).on('change', '#systemName', function () {
             data: ({data: id_sistema}),
             success: function (response) {
 
+                //Convertir a objetos el response
+                var respuesta = jQuery.parseJSON(response);
+
                 //console.log(response);
 
-                $('#checkModulos').empty();
+                //#############  MODULOS #####################
+                //$('#checkModulos').empty();
+                //$('#checkSubModulos').empty();
 
-                var modules = jQuery.parseJSON(response);
-                var modulesM = jQuery.parseJSON(modules.perfilesModulosDTO);
+                var modulesM = jQuery.parseJSON(respuesta.perfilesModulosDTO);
+                var submodulesM = jQuery.parseJSON(respuesta.perfilesSubModulosDTO);
 
-                var $dropdown = $("li[name$='checkModulos']");
+
+                var $dropdown = $("div[name$='listado']");
                 for (var i = modulesM.length - 1; i >= 0; i--) {
-                    $dropdown.append($("<input type=\"checkbox\" />").val(modulesM[i].idModule).text(modulesM[i].name));
-                    $dropdown.append($("<label />").text(modulesM[i].name));
-                    $dropdown.append($("<br />"));
-                    //$dropdown.append("<input type='checkbox'"+ modulesM[i].idModule +"> + modulesM[i].name");
+
+                    $dropdown.append($("<ul><li name='checkModulos' id='checkModulos'><input type='checkbox' name='modulos[]' id='modulos[]' value='"+ modulesM[i].idModule +"'><label>"+modulesM[i].name+"</label></li></ul><br />"));
+
+
+                    //#############  SUBMODULOS #####################
+                    var $dropdownSub = $("li[name$='checkModulos']");
+                    for (var i = submodulesM.length - 1; i >= 0; i--) {
+
+                        for (var j = submodulesM[i].length - 1; j >= 0; j--) {
+
+                            if(modulesM[i].idModule == submodulesM[i][j].idModule){
+
+                                $dropdownSub.append($("<ul><li><input type='checkbox' name='submodulos[]' id='submodulos[]' value='"+ submodulesM[i][j].idSubModule +"'><label>"+submodulesM[i][j].name+"</label></li></ul><br />"));
+
+                            }
+
+
+                            /*
+                            //console.log(submodulesM[i][j].name);
+                            $dropdown.append($("<input type=\"checkbox\" name=\"submodulos[]\" id=\"submodulos[]\" />").val(submodulesM[i][j].idSubModule).text(submodulesM[i][j].name));
+                            $dropdown.append($("<label />").text(submodulesM[i][j].name));
+                            $dropdown.append($("<br />"));
+
+                             */
+
+                        }
+
+                    }
+                    //#############  SUBMODULOS #####################
+
                 }
+                //#############  MODULOS #####################
+
+
 
 
             },
