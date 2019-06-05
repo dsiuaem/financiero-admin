@@ -74,6 +74,8 @@ $(document).on('change', '#systemName', function () {
                 //$('#checkModulos').empty();
                 //$('#checkSubModulos').empty();
 
+                $('#listado').empty();
+
                 var modulesM = jQuery.parseJSON(respuesta.perfilesModulosDTO);
                 var submodulesM = jQuery.parseJSON(respuesta.perfilesSubModulosDTO);
 
@@ -81,7 +83,8 @@ $(document).on('change', '#systemName', function () {
                 var $dropdown = $("div[name$='listado']");
                 for (var i = modulesM.length - 1; i >= 0; i--) {
 
-                    $dropdown.append($("<ul><li name='checkModulos' id='checkModulos'><input type='checkbox' name='modulos[]' id='modulos[]' value='"+ modulesM[i].idModule +"'><label>"+modulesM[i].name+"</label></li></ul><br />"));
+                    //$dropdown.append($("<ul><li name='checkModulos' id='checkModulos'><input type='checkbox' name='modulos[]' id='modulos[]' value='"+ modulesM[i].idModule +"'><label>"+modulesM[i].name+"</label></li></ul><br />"));
+                    $dropdown.append($("<label />").text(modulesM[i].name));
 
 
                     //#############  SUBMODULOS #####################
@@ -92,8 +95,9 @@ $(document).on('change', '#systemName', function () {
 
                             if(modulesM[i].idModule == submodulesM[i][j].idModule){
 
-                                $dropdownSub.append($("<ul><li><input type='checkbox' name='submodulos[]' id='submodulos[]' value='"+ submodulesM[i][j].idSubModule +"'><label>"+submodulesM[i][j].name+"</label></li></ul><br />"));
-
+                                //$dropdownSub.append($("<ul><li><input type='checkbox' name='submodulos[]' id='submodulos[]' value='"+ submodulesM[i][j].idSubModule +"'><label>"+submodulesM[i][j].name+"</label></li></ul><br />"));
+                                $dropdownSub.append($("<label />").text(submodulesM[i][j].name));
+                                $dropdownSub.append($("<br />"));
                             }
 
 
