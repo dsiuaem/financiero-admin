@@ -21,7 +21,7 @@ class ListarUsuariosController extends Controller
          *
          */
         $this->setTipoController("ListarUsuarios");
-        $this->setModuleMenu("Usuarios");
+        $this->setModuleMenu("Gestion de Sistemas");
 
         $this->view->render('listarusuarios/index');
     }

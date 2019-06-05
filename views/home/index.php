@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html lang="es-mx">
 <?php require 'views/header.php' ?>
+<script src="<?php echo constant('URL'); ?>public/js/jquery.flot.pie.min.js"></script>
+<script type="text/javascript" src="<?php echo constant('URL'); ?>public/js/donut_chart.js"></script>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
     <!-- Menu Header -->
@@ -24,6 +26,28 @@
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </section>
+
+        <!--
+        <div class="card card-primary card-outline">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fa fa-bar-chart-o"></i>
+                    Donut Chart
+                </h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-widget="remove"><i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="donut-chart" style="height: 300px;"></div>
+            </div>
+        </div>
+        -->
+
         <!-- /.Main content -->
     </div> <!--  end content-wraper -->
     <?php require 'views/footer.php' ?>

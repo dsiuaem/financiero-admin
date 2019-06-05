@@ -1,8 +1,8 @@
 <?php
 //---------------- controlador de funciones sobre la solicitud de pago
-include_once 'models/DTO/AsignarPerfilesDTO.php';
+include_once 'models/DTO/PerfilesDTO.php';
 
-class AsignarPerfilesController extends Controller
+class PerfilesController extends Controller
 {
 
     function __construct()
@@ -20,39 +20,38 @@ class AsignarPerfilesController extends Controller
          * esto para poder mantener el menu abierto y no se pierda la dirección
          *
          */
-        $this->setTipoController("AsignarPerfiles");
+        $this->setTipoController("Perfiles");
         $this->setModuleMenu("Gestion de Sistemas");
 
-        $this->view->render('asignarperfiles/index');
+        $this->view->render('perfiles/index');
     }
 
-    function perfilesListSelect()
+    function contentListSystem()
     {
-        $asignarPerfilesDTO = new AsignarPerfilesDTO;
-        $asignarPerfilesDTO->idSystem = $_POST["data"];
+        $registrarPerfilDTO = new PerfilesDTO;
+        $registrarPerfilDTO->idSystem = $_POST["data"];
         //echo $_POST['data'];
         //exit;
-        $this->model->getPerfilesSelectDTO = $asignarPerfilesDTO;
+        $this->model->getContentListSystemDTO = $registrarPerfilDTO;
         //Recupera los datos del servicio web
-        $this->model->obtenerPerfilesSelect();
+        $this->model->obtenerContentListSystem();
         //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
         echo json_encode($this->model);
     }
 
-    function usuariosListTable()
+    function perfilesListTable()
     {
-        $asignarPerfilesDTO = new AsignarPerfilesDTO;
-        $asignarPerfilesDTO->idSystem = $_POST["id"];
-        //echo $_POST['data'];
-        //exit;
-        $this->model->getUsuariosTableDTO = $asignarPerfilesDTO;
-        //Recupera los datos del servicio web
-        $this->model->obtenerUsuariosPerfilesTable();
+        $ListadoPerfilesDTO = new PerfilesDTO;
+        $ListadoPerfilesDTO->idSystem = $_POST["id"];
+        $this->model->getPerfilesTableDTO = $ListadoPerfilesDTO;
+        $this->model->obtenerPerfilesTable();
         //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
         //echo json_encode($this->model);
         //Para tablas según -_-
         echo $this->model->perfilesDTO;
     }
+
+
 
 
 }

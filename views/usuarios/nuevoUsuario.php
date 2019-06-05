@@ -2,14 +2,14 @@
     <div class="col-12 col-md-12">
         <div class="small-box bg-info" style="text-align: right;">
             <div class="inner">
-                <div><h5 style="text-align: left;">Registro de opciones</h5></div>
+                <div><h5 style="text-align: left;">Registro de usuarios</h5></div>
             </div>
         </div>
     </div>
 </div>
 
 <div class="card-body card-block">
-    <form id="registroOpciones" name="registroOpciones" method="POST" enctype="multipart/form-data">
+    <form id="registroUsuarios" name="registroUsuarios" method="POST" enctype="multipart/form-data">
 
         <div class="row form-group">
             <div class="col col-md-2"></div>
@@ -25,8 +25,8 @@
         <div class="row form-group">
             <div class="col col-md-2"></div>
             <div class="col-12 col-md-8">
-                <label for="moduleName" class="form-control-label">Listado de módulos:</label>
-                <select name="moduleName" id="moduleName" class="form-control">
+                <label for="userType" class="form-control-label">Selecciona tipo de usuario: </label>
+                <select name="userType" id="userType" class="form-control">
                     <option value="0">- Seleccionar -</option>
                 </select>
             </div>
@@ -36,10 +36,8 @@
         <div class="row form-group">
             <div class="col col-md-2"></div>
             <div class="col-12 col-md-8">
-                <label for="submoduleName" class="form-control-label">Listado de submodulos:</label>
-                <select name="submoduleName" id="submoduleName" class="form-control">
-                    <option value="0">- Seleccionar -</option>
-                </select>
+                <label for="userName" class="form-control-label">Nombre de usuarios:</label>
+                <input type="text" id="userName" name="userName" class="form-control">
             </div>
             <div class="col col-md-2"></div>
         </div>
@@ -47,8 +45,8 @@
         <div class="row form-group">
             <div class="col col-md-2"></div>
             <div class="col-12 col-md-8">
-                <label for="nameOption" class="form-control-label">Agregar nombre de la opción: </label>
-                <input type="text" id="nameOption" name="nameOption" class="form-control">
+                <label for="userEmail" class="form-control-label">Correo electrónico:</label>
+                <input type="email" id="userEmail" name="userEmail" class="form-control">
             </div>
             <div class="col col-md-2"></div>
         </div>
@@ -56,14 +54,14 @@
         <div class="row form-group">
             <div class="col col-md-2"></div>
             <div class="col-12 col-md-8">
-                <label for="description" class="form-control-label">Descripción: </label>
-                <textarea name="description" id="description" cols="20" rows="6" class="form-control"></textarea>
+                <label for="userPass" class="form-control-label">Contraseña:</label>
+                <input type="password" id="userPass" name="userPass" class="form-control">
             </div>
             <div class="col col-md-2"></div>
         </div>
 
         <div align="center">
-            <button id="btnSaveOption" name="btnSaveOption" class="btn btn-primary">Guardar</button>
+            <button id="btnSaveUser" name="btnSaveUser" class="btn btn-primary">Guardar</button>
         </div>
     </form>
 </div>
