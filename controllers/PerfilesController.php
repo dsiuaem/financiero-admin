@@ -79,6 +79,22 @@ class PerfilesController extends Controller
         echo json_encode($this->model);
     }
 
+    function registrarPerfil()
+    {
+
+        //Pasar los datos del formulario al DTO
+        $perfilesDTO = new PerfilesDTO;
+        $perfilesDTO->idModuleOption = $_POST['datos'];
+        $this->model->insertPerfilDTO = $perfilesDTO;
+        //Recupera los datos del servicio web
+        //die();
+
+        $this->model->registrarPerfil();
+        //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+        echo json_encode($this->model);
+
+    }
+
 
 }
 

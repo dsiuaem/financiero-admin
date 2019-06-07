@@ -119,6 +119,8 @@ $(document).on('change', '#systemName', function () {
                 //$('#checkSubModulos').empty();
                 $('#modulos').empty();
                 $('#submodulos').empty();
+                $('#opciones').empty();
+                $('#tipoOpciones').empty();
 
                 //Convertir a objetos el response
                 var respuesta = jQuery.parseJSON(response);
@@ -188,7 +190,7 @@ $(document).on('change', '#systemName', function () {
                     for (var j = opcionesM[i].length - 1; j >= 0; j--) {
 
                         $dropdownOpciones.append($("<label />").text("Opciones - id - " + opcionesM[i][j].idModuleOption + " - "));
-                        $dropdownOpciones.append($("<input type='checkbox' name='idModuleOption[]' id='idModuleOption[]' value='"+ opcionesM[i][j].idModuleOption +"'><label>"+opcionesM[i][j].name+"</label>"));
+                        $dropdownOpciones.append($("<input type='checkbox' name='idModuleOption' id='idModuleOption' value='" + opcionesM[i][j].idModuleOption + "'><label>" + opcionesM[i][j].name + "</label>"));
                         //$dropdownOpciones.append($("<label />").text(opcionesM[i][j].name));
                         $dropdownOpciones.append($("<label />").text(" - Pertenece al submodulo - " + opcionesM[i][j].idSubModule));
                         $dropdownOpciones.append($("<br />"));
@@ -207,8 +209,8 @@ $(document).on('change', '#systemName', function () {
                     for (var j = tipoOcionesM[i].length - 1; j >= 0; j--) {
 
                         $dropdownTipoOpciones.append($("<label />").text("Tipo Opciones - id - " + tipoOcionesM[i][j].idTipoOption + " - "));
-                        $dropdownTipoOpciones.append($("<input type='checkbox' name='idTipoOption[]' id='idTipoOption[]' value='"+ tipoOcionesM[i][j].idTipoOption +"'><label>"+tipoOcionesM[i][j].name+"</label>"));
-                        //$dropdownTipoOpciones.append($("<label />").text(tipoOcionesM[i][j].name));
+                        //$dropdownTipoOpciones.append($("<input type='checkbox' name='idTipoOption[]' id='idTipoOption[]' value='"+ tipoOcionesM[i][j].idTipoOption +"'><label>"+tipoOcionesM[i][j].name+"</label>"));
+                        $dropdownTipoOpciones.append($("<label />").text(tipoOcionesM[i][j].name));
                         $dropdownTipoOpciones.append($("<label />").text(" - Pertenece a la opción - " + tipoOcionesM[i][j].idModuleOption));
                         $dropdownTipoOpciones.append($("<br />"));
 
@@ -231,11 +233,20 @@ $(document).on('change', '#systemName', function () {
 function saveRegistroPerfiles() {
     var texto = $('#registroPerfiles').serializeArray();
     var data = {};
+    var modulos = {};
     $(texto).each(function (index, obj) {
-        data[obj.name] = obj.value;
+
+        if (data[obj.name] != undefined) {
+            data[obj.name] += "," + obj.value;
+        } else {
+            data[obj.name] = obj.value;
+        }
+
     });
 
+    //console.log(modulos);
     //console.log(data);
+    //console.log(texto);
 
     $.ajax({
         url: 'Perfiles/registrarPerfil',
@@ -243,24 +254,29 @@ function saveRegistroPerfiles() {
         data: ({datos: data}),
         success: function (response) {
 
-            console.log(response);
+            //console.log(response);
 
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
-                //resetForm();
-                alertify.success("Módulo registrado exitosamente");
+                resetForm();
+                alertify.success("Perfil registrado exitosamente");
                 return false;
             } else {
                 //alert("Error al insertar los datos");
-                alertify.error("Error al registrar el módulo");
+                alertify.error("Error al registrar el perfil");
             }
         },
         error: function () {
-            alertify.error("Error al obtener el servicio para registrar el módulo");
+            alertify.error("Error al obtener el servicio para registrar el perfil");
         }
     });
     return false;
 
+}
+
+//Función para vaciar formularios depués de cada acción
+function resetForm() {
+    $('#registroPerfiles')[0].reset();
 }
 
 //JS para los checkbox

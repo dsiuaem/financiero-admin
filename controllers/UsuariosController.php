@@ -96,6 +96,19 @@ class UsuariosController extends Controller
         echo $this->model->usuariosDTO;
     }
 
+    function registrarPerfil()
+    {
+        //Pasar los datos del formulario al DTO
+        $registrarPerfilesUsuariosDTO = new UsuariosDTO;
+        $registrarPerfilesUsuariosDTO->contenidoPerfiles = $_POST['datos'];
+        $this->model->asignarPerfilDTO = $registrarPerfilesUsuariosDTO;
+        //Recupera los datos del servicio web
+
+        $this->model->asignarPerfiles();
+        //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+        echo json_encode($this->model);
+    }
+
 
 }
 

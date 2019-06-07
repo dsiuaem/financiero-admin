@@ -21,6 +21,10 @@ class UsuariosDTO
 
     public $perfil;
 
+    //Contenido para asignar perfiles
+
+    public $contenidoPerfiles;
+
 }
 
 

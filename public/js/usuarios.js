@@ -33,6 +33,30 @@ $(document).ready(function () {
 
         }
     });
+
+    $('form[id="asignarPerfiles"]').validate({
+        rules: {
+            systemNameAsignarPerfil: 'required',
+            perfilUser: 'required'
+        },
+        messages: {
+            systemNameAsignarPerfil: 'Falta seleccionar un sistema',
+            perfilUser: 'Falta seleccionar un tipo de usuario'
+        },
+        submitHandler: function () {
+            //Se registran los datos del módulo
+            saveAsignarperfil();
+            /*
+            $(function () {
+                $("#btnSaveModule").click(saveRegistroUsuarios());
+            });
+
+             */
+
+        }
+    });
+
+
 });
 
 //CONSERVAR EL NOMBRE DE ESTA FUNCIÓN Y EL PARAMETRO
@@ -149,6 +173,7 @@ function saveRegistroUsuarios() {
 
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
+                tableListadoAsignacionPerfiles.ajax.reload();
                 resetForm();
                 alertify.success("Usuario registrado exitosamente");
                 return false;
@@ -296,7 +321,7 @@ $(document).on('change', '#systemNameAsignarPerfil', function () {
                     data: null,
                     render: function (data, type, row) {
 
-                        return '<input type="checkbox">';
+                        return "<input type='checkbox' name='asignarPerfil' id='asignarPerfil' value='" + data.idUser + "'>  Seleccionar";
 
                     }
                 }
@@ -311,6 +336,47 @@ $(document).on('change', '#systemNameAsignarPerfil', function () {
     }
 
 });
+
+//Funcion para llevar a cabo el registro de un sistema
+function saveAsignarperfil() {
+    var texto = $('#asignarPerfiles').serializeArray();
+    var data = {};
+    $(texto).each(function (index, obj) {
+        data[obj.name] = obj.value;
+    });
+
+    //console.log(data);
+    //alert("entro");
+
+    /*
+
+    $.ajax({
+        url: 'Usuarios/registrarPerfil',
+        type: 'POST',
+        data: ({datos: data}),
+        success: function (response) {
+
+            //console.log(response);
+
+            var obj = jQuery.parseJSON(response);
+            if (obj.respuesta == 200) {
+                alertify.success("Perfiles asignados exitosamente");
+                return false;
+            } else {
+                //alert("Error al insertar los datos");
+                alertify.error("Error al asignar perfiles");
+            }
+        },
+        error: function () {
+            alertify.error("Error al obtener el servicio para asignar perfiles");
+        }
+    });
+    return false;
+
+     */
+
+
+}
 
 //######################################################################################################
 //######################################################################################################
