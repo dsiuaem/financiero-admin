@@ -14,8 +14,8 @@
         <div class="row form-group">
             <div class="col col-md-2"></div>
             <div class="col-12 col-md-8">
-                <label for="systemName" class="form-control-label">Listado de sistemas:</label>
-                <select name="systemName" id="systemName" class="form-control">
+                <label for="systemNameAsignarPerfil" class="form-control-label">Listado de sistemas:</label>
+                <select name="systemNameAsignarPerfil" id="systemNameAsignarPerfil" class="form-control">
                     <option value="0">- Seleccionar -</option>
                 </select>
             </div>
@@ -45,7 +45,6 @@
                     <tr>
                         <th></th>
                         <th>Nombre de usuario</th>
-                        <th>Email</th>
                         <th>Seleccionar</th>
                     </tr>
                     </thead>
@@ -54,12 +53,10 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
                     </tr>
                     </tbody>
                     <tfoot>
                     <tr>
-                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>

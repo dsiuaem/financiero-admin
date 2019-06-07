@@ -22,6 +22,8 @@ class SistemasModel extends Model
         //Encritar datos que llegan del formulario
         $jwt = new JWT();
         $data = $jwt->TokenJWT($this->insertSystemtDTO);
+        //$data = json_encode($this->insertSystemtDTO);
+        //var_dump($data);
         // define options
         $optArray = array(
             CURLOPT_URL => constant('URL_API_ADMIN') . 'sistemas',

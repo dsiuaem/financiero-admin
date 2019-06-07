@@ -109,65 +109,113 @@ $(document).on('change', '#systemName', function () {
     if (id_sistema != "0") {
 
         $.ajax({
-            url: 'RegistrarPerfil/contentListSystem',
+            url: 'Perfiles/contentListSystem',
             type: 'POST',
             data: ({data: id_sistema}),
             success: function (response) {
 
+                //Vaciar los contenedores
+                //$('#checkModulos').empty();
+                //$('#checkSubModulos').empty();
+                $('#modulos').empty();
+                $('#submodulos').empty();
+
                 //Convertir a objetos el response
                 var respuesta = jQuery.parseJSON(response);
 
-                //console.log(response);
-
-                //#############  MODULOS #####################
-                //$('#checkModulos').empty();
-                //$('#checkSubModulos').empty();
-
-                $('#listado').empty();
-
+                //Convertir cada DTO a JSON
                 var modulesM = jQuery.parseJSON(respuesta.perfilesModulosDTO);
                 var submodulesM = jQuery.parseJSON(respuesta.perfilesSubModulosDTO);
+                var opcionesM = jQuery.parseJSON(respuesta.perfilesOpcionesDTO);
+                var tipoOcionesM = jQuery.parseJSON(respuesta.perfilesTipoOpcionesDTO);
 
+                //console.log(respuesta);
 
-                var $dropdown = $("div[name$='listado']");
+                //#############  MODULOS #####################
+                var $dropdownModulos = $("div[name$='modulos']");
                 for (var i = modulesM.length - 1; i >= 0; i--) {
 
                     //$dropdown.append($("<ul><li name='checkModulos' id='checkModulos'><input type='checkbox' name='modulos[]' id='modulos[]' value='"+ modulesM[i].idModule +"'><label>"+modulesM[i].name+"</label></li></ul><br />"));
-                    $dropdown.append($("<label />").text(modulesM[i].name));
-
-
-                    //#############  SUBMODULOS #####################
-                    var $dropdownSub = $("li[name$='checkModulos']");
-                    for (var i = submodulesM.length - 1; i >= 0; i--) {
-
-                        for (var j = submodulesM[i].length - 1; j >= 0; j--) {
-
-                            if(modulesM[i].idModule == submodulesM[i][j].idModule){
-
-                                //$dropdownSub.append($("<ul><li><input type='checkbox' name='submodulos[]' id='submodulos[]' value='"+ submodulesM[i][j].idSubModule +"'><label>"+submodulesM[i][j].name+"</label></li></ul><br />"));
-                                $dropdownSub.append($("<label />").text(submodulesM[i][j].name));
-                                $dropdownSub.append($("<br />"));
-                            }
-
-
-                            /*
-                            //console.log(submodulesM[i][j].name);
-                            $dropdown.append($("<input type=\"checkbox\" name=\"submodulos[]\" id=\"submodulos[]\" />").val(submodulesM[i][j].idSubModule).text(submodulesM[i][j].name));
-                            $dropdown.append($("<label />").text(submodulesM[i][j].name));
-                            $dropdown.append($("<br />"));
-
-                             */
-
-                        }
-
-                    }
-                    //#############  SUBMODULOS #####################
+                    $dropdownModulos.append($("<label />").text("Modulos - id - " + modulesM[i].idModule + " - "));
+                    $dropdownModulos.append($("<label />").text(modulesM[i].name));
+                    $dropdownModulos.append($("<br />"));
 
                 }
                 //#############  MODULOS #####################
 
+                //#############  SUBMODULOS #####################
+                var $dropdownSubModulos = $("div[name$='submodulos']");
+                for (var i = submodulesM.length - 1; i >= 0; i--) {
+
+                    for (var j = submodulesM[i].length - 1; j >= 0; j--) {
+
+                        $dropdownSubModulos.append($("<label />").text("Submodulos - id - " + submodulesM[i][j].idSubModule + " - "));
+                        $dropdownSubModulos.append($("<label />").text(submodulesM[i][j].name));
+                        $dropdownSubModulos.append($("<label />").text(" - Pertenece al modulo - " + submodulesM[i][j].idModule));
+                        $dropdownSubModulos.append($("<br />"));
+
+                        /*
+
+                        if (modulesM[i].idModule == submodulesM[i][j].idModule) {
+
+                            //$dropdownSub.append($("<ul><li><input type='checkbox' name='submodulos[]' id='submodulos[]' value='"+ submodulesM[i][j].idSubModule +"'><label>"+submodulesM[i][j].name+"</label></li></ul><br />"));
+                            $dropdownSub.append($("<label />").text(submodulesM[i][j].name));
+                            $dropdownSub.append($("<br />"));
+                        }
+
+                         */
 
 
+                        /*
+                        //console.log(submodulesM[i][j].name);
+                        $dropdown.append($("<input type=\"checkbox\" name=\"submodulos[]\" id=\"submodulos[]\" />").val(submodulesM[i][j].idSubModule).text(submodulesM[i][j].name));
+                        $dropdown.append($("<label />").text(submodulesM[i][j].name));
+                        $dropdown.append($("<br />"));
+
+                         */
+
+                    }
+
+                }
+                //#############  SUBMODULOS #####################
+
+                //#############  OPCIONES #####################
+
+                var $dropdownOpciones = $("div[name$='opciones']");
+
+                for (var i = opcionesM.length - 1; i >= 0; i--) {
+
+                    for (var j = opcionesM[i].length - 1; j >= 0; j--) {
+
+                        $dropdownOpciones.append($("<label />").text("Opciones - id - " + opcionesM[i][j].idModuleOption + " - "));
+                        $dropdownOpciones.append($("<input type='checkbox' name='idModuleOption[]' id='idModuleOption[]' value='"+ opcionesM[i][j].idModuleOption +"'><label>"+opcionesM[i][j].name+"</label>"));
+                        //$dropdownOpciones.append($("<label />").text(opcionesM[i][j].name));
+                        $dropdownOpciones.append($("<label />").text(" - Pertenece al submodulo - " + opcionesM[i][j].idSubModule));
+                        $dropdownOpciones.append($("<br />"));
+
+                    }
+                }
+
+                //#############  OPCIONES #####################
+
+                //#############  TIPO OPCIONES #####################
+
+                var $dropdownTipoOpciones = $("div[name$='tipoOpciones']");
+
+                for (var i = tipoOcionesM.length - 1; i >= 0; i--) {
+
+                    for (var j = tipoOcionesM[i].length - 1; j >= 0; j--) {
+
+                        $dropdownTipoOpciones.append($("<label />").text("Tipo Opciones - id - " + tipoOcionesM[i][j].idTipoOption + " - "));
+                        $dropdownTipoOpciones.append($("<input type='checkbox' name='idTipoOption[]' id='idTipoOption[]' value='"+ tipoOcionesM[i][j].idTipoOption +"'><label>"+tipoOcionesM[i][j].name+"</label>"));
+                        //$dropdownTipoOpciones.append($("<label />").text(tipoOcionesM[i][j].name));
+                        $dropdownTipoOpciones.append($("<label />").text(" - Pertenece a la opción - " + tipoOcionesM[i][j].idModuleOption));
+                        $dropdownTipoOpciones.append($("<br />"));
+
+                    }
+                }
+
+                //#############  TIPO OPCIONES #####################
 
             },
             error: function () {
@@ -187,10 +235,10 @@ function saveRegistroPerfiles() {
         data[obj.name] = obj.value;
     });
 
-    console.log(data);
+    //console.log(data);
 
     $.ajax({
-        url: 'Modulos/registrarModulo',
+        url: 'Perfiles/registrarPerfil',
         type: 'POST',
         data: ({datos: data}),
         success: function (response) {
@@ -215,8 +263,6 @@ function saveRegistroPerfiles() {
 
 }
 
-//####################################################################################################
-//####################################################################################################
 //JS para los checkbox
 $(document).ready(function () {
 

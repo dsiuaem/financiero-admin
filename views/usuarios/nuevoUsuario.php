@@ -14,8 +14,8 @@
         <div class="row form-group">
             <div class="col col-md-2"></div>
             <div class="col-12 col-md-8">
-                <label for="systemName" class="form-control-label">Listado de sistemas:</label>
-                <select name="systemName" id="systemName" class="form-control">
+                <label for="systemNameNewUser" class="form-control-label">Listado de sistemas:</label>
+                <select name="systemNameNewUser" id="systemNameNewUser" class="form-control">
                     <option value="0">- Seleccionar -</option>
                 </select>
             </div>
@@ -25,8 +25,8 @@
         <div class="row form-group">
             <div class="col col-md-2"></div>
             <div class="col-12 col-md-8">
-                <label for="userType" class="form-control-label">Selecciona tipo de usuario: </label>
-                <select name="userType" id="userType" class="form-control">
+                <label for="userTypeNewUser" class="form-control-label">Selecciona tipo de usuario: </label>
+                <select name="userTypeNewUser" id="userTypeNewUser" class="form-control">
                     <option value="0">- Seleccionar -</option>
                 </select>
             </div>
@@ -42,6 +42,7 @@
             <div class="col col-md-2"></div>
         </div>
 
+        <!--
         <div class="row form-group">
             <div class="col col-md-2"></div>
             <div class="col-12 col-md-8">
@@ -50,6 +51,7 @@
             </div>
             <div class="col col-md-2"></div>
         </div>
+        -->
 
         <div class="row form-group">
             <div class="col col-md-2"></div>

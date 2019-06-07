@@ -26,17 +26,32 @@ class PerfilesController extends Controller
         $this->view->render('perfiles/index');
     }
 
-    function contentListSystem()
+    function perfilesListSelect()
     {
-        $registrarPerfilDTO = new PerfilesDTO;
-        $registrarPerfilDTO->idSystem = $_POST["data"];
+        $asignarPerfilesDTO = new PerfilesDTO;
+        $asignarPerfilesDTO->idSystem = $_POST["data"];
         //echo $_POST['data'];
         //exit;
-        $this->model->getContentListSystemDTO = $registrarPerfilDTO;
+        $this->model->getPerfilesSelectDTO = $asignarPerfilesDTO;
         //Recupera los datos del servicio web
-        $this->model->obtenerContentListSystem();
+        $this->model->obtenerPerfilesSelect();
         //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
         echo json_encode($this->model);
+    }
+
+    function usuariosListTable()
+    {
+        $asignarPerfilesDTO = new PerfilesDTO;
+        $asignarPerfilesDTO->idSystem = $_POST["id"];
+        //echo $_POST['data'];
+        //exit;
+        $this->model->getUsuariosTableDTO = $asignarPerfilesDTO;
+        //Recupera los datos del servicio web
+        $this->model->obtenerUsuariosPerfilesTable();
+        //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+        //echo json_encode($this->model);
+        //Para tablas según -_-
+        echo $this->model->perfilesDTO;
     }
 
     function perfilesListTable()
@@ -51,7 +66,18 @@ class PerfilesController extends Controller
         echo $this->model->perfilesDTO;
     }
 
-
+    function contentListSystem()
+    {
+        $registrarPerfilDTO = new PerfilesDTO;
+        $registrarPerfilDTO->idSystem = $_POST["data"];
+        //echo $_POST['data'];
+        //exit;
+        $this->model->getContentListSystemDTO = $registrarPerfilDTO;
+        //Recupera los datos del servicio web
+        $this->model->obtenerContentListSystem();
+        //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+        echo json_encode($this->model);
+    }
 
 
 }

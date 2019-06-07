@@ -51,6 +51,8 @@ class UsuariosModel extends Model
         //Encritar datos que llegan del formulario
         $jwt = new JWT();
         $data = $jwt->TokenJWT($this->insertUserDTO);
+        //$data = json_encode($this->insertUserDTO);
+        //var_dump($data);
         // define options
         $optArray = array(
             CURLOPT_URL => constant('URL_API_ADMIN') . 'usuarios',
@@ -116,6 +118,9 @@ class UsuariosModel extends Model
         }
     }
 
+    //variables utilizadas para la deteccion de datos enviados hacia la api correspondiente
+    public $getUsuariosTableDTO;
+
     function obtenerUsuariosPerfilesTable()
     {
         $ch = curl_init();
@@ -150,9 +155,6 @@ class UsuariosModel extends Model
             $this->respuesta = 500;
         }
     }
-
-    //variables utilizadas para la deteccion de datos enviados hacia la api correspondiente
-    public $getUsuariosTableDTO;
 
     function obtenerUsuariosTable()
     {

@@ -2,23 +2,23 @@ $(document).ready(function () {
     alertify.set('notifier', 'position', 'top-right');
 
     //Mostrar información en el select
-    showSystems();
-    showUsersType();
+    showSystemsNewUser();
+    showUsersTypeNewUser();
+    showSystemsAsignarPerfil();
+    showSystemsListarUsuarios();
 
     //jquery validator donde se corroboran que los datos esten introducidos y ningun campo se vaya en vacio
     $('form[id="registroUsuarios"]').validate({
         rules: {
-            systemName: 'required',
-            userType: 'required',
+            systemNameNewUser: 'required',
+            userTypeNewUser: 'required',
             userName: 'required',
-            userEmail: 'required',
             userPass: 'required'
         },
         messages: {
-            systemName: 'Falta seleccionar un sistema',
-            userType: 'Falta seleccionar un tipo de usuario',
+            systemNameNewUser: 'Falta seleccionar un sistema',
+            userTypeNewUser: 'Falta seleccionar un tipo de usuario',
             userName: 'Falta ingresar nombre al usuario',
-            userEmail: 'Falta ingresar email al usuario',
             userPass: 'Falta ingresar contraseña al usuario'
         },
         submitHandler: function () {
@@ -83,7 +83,7 @@ function redireccionarVista(optionMenu) {
     return false;
 }
 
-function showSystems() {
+function showSystemsNewUser() {
 
     $.ajax({
         url: 'Sistemas/systemListSelect',
@@ -92,7 +92,7 @@ function showSystems() {
         success: function (response) {
 
             var systems = jQuery.parseJSON(response.sistemasDTO);
-            var $dropdown = $("select[name$='systemName']");
+            var $dropdown = $("select[name$='systemNameNewUser']");
             for (var i = systems.length - 1; i >= 0; i--) {
                 $dropdown.append($("<option />").val(systems[i].idSystem).text(systems[i].name));
             }
@@ -106,7 +106,7 @@ function showSystems() {
 
 }
 
-function showUsersType() {
+function showUsersTypeNewUser() {
 
     $.ajax({
         url: 'Usuarios/userTypeList',
@@ -115,7 +115,7 @@ function showUsersType() {
         success: function (response) {
 
             var userType = jQuery.parseJSON(response.usuariosDTO);
-            var $dropdown = $("select[name$='userType']");
+            var $dropdown = $("select[name$='userTypeNewUser']");
             for (var i = userType.length - 1; i >= 0; i--) {
                 $dropdown.append($("<option />").val(userType[i].idUserType).text(userType[i].type));
             }
@@ -137,7 +137,7 @@ function saveRegistroUsuarios() {
         data[obj.name] = obj.value;
     });
 
-    console.log(data);
+    //console.log("qui esta:" + data);
 
     $.ajax({
         url: 'Usuarios/registrarUsuarios',
@@ -145,7 +145,7 @@ function saveRegistroUsuarios() {
         data: ({datos: data}),
         success: function (response) {
 
-            console.log(response);
+            //console.log(response);
 
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
@@ -163,6 +163,7 @@ function saveRegistroUsuarios() {
     });
     return false;
 
+
 }
 
 //Función para vaciar formularios depués de cada acción
@@ -178,15 +179,38 @@ function resetForm() {
 //######################################################################################################
 //######################################################################################################
 
-//Funciones para obtener información de los select
-$(document).on('change', '#systemName', function () {
+function showSystemsAsignarPerfil() {
 
-    var id_sistema = $('select[name=systemName]').val();
+    $.ajax({
+        url: 'Sistemas/systemListSelect',
+        type: 'POST',
+        dataType: 'JSON',
+        success: function (response) {
+
+            var systems = jQuery.parseJSON(response.sistemasDTO);
+            var $dropdown = $("select[name$='systemNameAsignarPerfil']");
+            for (var i = systems.length - 1; i >= 0; i--) {
+                $dropdown.append($("<option />").val(systems[i].idSystem).text(systems[i].name));
+            }
+
+        },
+        error: function () {
+            alertify.error("Error al obtener el servicio para cargar lista de sistemas");
+        }
+    });
+    return false;
+
+}
+
+//Funciones para obtener información de los select
+$(document).on('change', '#systemNameAsignarPerfil', function () {
+
+    var id_sistema = $('select[name=systemNameAsignarPerfil]').val();
 
     if (id_sistema != "0") {
 
         $.ajax({
-            url: 'AsignarPerfiles/perfilesListSelect',
+            url: 'Perfiles/perfilesListSelect',
             type: 'POST',
             data: ({data: id_sistema}),
             success: function (response) {
@@ -217,10 +241,10 @@ $(document).on('change', '#systemName', function () {
 
 });
 
-var tableSubmodulos;
+var tableListadoAsignacionPerfiles;
 //Para DataTable
 //Funciones para obtener información de los select
-$(document).on('change', '#systemName', function () {
+$(document).on('change', '#systemNameAsignarPerfil', function () {
 
     /*
     var id_modulo = $('select[name=moduleNameTable]').val();
@@ -244,11 +268,11 @@ $(document).on('change', '#systemName', function () {
      */
 
 
-    var id_system = $('select[name=systemName]').val();
+    var id_system = $('select[name=systemNameAsignarPerfil]').val();
 
     if (id_system != "0") {
 
-        console.log("entra" + " " + id_system);
+        //console.log("entra" + " " + id_system);
 
         tableListadoAsignacionPerfiles = $('#tableListadoAsignacionPerfiles').DataTable({
             destroy: true,
@@ -267,9 +291,7 @@ $(document).on('change', '#systemName', function () {
                     visible: false,
                     searchable: false
                 },
-
                 {data: "user"},
-                {data: "email"},
                 {
                     data: null,
                     render: function (data, type, row) {
@@ -290,42 +312,6 @@ $(document).on('change', '#systemName', function () {
 
 });
 
-//Funcion para llevar a cabo el registro de un sistema
-function saveRegistroUsuarios() {
-    var texto = $('#asignarPerfiles').serializeArray();
-    var data = {};
-    $(texto).each(function (index, obj) {
-        data[obj.name] = obj.value;
-    });
-
-    console.log(data);
-
-    $.ajax({
-        url: 'Modulos/registrarModulo',
-        type: 'POST',
-        data: ({datos: data}),
-        success: function (response) {
-
-            console.log(response);
-
-            var obj = jQuery.parseJSON(response);
-            if (obj.respuesta == 200) {
-                //resetForm();
-                alertify.success("Módulo registrado exitosamente");
-                return false;
-            } else {
-                //alert("Error al insertar los datos");
-                alertify.error("Error al registrar el módulo");
-            }
-        },
-        error: function () {
-            alertify.error("Error al obtener el servicio para registrar el módulo");
-        }
-    });
-    return false;
-
-}
-
 //######################################################################################################
 //######################################################################################################
 
@@ -334,15 +320,38 @@ function saveRegistroUsuarios() {
 //######################################################################################################
 //######################################################################################################
 
+function showSystemsListarUsuarios() {
+
+    $.ajax({
+        url: 'Sistemas/systemListSelect',
+        type: 'POST',
+        dataType: 'JSON',
+        success: function (response) {
+
+            var systems = jQuery.parseJSON(response.sistemasDTO);
+            var $dropdown = $("select[name$='systemNameListarUsuarios']");
+            for (var i = systems.length - 1; i >= 0; i--) {
+                $dropdown.append($("<option />").val(systems[i].idSystem).text(systems[i].name));
+            }
+
+        },
+        error: function () {
+            alertify.error("Error al obtener el servicio para cargar lista de sistemas");
+        }
+    });
+    return false;
+
+}
+
 //Para DataTable
 //Funciones para obtener información de los select
-$(document).on('change', '#systemName', function () {
+$(document).on('change', '#systemNameListarUsuarios', function () {
 
-    var id_system = $('select[name=systemName]').val();
+    var id_system = $('select[name=systemNameListarUsuarios]').val();
 
     if (id_system != "0") {
 
-        console.log("entra" + " " + id_system);
+        //console.log("entra" + " " + id_system);
 
         tableUsuarios = $('#tableUsuarios').DataTable({
             destroy: true,
@@ -383,8 +392,7 @@ $(document).on('change', '#systemName', function () {
                     searchable: false
                 },
 
-                {data: "user"},
-                {data: "perfil"}
+                {data: "user"}
 
             ],
             fixedColumns: true,
@@ -397,6 +405,8 @@ $(document).on('change', '#systemName', function () {
     }
 
 });
+
+
 
 
 

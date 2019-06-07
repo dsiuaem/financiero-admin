@@ -93,7 +93,7 @@ $(document).on('change', '#systemName', function () {
 
                         for (var j = submodulesM[i].length - 1; j >= 0; j--) {
 
-                            if(modulesM[i].idModule == submodulesM[i][j].idModule){
+                            if (modulesM[i].idModule == submodulesM[i][j].idModule) {
 
                                 //$dropdownSub.append($("<ul><li><input type='checkbox' name='submodulos[]' id='submodulos[]' value='"+ submodulesM[i][j].idSubModule +"'><label>"+submodulesM[i][j].name+"</label></li></ul><br />"));
                                 $dropdownSub.append($("<label />").text(submodulesM[i][j].name));
@@ -116,8 +116,6 @@ $(document).on('change', '#systemName', function () {
 
                 }
                 //#############  MODULOS #####################
-
-
 
 
             },

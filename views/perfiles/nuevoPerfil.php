@@ -48,14 +48,31 @@
         <div class="row form-group">
             <div class="col col-md-2"></div>
             <div class="col-12 col-md-8">
-                <div name="listado" id="listado">
+                <div name="modulos" id="modulos">
+
+                </div>
+                <div name="submodulos" id="submodulos">
+
+                </div>
+                <div name="opciones" id="opciones">
+
+                </div>
+                <div name="tipoOpciones" id="tipoOpciones">
 
                 </div>
                 <ul>
                     <li name="checkModulos" id="checkModulos">
                         <ul>
                             <li name="checkSubModulos" id="checkSubModulos">
+                                <ul>
+                                    <li name="checkOpciones" id="checkOpciones">
+                                        <ul>
+                                            <li name="checkTipoOpciones" id="checkTipoOpciones">
 
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </li>

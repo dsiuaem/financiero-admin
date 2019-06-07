@@ -40,10 +40,10 @@ class UsuariosController extends Controller
         //Pasar los datos del formulario al DTO
         $registrarUsuariosDTO = new UsuariosDTO;
         //$SistemasDTO->idUser = $_SESSION["idUsuarioADMIN"];
-        $registrarUsuariosDTO->idSystem = $_POST['datos']['systemName'];
-        $registrarUsuariosDTO->idUserType = $_POST['datos']['userType'];
+        $registrarUsuariosDTO->idSystem = $_POST['datos']['systemNameNewUser'];
+        $registrarUsuariosDTO->idUserType = $_POST['datos']['userTypeNewUser'];
         $registrarUsuariosDTO->user = $_POST['datos']['userName'];
-        $registrarUsuariosDTO->email = $_POST['datos']['userEmail'];
+        //$registrarUsuariosDTO->email = $_POST['datos']['userEmail'];
         $registrarUsuariosDTO->password = $_POST['datos']['userPass'];
         $this->model->insertUserDTO = $registrarUsuariosDTO;
         //Recupera los datos del servicio web
@@ -95,8 +95,6 @@ class UsuariosController extends Controller
         //Para tablas según -_-
         echo $this->model->usuariosDTO;
     }
-
-
 
 
 }

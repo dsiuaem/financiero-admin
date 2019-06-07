@@ -9,7 +9,7 @@ class UsuariosDTO
 
     public $user;
 
-    public $email;
+    //public $email;
 
     public $password;
 
@@ -22,8 +22,6 @@ class UsuariosDTO
     public $perfil;
 
 }
-
-
 
 
 ?>
