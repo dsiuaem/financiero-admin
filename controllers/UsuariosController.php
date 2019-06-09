@@ -66,7 +66,7 @@ class UsuariosController extends Controller
         echo json_encode($this->model);
     }
 
-    function usuariosListTable()
+    function usersListTable()
     {
         $asignarPerfilesDTO = new UsuariosDTO;
         $asignarPerfilesDTO->idSystem = $_POST["id"];
@@ -81,15 +81,32 @@ class UsuariosController extends Controller
         echo $this->model->perfilesDTO;
     }
 
-    function usersListTable()
+    function usuariosListTableSinPerfil()
     {
         $listarUsuariosDTO = new UsuariosDTO;
-        $listarUsuariosDTO->idSystem = $_POST["id"];
+        $listarUsuariosDTO->idPerfil = $_POST["id_perfil"];
+        $listarUsuariosDTO->idSystem = $_POST["id_system"];
         //echo $_POST['data'];
         //exit;
-        $this->model->getUsuariosTableDTO = $listarUsuariosDTO;
+        $this->model->getUsuariosTableSinPerfilDTO = $listarUsuariosDTO;
         //Recupera los datos del servicio web
-        $this->model->obtenerUsuariosTable();
+        $this->model->obtenerUsuariosTableSinPerfil();
+        //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+        //echo json_encode($this->model);
+        //Para tablas según -_-
+        echo $this->model->usuariosDTO;
+    }
+
+    function usuariosListTableConPerfil()
+    {
+        $listarUsuariosDTO = new UsuariosDTO;
+        $listarUsuariosDTO->idPerfil = $_POST["id_perfil"];
+        $listarUsuariosDTO->idSystem = $_POST["id_system"];
+        //echo $_POST['data'];
+        //exit;
+        $this->model->getUsuariosTableConPerfilDTO = $listarUsuariosDTO;
+        //Recupera los datos del servicio web
+        $this->model->obtenerUsuariosTableConPerfil();
         //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
         //echo json_encode($this->model);
         //Para tablas según -_-
@@ -101,6 +118,8 @@ class UsuariosController extends Controller
         //Pasar los datos del formulario al DTO
         $registrarPerfilesUsuariosDTO = new UsuariosDTO;
         $registrarPerfilesUsuariosDTO->contenidoPerfiles = $_POST['datos'];
+        $registrarPerfilesUsuariosDTO->idSystem = $_POST['id_system'];
+        $registrarPerfilesUsuariosDTO->idPerfil = $_POST['id_perfil'];
         $this->model->asignarPerfilDTO = $registrarPerfilesUsuariosDTO;
         //Recupera los datos del servicio web
 

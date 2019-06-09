@@ -122,12 +122,8 @@ $(document).on('change', '#systemName', function () {
                 $('#opciones').empty();
                 $('#tipoOpciones').empty();
 
-                $('#modulospo').empty();
-
                 //Convertir a objetos el response
                 var respuesta = jQuery.parseJSON(response);
-
-                console.log(respuesta);
 
                 //Convertir cada DTO a JSON
                 var modulesM = jQuery.parseJSON(respuesta.perfilesModulosDTO);
@@ -135,102 +131,30 @@ $(document).on('change', '#systemName', function () {
                 var opcionesM = jQuery.parseJSON(respuesta.perfilesOpcionesDTO);
                 var tipoOcionesM = jQuery.parseJSON(respuesta.perfilesTipoOpcionesDTO);
 
-
                 //console.log(respuesta);
 
                 //#############  MODULOS #####################
-                var $dropdownModulos = $("#modulospo");
-                var $dropdownSubModulos = $("div[name$='submodulos']");
-                var $dropdownOpciones = $("div[name$='opciones']");
-                var $dropdownTipoOpciones = $("div[name$='tipoOpciones']");
+                var $dropdownModulos = $("div[name$='modulos']");
+                for (var i = modulesM.length - 1; i >= 0; i--) {
 
-                for (var i = 0; i < modulesM.length; i++) {
-                    console.log("ssss", modulesM.length);
-
-                    console.log(modulesM[i].name);
-
-                    $dropdownModulos.append($("<h1>").text(modulesM[i].name));
-                    //$dropdownModulos.append("ddddddddd");
+                    //$dropdown.append($("<ul><li name='checkModulos' id='checkModulos'><input type='checkbox' name='modulos[]' id='modulos[]' value='"+ modulesM[i].idModule +"'><label>"+modulesM[i].name+"</label></li></ul><br />"));
+                    $dropdownModulos.append($("<label />").text("Modulos - id - " + modulesM[i].idModule + " - "));
+                    $dropdownModulos.append($("<label />").text(modulesM[i].name));
                     $dropdownModulos.append($("<br />"));
 
+                }
+                //#############  MODULOS #####################
 
-                    for (var j = 0; j < submodulesM[0].length; j++) { // ciclo de submodulos
+                //#############  SUBMODULOS #####################
+                var $dropdownSubModulos = $("div[name$='submodulos']");
+                for (var i = submodulesM.length - 1; i >= 0; i--) {
 
+                    for (var j = submodulesM[i].length - 1; j >= 0; j--) {
 
-                        // console.log(typeof(submodulesM[j]));
-                        // console.log(submodulesM[i][j].idSubModule);
-
-
-                        if (submodulesM[0][j].idModule == modulesM[i].idModule) {
-
-
-                            //$dropdownModulos.append($("<h2 />").text("Submodulos - id - " + submodulesM[0][j].idSubModule + " - "));
-                            $dropdownModulos.append($("<h2 />").text(submodulesM[0][j].name));
-                            //$dropdownModulos.append($("<h2 />").text(" - Pertenece al modulo - " + submodulesM[0][j].idModule));
-                            $dropdownModulos.append($("<br />"));
-
-
-                            for (var k = 0; k < opcionesM.length; k++) {
-
-
-                                for (var l = 0; l < opcionesM[k].length; l++) {
-
-
-                                    if (opcionesM[k][l].idSubModule == submodulesM[0][j].idSubModule) {
-
-                                        //$dropdownModulos.append($("<h3 />").text("Opciones - id - " + opcionesM[k][l].idModuleOption + " - "));
-                                        $dropdownModulos.append($("<input type='checkbox' name='idModuleOption' id='idModuleOption' value='" + opcionesM[k][l].idModuleOption + "'><label>" + opcionesM[k][l].name + "</label>"));
-                                        //$dropdownModulos.append($("<h3 />").text(opcionesM[k][l].name));
-                                        //$dropdownModulos.append($("<h3 />").text(" - Pertenece al submodulo - " + opcionesM[k][l].idSubModule));
-                                        $dropdownModulos.append($("<br />"));
-
-
-                                        for (var m = 0; m < tipoOcionesM.length; m++) {
-
-
-                                            for (var n = 0; n < tipoOcionesM[m].length; n++) {
-
-
-                                                if (tipoOcionesM[m][n].idModuleOption == opcionesM[k][l].idModuleOption) {
-
-                                                    //$dropdownModulos.append($("<label />").text("Tipo Opciones - id - " + tipoOcionesM[i][j].idTipoOption + " - "));
-                                                    $dropdownModulos.append("----------------");
-                                                    $dropdownModulos.append($("<input type='checkbox' name='idTipoOption[]' id='idTipoOption[]' value='" + tipoOcionesM[m][n].idTipoOption + "'><label>" + tipoOcionesM[m][n].name + "</label>"));
-                                                    //$dropdownModulos.append($("<label />").text(tipoOcionesM[i][j].name));
-                                                    //$dropdownModulos.append($("<label />").text(" - Pertenece a la opción - " + tipoOcionesM[i][j].idModuleOption));
-                                                    $dropdownModulos.append("----------------");
-                                                    $dropdownModulos.append($("<br />"));
-                                                }
-
-
-                                            }
-
-
-                                        }
-
-                                    }
-
-
-                                }
-
-                                //console.log("opciones",opcionesM[0][k]);
-
-                                // if( opcionesM[0][k].idSubModule == submodulesM[0][j].idSubModule ){
-
-
-                                //    $dropdownOpciones.append($("<label />").text("Opciones - id - " + opcionesM[0][k].idModuleOption + " - "));
-                                //    $dropdownOpciones.append($("<input type='checkbox' name='idModuleOption' id='idModuleOption' value='" + opcionesM[0][k].idModuleOption + "'><label>" + opcionesM[i][j].name + "</label>"));
-                                //    //$dropdownOpciones.append($("<label />").text(opcionesM[i][j].name));
-                                //    $dropdownOpciones.append($("<label />").text(" - Pertenece al submodulo - " + opcionesM[0][k].idSubModule));
-                                //    $dropdownOpciones.append($("<br />"));
-
-                                // }
-
-                            }
-
-
-                        }
-
+                        $dropdownSubModulos.append($("<label />").text("Submodulos - id - " + submodulesM[i][j].idSubModule + " - "));
+                        $dropdownSubModulos.append($("<label />").text(submodulesM[i][j].name));
+                        $dropdownSubModulos.append($("<label />").text(" - Pertenece al modulo - " + submodulesM[i][j].idModule));
+                        $dropdownSubModulos.append($("<br />"));
 
                         /*
 
@@ -252,83 +176,46 @@ $(document).on('change', '#systemName', function () {
 
                          */
 
-
                     }
 
-
                 }
-                //#############  MODULOS #####################
-
-                //#############  SUBMODULOS #####################
-
-                // for (var i = submodulesM.length - 1; i >= 0; i--) {
-
-                //     for (var j = submodulesM[i].length - 1; j >= 0; j--) {
-
-                //         $dropdownSubModulos.append($("<label />").text("Submodulos - id - " + submodulesM[i][j].idSubModule + " - "));
-                //         $dropdownSubModulos.append($("<label />").text(submodulesM[i][j].name));
-                //         $dropdownSubModulos.append($("<label />").text(" - Pertenece al modulo - " + submodulesM[i][j].idModule));
-                //         $dropdownSubModulos.append($("<br />"));
-
-
-                //         if (modulesM[i].idModule == submodulesM[i][j].idModule) {
-
-                //             //$dropdownSub.append($("<ul><li><input type='checkbox' name='submodulos[]' id='submodulos[]' value='"+ submodulesM[i][j].idSubModule +"'><label>"+submodulesM[i][j].name+"</label></li></ul><br />"));
-                //             $dropdownSub.append($("<label />").text(submodulesM[i][j].name));
-                //             $dropdownSub.append($("<br />"));
-                //         }
-
-
-                //         /*
-                //         //console.log(submodulesM[i][j].name);
-                //         $dropdown.append($("<input type=\"checkbox\" name=\"submodulos[]\" id=\"submodulos[]\" />").val(submodulesM[i][j].idSubModule).text(submodulesM[i][j].name));
-                //         $dropdown.append($("<label />").text(submodulesM[i][j].name));
-                //         $dropdown.append($("<br />"));
-
-                //          */
-
-                //     }
-
-                // }
                 //#############  SUBMODULOS #####################
 
                 //#############  OPCIONES #####################
 
-                // var $dropdownOpciones = $("div[name$='opciones']");
+                var $dropdownOpciones = $("div[name$='opciones']");
 
-                // for (var i = opcionesM.length - 1; i >= 0; i--) {
+                for (var i = opcionesM.length - 1; i >= 0; i--) {
 
-                //     console.log(opcionesM[i]);
+                    for (var j = opcionesM[i].length - 1; j >= 0; j--) {
 
-                //     for (var j = opcionesM[i].length - 1; j >= 0; j--) {
+                        $dropdownOpciones.append($("<label />").text("Opciones - id - " + opcionesM[i][j].idModuleOption + " - "));
+                        $dropdownOpciones.append($("<input type='checkbox' name='idModuleOption' id='idModuleOption' value='" + opcionesM[i][j].idModuleOption + "'><label>" + opcionesM[i][j].name + "</label>"));
+                        //$dropdownOpciones.append($("<label />").text(opcionesM[i][j].name));
+                        $dropdownOpciones.append($("<label />").text(" - Pertenece al submodulo - " + opcionesM[i][j].idSubModule));
+                        $dropdownOpciones.append($("<br />"));
 
-                //         $dropdownOpciones.append($("<label />").text("Opciones - id - " + opcionesM[i][j].idModuleOption + " - "));
-                //         $dropdownOpciones.append($("<input type='checkbox' name='idModuleOption' id='idModuleOption' value='" + opcionesM[i][j].idModuleOption + "'><label>" + opcionesM[i][j].name + "</label>"));
-                //         //$dropdownOpciones.append($("<label />").text(opcionesM[i][j].name));
-                //         $dropdownOpciones.append($("<label />").text(" - Pertenece al submodulo - " + opcionesM[i][j].idSubModule));
-                //         $dropdownOpciones.append($("<br />"));
-
-                //     }
-                // }
+                    }
+                }
 
                 //#############  OPCIONES #####################
 
                 //#############  TIPO OPCIONES #####################
 
-                // var $dropdownTipoOpciones = $("div[name$='tipoOpciones']");
+                var $dropdownTipoOpciones = $("div[name$='tipoOpciones']");
 
-                // for (var i = tipoOcionesM.length - 1; i >= 0; i--) {
+                for (var i = tipoOcionesM.length - 1; i >= 0; i--) {
 
-                //     for (var j = tipoOcionesM[i].length - 1; j >= 0; j--) {
+                    for (var j = tipoOcionesM[i].length - 1; j >= 0; j--) {
 
-                //         $dropdownTipoOpciones.append($("<label />").text("Tipo Opciones - id - " + tipoOcionesM[i][j].idTipoOption + " - "));
-                //         //$dropdownTipoOpciones.append($("<input type='checkbox' name='idTipoOption[]' id='idTipoOption[]' value='"+ tipoOcionesM[i][j].idTipoOption +"'><label>"+tipoOcionesM[i][j].name+"</label>"));
-                //         $dropdownTipoOpciones.append($("<label />").text(tipoOcionesM[i][j].name));
-                //         $dropdownTipoOpciones.append($("<label />").text(" - Pertenece a la opción - " + tipoOcionesM[i][j].idModuleOption));
-                //         $dropdownTipoOpciones.append($("<br />"));
+                        $dropdownTipoOpciones.append($("<label />").text("Tipo Opciones - id - " + tipoOcionesM[i][j].idTipoOption + " - "));
+                        //$dropdownTipoOpciones.append($("<input type='checkbox' name='idTipoOption[]' id='idTipoOption[]' value='"+ tipoOcionesM[i][j].idTipoOption +"'><label>"+tipoOcionesM[i][j].name+"</label>"));
+                        $dropdownTipoOpciones.append($("<label />").text(tipoOcionesM[i][j].name));
+                        $dropdownTipoOpciones.append($("<label />").text(" - Pertenece a la opción - " + tipoOcionesM[i][j].idModuleOption));
+                        $dropdownTipoOpciones.append($("<br />"));
 
-                //     }
-                // }
+                    }
+                }
 
                 //#############  TIPO OPCIONES #####################
 

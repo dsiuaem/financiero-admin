@@ -48,7 +48,7 @@
         <div class="row form-group">
             <div class="col col-md-2"></div>
             <div class="col-12 col-md-8">
-                <div name="modulos" id="modulos">
+                <div name="modulospo" id="modulospo">
 
                 </div>
                 <div name="submodulos" id="submodulos">

@@ -173,7 +173,7 @@ function saveRegistroUsuarios() {
 
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
-                tableListadoAsignacionPerfiles.ajax.reload();
+                //tableListadoAsignacionPerfiles.ajax.reload();
                 resetForm();
                 alertify.success("Usuario registrado exitosamente");
                 return false;
@@ -266,36 +266,19 @@ $(document).on('change', '#systemNameAsignarPerfil', function () {
 
 });
 
+//####################################
+//Usuarios sin perfil asignado
+//####################################
+var id_usuarios;
 var tableListadoAsignacionPerfiles;
 //Para DataTable
 //Funciones para obtener información de los select
-$(document).on('change', '#systemNameAsignarPerfil', function () {
-
-    /*
-    var id_modulo = $('select[name=moduleNameTable]').val();
-
-    console.log("entra id: " + " " + id_modulo);
-
-    $.ajax({
-        url: 'Submodulos/submoduleListTable',
-        type: 'POST',
-        data: ({id: id_modulo}),
-        success: function (response) {
-            console.log("datos");
-            console.log(response);
-
-        },
-        error: function () {
-            alertify.error("Error al obtener el servicio");
-        }
-    });
-
-     */
-
+$(document).on('change', '#perfilUser', function () {
 
     var id_system = $('select[name=systemNameAsignarPerfil]').val();
+    var id_perfil = $('select[name=perfilUser]').val();
 
-    if (id_system != "0") {
+    if (id_perfil != "0") {
 
         //console.log("entra" + " " + id_system);
 
@@ -305,9 +288,68 @@ $(document).on('change', '#systemNameAsignarPerfil', function () {
                 details: false
             },
             ajax: {
-                url: 'Perfiles/usuariosListTable',
+                url: 'Usuarios/usuariosListTableSinPerfil',
                 type: 'POST',
-                data: ({id: id_system}),
+                data: ({id_perfil: id_perfil, id_system: id_system}),
+                dataSrc: "",
+            },
+            select: {
+                style: 'multi'
+            },
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    text: 'Guardar',
+                    className: 'btn btn-success buttonDt',
+                    action: function () {
+                        saveAsignarperfil();
+                    }
+                }
+            ],
+            columns: [
+                {
+                    data: "idUser",
+                    visible: false,
+                    searchable: false
+                },
+                {data: "user"}
+
+            ],
+            fixedColumns: true,
+            language: {
+                "url": "public/plugins/DataTables/Spanish.json",
+            }
+        });
+
+    }
+
+});
+
+//####################################
+//Usuarios con perfil asignado
+//####################################
+
+var tableListadoAsignacionPerfilesExistentes;
+//Para DataTable
+//Funciones para obtener información de los select
+$(document).on('change', '#perfilUser', function () {
+
+    var id_system = $('select[name=systemNameAsignarPerfil]').val();
+    var id_perfil = $('select[name=perfilUser]').val();
+
+    if (id_perfil != "0") {
+
+        //console.log("entra" + " " + id_system);
+
+        tableListadoAsignacionPerfilesExistentes = $('#tableListadoAsignacionPerfilesExistentes').DataTable({
+            destroy: true,
+            responsive: {
+                details: false
+            },
+            ajax: {
+                url: 'Usuarios/usuariosListTableConPerfil',
+                type: 'POST',
+                data: ({id_perfil: id_perfil, id_system: id_system}),
                 dataSrc: "",
             },
             columns: [
@@ -316,15 +358,7 @@ $(document).on('change', '#systemNameAsignarPerfil', function () {
                     visible: false,
                     searchable: false
                 },
-                {data: "user"},
-                {
-                    data: null,
-                    render: function (data, type, row) {
-
-                        return "<input type='checkbox' name='asignarPerfil' id='asignarPerfil' value='" + data.idUser + "'>  Seleccionar";
-
-                    }
-                }
+                {data: "user"}
 
             ],
             fixedColumns: true,
@@ -339,21 +373,26 @@ $(document).on('change', '#systemNameAsignarPerfil', function () {
 
 //Funcion para llevar a cabo el registro de un sistema
 function saveAsignarperfil() {
-    var texto = $('#asignarPerfiles').serializeArray();
+
+    var seleccionados = tableListadoAsignacionPerfiles.rows({selected: true}).data();
+    //console.log(seleccionados);
     var data = {};
-    $(texto).each(function (index, obj) {
-        data[obj.name] = obj.value;
+    $.each(seleccionados, function (index, usuario) {
+        //console.log(usuario.idUser);
+        data[usuario.idUser] = usuario.value;
     });
 
-    //console.log(data);
-    //alert("entro");
+    var id_system = $('#systemNameAsignarPerfil').val();
+    var id_perfil = $('#perfilUser').val();
 
-    /*
+    //console.log(data);
+    //console.log(id_system);
+    //console.log(id_perfil);
 
     $.ajax({
         url: 'Usuarios/registrarPerfil',
         type: 'POST',
-        data: ({datos: data}),
+        data: ({datos: data, id_system: id_system, id_perfil: id_perfil}),
         success: function (response) {
 
             //console.log(response);
@@ -372,8 +411,6 @@ function saveAsignarperfil() {
         }
     });
     return false;
-
-     */
 
 
 }
@@ -417,7 +454,7 @@ $(document).on('change', '#systemNameListarUsuarios', function () {
 
     if (id_system != "0") {
 
-        //console.log("entra" + " " + id_system);
+        console.log("entra" + " " + id_system);
 
         tableUsuarios = $('#tableUsuarios').DataTable({
             destroy: true,
