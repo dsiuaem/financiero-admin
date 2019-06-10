@@ -23,7 +23,7 @@ class ModulosModel extends Model
         //Encritar datos que llegan del formulario
         $jwt = new JWT();
         $data = $jwt->TokenJWT($this->insertmodulosDTO);
-        //var_dump($data);
+        //var_dump($data);die();
         // define options
         $optArray = array(
             CURLOPT_URL => constant('URL_API_ADMIN') . 'modulos',

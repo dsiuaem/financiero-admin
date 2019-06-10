@@ -84,37 +84,33 @@
         <div align="center">
             <button id="btnSavePerfil" name="btnSavePerfil" class="btn btn-primary">Guardar</button>
         </div>
+
     </form>
 </div>
 
-
+<!--
 <div class="row form-group">
     <div class="col col-md-2"></div>
     <div class="col-12 col-md-8">
         <ul>
             <li>
-                <!-- Segundo nivel -->
                 <input type="checkbox" name="tall" id="tall">
                 <label for="tall">Módulos</label>
 
                 <ul>
                     <li>
-                        <!-- Tercer nivel -->
                         <input type="checkbox" name="tall-1" id="tall-1">
                         <label for="tall-1">Submodulos</label>
                     </li>
                     <li>
-                        <!-- Tercer nivel -->
                         <input type="checkbox" name="tall-2" id="tall-2">
                         <label for="tall-2">Submodulos</label>
 
                         <ul>
-                            <!-- Cuarto nivel -->
                             <li>
                                 <input type="checkbox" name="tall-2-1" id="tall-2-1">
                                 <label for="tall-2-1">Opciones</label>
                                 <ul>
-                                    <!-- Cuarto nivel -->
                                     <li>
                                         <input type="checkbox" name="tall-2-2" id="tall-2-2">
                                         <label for="tall-2-1">Tipo opciones</label>
@@ -133,3 +129,6 @@
     </div>
     <div class="col col-md-2"></div>
 </div>
+-->
+
+

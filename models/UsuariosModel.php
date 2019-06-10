@@ -239,8 +239,7 @@ class UsuariosModel extends Model
         $jwt = new JWT();
         $data = $jwt->TokenJWT($this->asignarPerfilDTO);
         //$data = json_encode($this->asignarPerfilDTO);
-        var_dump($data);
-        die();
+        //var_dump($data);die();
         //var_dump("hola");die();
         // define options
         $optArray = array(

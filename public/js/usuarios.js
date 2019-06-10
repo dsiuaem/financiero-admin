@@ -377,9 +377,12 @@ function saveAsignarperfil() {
     var seleccionados = tableListadoAsignacionPerfiles.rows({selected: true}).data();
     //console.log(seleccionados);
     var data = {};
+    var i = 0;
     $.each(seleccionados, function (index, usuario) {
         //console.log(usuario.idUser);
-        data[usuario.idUser] = usuario.value;
+        data[i] = usuario.idUser;
+        i = i + 1;
+        //data[usuario.idUser] = usuario.idUser;
     });
 
     var id_system = $('#systemNameAsignarPerfil').val();
