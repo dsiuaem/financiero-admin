@@ -21,11 +21,15 @@ $(document).ready(function () {
     //jquery validator donde se corroboran que los datos esten introducidos y ningun campo se vaya en vacio
     $('form[id="registroTipoOpciones"]').validate({
         rules: {
+            systemName: 'required',
+            moduleName: 'required',
             submoduleName: 'required',
             optionName: 'required',
             nameTypeOption: 'required'
         },
         messages: {
+            systemName: 'Falta seleccionar un sistema',
+            moduleName: 'Falta seleccionar un módulo',
             submoduleName: 'Falta seleccionar un submodulo',
             optionName: 'Falta seleccionar una opción',
             nameTypeOption: 'Falta introducir nombre al tipo opción'
@@ -106,30 +110,54 @@ function saveRegistroTipoOpciones() {
 
     //console.log(data);
 
-    $.ajax({
-        url: 'TipoOpciones/registrarTipoOpcion',
-        type: 'POST',
-        data: ({datos: data}),
-        success: function (response) {
+    if (data.systemName != 0) {
 
-            console.log(response);
+        if (data.moduleName != 0) {
 
-            var obj = jQuery.parseJSON(response);
-            if (obj.respuesta == 200) {
-                tableTipoOpciones.ajax.reload();
-                resetForm();
-                alertify.success("Tipo opción registrado exitosamente");
-                return false;
+            if (data.submoduleName != 0) {
+
+                if (data.optionName != 0) {
+
+                    $.ajax({
+                        url: 'TipoOpciones/registrarTipoOpcion',
+                        type: 'POST',
+                        data: ({datos: data}),
+                        success: function (response) {
+
+                            console.log(response);
+
+                            var obj = jQuery.parseJSON(response);
+                            if (obj.respuesta == 200) {
+                                tableTipoOpciones.ajax.reload();
+                                resetForm();
+                                alertify.success("Tipo opción registrado exitosamente");
+                                return false;
+                            } else {
+                                //alert("Error al insertar los datos");
+                                alertify.error("Error al registrar tipo opción");
+                            }
+                        },
+                        error: function () {
+                            alertify.error("Error al obtener el servicio para registrar tipo opción");
+                        }
+                    });
+                    return false;
+
+                } else {
+                    alertify.warning("No has seleccionado una opción");
+                }
+
             } else {
-                //alert("Error al insertar los datos");
-                alertify.error("Error al registrar tipo opción");
+                alertify.warning("No has seleccionado un submodulo");
             }
-        },
-        error: function () {
-            alertify.error("Error al obtener el servicio para registrar tipo opción");
+
+        } else {
+            alertify.warning("No has seleccionado un módulo");
         }
-    });
-    return false;
+
+    } else {
+        alertify.warning("No has seleccionado un sistema");
+    }
 
 }
 

@@ -12,13 +12,13 @@ $(document).ready(function () {
         rules: {
             systemNameNewUser: 'required',
             userTypeNewUser: 'required',
-            userName: 'required',
+            //userName: 'required',
             userPass: 'required'
         },
         messages: {
             systemNameNewUser: 'Falta seleccionar un sistema',
             userTypeNewUser: 'Falta seleccionar un tipo de usuario',
-            userName: 'Falta ingresar nombre al usuario',
+            //userName: 'Falta ingresar nombre al usuario',
             userPass: 'Falta ingresar contraseña al usuario'
         },
         submitHandler: function () {
@@ -163,31 +163,46 @@ function saveRegistroUsuarios() {
 
     //console.log("qui esta:" + data);
 
-    $.ajax({
-        url: 'Usuarios/registrarUsuarios',
-        type: 'POST',
-        data: ({datos: data}),
-        success: function (response) {
+    if (data.systemNameNewUser != 0) {
 
-            //console.log(response);
+        if (data.userTypeNewUser != 0) {
 
-            var obj = jQuery.parseJSON(response);
-            if (obj.respuesta == 200) {
-                //tableListadoAsignacionPerfiles.ajax.reload();
-                resetForm();
-                alertify.success("Usuario registrado exitosamente");
-                return false;
-            } else {
-                //alert("Error al insertar los datos");
-                alertify.error("Error al registrar al usuario");
-            }
-        },
-        error: function () {
-            alertify.error("Error al obtener el servicio para registrar el usuario");
+            $.ajax({
+                url: 'Usuarios/registrarUsuarios',
+                type: 'POST',
+                data: ({datos: data}),
+                success: function (response) {
+
+                    //console.log(response);
+
+                    var obj = jQuery.parseJSON(response);
+                    if (obj.respuesta == 200) {
+                        //tableListadoAsignacionPerfiles.ajax.reload();
+                        resetForm();
+                        tableListadoAsignacionPerfiles.ajax.reload();
+                        alertify.success("Usuario registrado exitosamente");
+                        return false;
+                    } else {
+                        //alert("Error al insertar los datos");
+                        alertify.error("Error al registrar al usuario");
+                    }
+                },
+                error: function () {
+                    alertify.error("Error al obtener el servicio para registrar el usuario");
+                }
+            });
+            return false;
+
+
+        } else {
+
+            alertify.warning("No has seleccionado un tipo de usuario");
+
         }
-    });
-    return false;
 
+    } else {
+        alertify.warning("No has seleccionado un sistema");
+    }
 
 }
 
@@ -392,29 +407,36 @@ function saveAsignarperfil() {
     //console.log(id_system);
     //console.log(id_perfil);
 
-    $.ajax({
-        url: 'Usuarios/registrarPerfil',
-        type: 'POST',
-        data: ({datos: data, id_system: id_system, id_perfil: id_perfil}),
-        success: function (response) {
+    if (seleccionados.length > 0) {
 
-            //console.log(response);
+        $.ajax({
+            url: 'Usuarios/registrarPerfil',
+            type: 'POST',
+            data: ({datos: data, id_system: id_system, id_perfil: id_perfil}),
+            success: function (response) {
 
-            var obj = jQuery.parseJSON(response);
-            if (obj.respuesta == 200) {
-                alertify.success("Perfiles asignados exitosamente");
-                return false;
-            } else {
-                //alert("Error al insertar los datos");
-                alertify.error("Error al asignar perfiles");
+                //console.log(response);
+
+                var obj = jQuery.parseJSON(response);
+                if (obj.respuesta == 200) {
+                    tableListadoAsignacionPerfiles.ajax.reload();
+                    tableListadoAsignacionPerfilesExistentes.ajax.reload();
+                    alertify.success("Perfiles asignados exitosamente");
+                    return false;
+                } else {
+                    //alert("Error al insertar los datos");
+                    alertify.error("Error al asignar perfiles");
+                }
+            },
+            error: function () {
+                alertify.error("Error al obtener el servicio para asignar perfiles");
             }
-        },
-        error: function () {
-            alertify.error("Error al obtener el servicio para asignar perfiles");
-        }
-    });
-    return false;
+        });
+        return false;
 
+    } else {
+        alertify.warning("No seleccionaste ningún usuario");
+    }
 
 }
 

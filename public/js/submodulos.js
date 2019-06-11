@@ -104,32 +104,46 @@ function saveRegistroSubModulos() {
         data[obj.name] = obj.value;
     });
 
-    console.log(data);
+    //console.log(data.systemName);
 
-    $.ajax({
-        url: 'Submodulos/registrarSubmodulo',
-        type: 'POST',
-        data: ({datos: data}),
-        success: function (response) {
+    if (data.systemName != 0) {
 
-            console.log(response);
+        if (data.moduleName != 0) {
 
-            var obj = jQuery.parseJSON(response);
-            if (obj.respuesta == 200) {
-                tableSubmodulos.ajax.reload();
-                resetForm();
-                alertify.success("Submodulo registrado exitosamente");
-                return false;
-            } else {
-                //alert("Error al insertar los datos");
-                alertify.error("Error al registrar el submodulo");
-            }
-        },
-        error: function () {
-            alertify.error("Error al obtener el servicio para registrar el submodulo");
+            $.ajax({
+                url: 'Submodulos/registrarSubmodulo',
+                type: 'POST',
+                data: ({datos: data}),
+                success: function (response) {
+
+                    console.log(response);
+
+                    var obj = jQuery.parseJSON(response);
+                    if (obj.respuesta == 200) {
+                        tableSubmodulos.ajax.reload();
+                        resetForm();
+                        alertify.success("Submodulo registrado exitosamente");
+                        return false;
+                    } else {
+                        //alert("Error al insertar los datos");
+                        alertify.error("Error al registrar el submodulo");
+                    }
+                },
+                error: function () {
+                    alertify.error("Error al obtener el servicio para registrar el submodulo");
+                }
+            });
+            return false;
+
+        } else {
+
+            alertify.warning("No has seleccionado un módulo");
+
         }
-    });
-    return false;
+
+    } else {
+        alertify.warning("No has seleccionado un sistema");
+    }
 
 }
 

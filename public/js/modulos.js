@@ -11,11 +11,13 @@ $(document).ready(function () {
     //jquery validator donde se corroboran que los datos esten introducidos y ningun campo se vaya en vacio
     $('form[id="registroModulos"]').validate({
         rules: {
+            systemName: 'required',
             nameModule: 'required',
             description: 'required',
             nameModuleMenu: 'required'
         },
         messages: {
+            systemName: 'No has seleccionado un sistema',
             nameModule: 'Falta introducir nombre del módulo',
             description: 'Falta introducir la descripción',
             nameModuleMenu: 'Falta introducir nombre del modulo'
@@ -98,34 +100,47 @@ function saveRegistroModulos() {
         data[obj.name] = obj.value;
     });
 
-    console.log(data);
+    //console.log(data);
 
-    $.ajax({
-        url: 'Modulos/registrarModulo',
-        type: 'POST',
-        data: ({datos: data}),
-        success: function (response) {
+    //console.log("hola");
 
-            console.log(response);
+    //console.log(data.systemName);
 
-            var obj = jQuery.parseJSON(response);
-            if (obj.respuesta == 200) {
-                //Resetear formulario
-                resetForm();
-                //Recargar tabla
-                tableModulos.ajax.reload();
-                alertify.success("Módulo registrado exitosamente");
-                return false;
-            } else {
-                //alert("Error al insertar los datos");
-                alertify.error("Error al registrar el módulo");
+
+    if (data.systemName != 0) {
+
+        $.ajax({
+            url: 'Modulos/registrarModulo',
+            type: 'POST',
+            data: ({datos: data}),
+            success: function (response) {
+
+                console.log(response);
+
+                var obj = jQuery.parseJSON(response);
+                if (obj.respuesta == 200) {
+                    //Resetear formulario
+                    resetForm();
+                    //Recargar tabla
+                    tableModulos.ajax.reload();
+                    alertify.success("Módulo registrado exitosamente");
+                    return false;
+                } else {
+                    //alert("Error al insertar los datos");
+                    alertify.error("Error al registrar el módulo");
+                }
+            },
+            error: function () {
+                alertify.error("Error al obtener el servicio para registrar el módulo");
             }
-        },
-        error: function () {
-            alertify.error("Error al obtener el servicio para registrar el módulo");
-        }
-    });
-    return false;
+        });
+        return false;
+
+    } else {
+
+        alertify.warning("No has seleccionado un sistema");
+
+    }
 
 }
 

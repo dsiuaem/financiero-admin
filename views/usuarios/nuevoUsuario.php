@@ -36,8 +36,8 @@
         <div class="row form-group">
             <div class="col col-md-2"></div>
             <div class="col-12 col-md-8">
-                <label for="userName" class="form-control-label">Nombre de usuarios:</label>
-                <input type="text" id="userName" name="userName" class="form-control">
+                <label for="userName" class="form-control-label">Correo del usuario:</label>
+                <input type="email" id="userName" name="userName" class="form-control" required>
             </div>
             <div class="col col-md-2"></div>
         </div>

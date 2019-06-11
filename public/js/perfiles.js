@@ -127,7 +127,7 @@ $(document).on('change', '#systemName', function () {
                 //Convertir a objetos el response
                 var respuesta = jQuery.parseJSON(response);
 
-                console.log(respuesta);
+                //console.log(respuesta);
 
                 //Convertir cada DTO a JSON
                 var modulesM = jQuery.parseJSON(respuesta.perfilesModulosDTO);
@@ -145,9 +145,9 @@ $(document).on('change', '#systemName', function () {
                 var $dropdownTipoOpciones = $("div[name$='tipoOpciones']");
 
                 for (var i = 0; i < modulesM.length; i++) {
-                    console.log("ssss", modulesM.length);
+                    //console.log("ssss", modulesM.length);
 
-                    console.log(modulesM[i].name);
+                    //console.log(modulesM[i].name);
 
                     $dropdownModulos.append($("<h1>").text(modulesM[i].name));
                     //$dropdownModulos.append("ddddddddd");
@@ -194,11 +194,12 @@ $(document).on('change', '#systemName', function () {
                                                 if (tipoOcionesM[m][n].idModuleOption == opcionesM[k][l].idModuleOption) {
 
                                                     //$dropdownModulos.append($("<label />").text("Tipo Opciones - id - " + tipoOcionesM[i][j].idTipoOption + " - "));
-                                                    $dropdownModulos.append("----------------");
-                                                    $dropdownModulos.append($("<input type='checkbox' name='idTipoOption[]' id='idTipoOption[]' value='" + tipoOcionesM[m][n].idTipoOption + "'><label>" + tipoOcionesM[m][n].name + "</label>"));
+                                                    //$dropdownModulos.append("----------------");
+                                                    //$dropdownModulos.append($("<input name='idTipoOption' id='idTipoOption' value='" + tipoOcionesM[m][n].idTipoOption + "'><label>" + tipoOcionesM[m][n].name + "</label>"));
+                                                    $dropdownModulos.append($("<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + tipoOcionesM[m][n].name + "</label>"));
                                                     //$dropdownModulos.append($("<label />").text(tipoOcionesM[i][j].name));
                                                     //$dropdownModulos.append($("<label />").text(" - Pertenece a la opción - " + tipoOcionesM[i][j].idModuleOption));
-                                                    $dropdownModulos.append("----------------");
+                                                    //$dropdownModulos.append("----------------");
                                                     $dropdownModulos.append($("<br />"));
                                                 }
 
@@ -357,33 +358,44 @@ function saveRegistroPerfiles() {
 
     });
 
-    //console.log(modulos);
-    //console.log(data);
-    //console.log(texto);
+    //var total = data.idModuleOption;
 
-    $.ajax({
-        url: 'Perfiles/registrarPerfil',
-        type: 'POST',
-        data: ({datos: data}),
-        success: function (response) {
+    //console.log(total.length);
 
-            //console.log(response);
+    console.log("hola:  " + data.idModuleOption);
 
-            var obj = jQuery.parseJSON(response);
-            if (obj.respuesta == 200) {
-                resetForm();
-                alertify.success("Perfil registrado exitosamente");
-                return false;
-            } else {
-                //alert("Error al insertar los datos");
-                alertify.error("Error al registrar el perfil");
+    if (data.idModuleOption != undefined) {
+
+        $.ajax({
+            url: 'Perfiles/registrarPerfil',
+            type: 'POST',
+            data: ({datos: data}),
+            success: function (response) {
+
+                //console.log(response);
+
+                var obj = jQuery.parseJSON(response);
+                if (obj.respuesta == 200) {
+                    $('#modulospo').empty();
+                    resetForm();
+                    alertify.success("Perfil registrado exitosamente");
+                    return false;
+                } else {
+                    //alert("Error al insertar los datos");
+                    alertify.error("Error al registrar el perfil");
+                }
+            },
+            error: function () {
+                alertify.error("Error al obtener el servicio para registrar el perfil");
             }
-        },
-        error: function () {
-            alertify.error("Error al obtener el servicio para registrar el perfil");
-        }
-    });
-    return false;
+        });
+        return false;
+
+    } else {
+
+        alertify.warning("No has marcado ninguna opción");
+
+    }
 
 }
 

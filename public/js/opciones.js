@@ -108,32 +108,50 @@ function saveRegistroOpciones() {
         data[obj.name] = obj.value;
     });
 
-    console.log(data);
+    //console.log(data);
 
-    $.ajax({
-        url: 'Opciones/registrarOpcion',
-        type: 'POST',
-        data: ({datos: data}),
-        success: function (response) {
+    if (data.systemName != 0) {
 
-            console.log(response);
+        if (data.moduleName != 0) {
 
-            var obj = jQuery.parseJSON(response);
-            if (obj.respuesta == 200) {
-                tableOpciones.ajax.reload();
-                resetForm();
-                alertify.success("Opción registrada exitosamente");
+            if (data.submoduleName != 0) {
+
+                $.ajax({
+                    url: 'Opciones/registrarOpcion',
+                    type: 'POST',
+                    data: ({datos: data}),
+                    success: function (response) {
+
+                        console.log(response);
+
+                        var obj = jQuery.parseJSON(response);
+                        if (obj.respuesta == 200) {
+                            tableOpciones.ajax.reload();
+                            resetForm();
+                            alertify.success("Opción registrada exitosamente");
+                            return false;
+                        } else {
+                            //alert("Error al insertar los datos");
+                            alertify.error("Error al registrar la opción");
+                        }
+                    },
+                    error: function () {
+                        alertify.error("Error al obtener el servicio para registrar la opción");
+                    }
+                });
                 return false;
+
             } else {
-                //alert("Error al insertar los datos");
-                alertify.error("Error al registrar la opción");
+                alertify.warning("No has seleccionado un submodulo");
             }
-        },
-        error: function () {
-            alertify.error("Error al obtener el servicio para registrar la opción");
+
+        } else {
+            alertify.warning("No has seleccionado un módulo");
         }
-    });
-    return false;
+
+    } else {
+        alertify.warning("No has seleccionado un sistema");
+    }
 
 }
 

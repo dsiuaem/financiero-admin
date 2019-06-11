@@ -36,7 +36,7 @@
 
         <div class="card-body card-block">
             <div class="form-group">
-                <label for="">Usuarios sin el perfil seleccionado asignado</label>
+                <h2>Usuarios sin el perfil seleccionado asignado</h2><br><br><br>
                 <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
                 <table class="table table-striped table-bordered dt-responsive nowrap"
                        id="tableListadoAsignacionPerfiles"
@@ -64,9 +64,11 @@
             </div>
         </div>
 
+        <hr>
+
         <div class="card-body card-block">
             <div class="form-group">
-                <label for="">Usuarios con el perfil seleccionado asignado</label>
+                <h2>Usuarios con el perfil seleccionado asignado</h2><br><br><br>
                 <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
                 <table class="table table-striped table-bordered dt-responsive nowrap"
                        id="tableListadoAsignacionPerfilesExistentes"
