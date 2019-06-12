@@ -102,27 +102,7 @@ function showSystems() {
 
 }
 
-$(document).on('change', '#systemName', function () {
-
-    var id_sistema = $('select[name=systemName]').val();
-
-    if (id_sistema != "0") {
-
-        $.ajax({
-            url: 'Perfiles/contentListSystem',
-            type: 'POST',
-            data: ({data: id_sistema}),
-            success: function (response) {
-
-                //Vaciar los contenedores
-                //$('#checkModulos').empty();
-                //$('#checkSubModulos').empty();
-                $('#modulos').empty();
-                $('#submodulos').empty();
-                $('#opciones').empty();
-                $('#tipoOpciones').empty();
-
-                $('#modulospo').empty();
+function construirNivelesSistema(response,$dropdownModulos,$dropdownSubModulos,$dropdownOpciones,$dropdownTipoOpciones,opciones){
 
                 //Convertir a objetos el response
                 var respuesta = jQuery.parseJSON(response);
@@ -135,14 +115,6 @@ $(document).on('change', '#systemName', function () {
                 var opcionesM = jQuery.parseJSON(respuesta.perfilesOpcionesDTO);
                 var tipoOcionesM = jQuery.parseJSON(respuesta.perfilesTipoOpcionesDTO);
 
-
-                //console.log(respuesta);
-
-                //#############  MODULOS #####################
-                var $dropdownModulos = $("#modulospo");
-                var $dropdownSubModulos = $("div[name$='submodulos']");
-                var $dropdownOpciones = $("div[name$='opciones']");
-                var $dropdownTipoOpciones = $("div[name$='tipoOpciones']");
 
                 for (var i = 0; i < modulesM.length; i++) {
                     console.log("ssss", modulesM.length);
@@ -178,8 +150,19 @@ $(document).on('change', '#systemName', function () {
 
                                     if (opcionesM[k][l].idSubModule == submodulesM[0][j].idSubModule) {
 
+                                        if(opciones!=null){
+                                             var opc=$("<input type='checkbox' name='idModuleOption' id='idModuleOption'>");
+                                             opc.val(opcionesM[k][l].idModuleOption);   
+                                             if(jQuery.inArray(opcionesM[k][l].idModuleOption, opciones)!=-1){
+                                                opc.attr('checked', true);
+                                             }
+                                             $dropdownModulos.append(opc);
+                                             $dropdownModulos.append($("<label>" + opcionesM[k][l].name + "</label>"));
+                                        }else{
+                                             $dropdownModulos.append($("<input type='checkbox' name='idModuleOption' id='idModuleOption' value='" + opcionesM[k][l].idModuleOption + "'><label>" + opcionesM[k][l].name + "</label>"));
+                                        }
+
                                         //$dropdownModulos.append($("<h3 />").text("Opciones - id - " + opcionesM[k][l].idModuleOption + " - "));
-                                        $dropdownModulos.append($("<input type='checkbox' name='idModuleOption' id='idModuleOption' value='" + opcionesM[k][l].idModuleOption + "'><label>" + opcionesM[k][l].name + "</label>"));
                                         //$dropdownModulos.append($("<h3 />").text(opcionesM[k][l].name));
                                         //$dropdownModulos.append($("<h3 />").text(" - Pertenece al submodulo - " + opcionesM[k][l].idSubModule));
                                         $dropdownModulos.append($("<br />"));
@@ -201,136 +184,40 @@ $(document).on('change', '#systemName', function () {
                                                     $dropdownModulos.append("----------------");
                                                     $dropdownModulos.append($("<br />"));
                                                 }
-
-
                                             }
-
-
                                         }
-
                                     }
-
-
                                 }
-
-                                //console.log("opciones",opcionesM[0][k]);
-
-                                // if( opcionesM[0][k].idSubModule == submodulesM[0][j].idSubModule ){
-
-
-                                //    $dropdownOpciones.append($("<label />").text("Opciones - id - " + opcionesM[0][k].idModuleOption + " - "));
-                                //    $dropdownOpciones.append($("<input type='checkbox' name='idModuleOption' id='idModuleOption' value='" + opcionesM[0][k].idModuleOption + "'><label>" + opcionesM[i][j].name + "</label>"));
-                                //    //$dropdownOpciones.append($("<label />").text(opcionesM[i][j].name));
-                                //    $dropdownOpciones.append($("<label />").text(" - Pertenece al submodulo - " + opcionesM[0][k].idSubModule));
-                                //    $dropdownOpciones.append($("<br />"));
-
-                                // }
-
                             }
-
-
                         }
-
-
-                        /*
-
-                        if (modulesM[i].idModule == submodulesM[i][j].idModule) {
-
-                            //$dropdownSub.append($("<ul><li><input type='checkbox' name='submodulos[]' id='submodulos[]' value='"+ submodulesM[i][j].idSubModule +"'><label>"+submodulesM[i][j].name+"</label></li></ul><br />"));
-                            $dropdownSub.append($("<label />").text(submodulesM[i][j].name));
-                            $dropdownSub.append($("<br />"));
-                        }
-
-                         */
-
-
-                        /*
-                        //console.log(submodulesM[i][j].name);
-                        $dropdown.append($("<input type=\"checkbox\" name=\"submodulos[]\" id=\"submodulos[]\" />").val(submodulesM[i][j].idSubModule).text(submodulesM[i][j].name));
-                        $dropdown.append($("<label />").text(submodulesM[i][j].name));
-                        $dropdown.append($("<br />"));
-
-                         */
-
-
                     }
-
-
                 }
-                //#############  MODULOS #####################
+}
 
-                //#############  SUBMODULOS #####################
+$(document).on('change', '#systemName', function () {
 
-                // for (var i = submodulesM.length - 1; i >= 0; i--) {
+    var id_sistema = $('select[name=systemName]').val();
 
-                //     for (var j = submodulesM[i].length - 1; j >= 0; j--) {
+    if (id_sistema != "0") {
 
-                //         $dropdownSubModulos.append($("<label />").text("Submodulos - id - " + submodulesM[i][j].idSubModule + " - "));
-                //         $dropdownSubModulos.append($("<label />").text(submodulesM[i][j].name));
-                //         $dropdownSubModulos.append($("<label />").text(" - Pertenece al modulo - " + submodulesM[i][j].idModule));
-                //         $dropdownSubModulos.append($("<br />"));
+        $.ajax({
+            url: 'Perfiles/contentListSystem',
+            type: 'POST',
+            data: ({data: id_sistema}),
+            success: function (response) {
 
+                $('#modulos').empty();
+                $('#submodulos').empty();
+                $('#opciones').empty();
+                $('#tipoOpciones').empty();
+                $('#modulospo').empty();
 
-                //         if (modulesM[i].idModule == submodulesM[i][j].idModule) {
+                var $dropdownModulos = $("#modulospo");
+                var $dropdownSubModulos = $("div[name$='submodulos']");
+                var $dropdownOpciones = $("div[name$='opciones']");
+                var $dropdownTipoOpciones = $("div[name$='tipoOpciones']");
+                construirNivelesSistema(response,$dropdownModulos,$dropdownSubModulos,$dropdownOpciones,$dropdownTipoOpciones,null);
 
-                //             //$dropdownSub.append($("<ul><li><input type='checkbox' name='submodulos[]' id='submodulos[]' value='"+ submodulesM[i][j].idSubModule +"'><label>"+submodulesM[i][j].name+"</label></li></ul><br />"));
-                //             $dropdownSub.append($("<label />").text(submodulesM[i][j].name));
-                //             $dropdownSub.append($("<br />"));
-                //         }
-
-
-                //         /*
-                //         //console.log(submodulesM[i][j].name);
-                //         $dropdown.append($("<input type=\"checkbox\" name=\"submodulos[]\" id=\"submodulos[]\" />").val(submodulesM[i][j].idSubModule).text(submodulesM[i][j].name));
-                //         $dropdown.append($("<label />").text(submodulesM[i][j].name));
-                //         $dropdown.append($("<br />"));
-
-                //          */
-
-                //     }
-
-                // }
-                //#############  SUBMODULOS #####################
-
-                //#############  OPCIONES #####################
-
-                // var $dropdownOpciones = $("div[name$='opciones']");
-
-                // for (var i = opcionesM.length - 1; i >= 0; i--) {
-
-                //     console.log(opcionesM[i]);
-
-                //     for (var j = opcionesM[i].length - 1; j >= 0; j--) {
-
-                //         $dropdownOpciones.append($("<label />").text("Opciones - id - " + opcionesM[i][j].idModuleOption + " - "));
-                //         $dropdownOpciones.append($("<input type='checkbox' name='idModuleOption' id='idModuleOption' value='" + opcionesM[i][j].idModuleOption + "'><label>" + opcionesM[i][j].name + "</label>"));
-                //         //$dropdownOpciones.append($("<label />").text(opcionesM[i][j].name));
-                //         $dropdownOpciones.append($("<label />").text(" - Pertenece al submodulo - " + opcionesM[i][j].idSubModule));
-                //         $dropdownOpciones.append($("<br />"));
-
-                //     }
-                // }
-
-                //#############  OPCIONES #####################
-
-                //#############  TIPO OPCIONES #####################
-
-                // var $dropdownTipoOpciones = $("div[name$='tipoOpciones']");
-
-                // for (var i = tipoOcionesM.length - 1; i >= 0; i--) {
-
-                //     for (var j = tipoOcionesM[i].length - 1; j >= 0; j--) {
-
-                //         $dropdownTipoOpciones.append($("<label />").text("Tipo Opciones - id - " + tipoOcionesM[i][j].idTipoOption + " - "));
-                //         //$dropdownTipoOpciones.append($("<input type='checkbox' name='idTipoOption[]' id='idTipoOption[]' value='"+ tipoOcionesM[i][j].idTipoOption +"'><label>"+tipoOcionesM[i][j].name+"</label>"));
-                //         $dropdownTipoOpciones.append($("<label />").text(tipoOcionesM[i][j].name));
-                //         $dropdownTipoOpciones.append($("<label />").text(" - Pertenece a la opción - " + tipoOcionesM[i][j].idModuleOption));
-                //         $dropdownTipoOpciones.append($("<br />"));
-
-                //     }
-                // }
-
-                //#############  TIPO OPCIONES #####################
 
             },
             error: function () {
@@ -356,11 +243,11 @@ function saveRegistroPerfiles() {
         }
 
     });
-
+      
     //console.log(modulos);
-    //console.log(data);
-    //console.log(texto);
-
+    console.log(data);
+    console.log(texto);
+    return false;
     $.ajax({
         url: 'Perfiles/registrarPerfil',
         type: 'POST',
@@ -477,6 +364,99 @@ function showSystemsTable() {
 
 }
 
+function editarPerfil(idPerfil,perfil){
+    $('.perfil').val(perfil);
+    var id_sistema = $('select[name=systemNameTable]').val();
+     if (id_sistema != "0") {
+        var opciones=getOpciones(idPerfil);
+        opciones=obtenerArrayOpciones(opciones);
+        $.ajax({
+            url: 'Perfiles/contentListSystem',
+            type: 'POST',
+            data: ({data: id_sistema}),
+            success: function (response) {
+                  
+                $('#modulos').empty();
+                $('#submodulosEditar').empty();
+                $('#opcionesEditar').empty();
+                $('#tipoOpcionesEditar').empty();
+                $('#modulospoEditar').empty();
+                $('.idPerfilEdit').val(idPerfil);
+                var $dropdownModulos = $("#modulospoEditar");
+                var $dropdownSubModulos = $("div[name$='submodulosEditar']");
+                var $dropdownOpciones = $("div[name$='opcionesEditar']");
+                var $dropdownTipoOpciones = $("div[name$='tipoOpcionesEditar']");
+                construirNivelesSistema(response,$dropdownModulos,$dropdownSubModulos,$dropdownOpciones,$dropdownTipoOpciones,opciones);
+            },
+            error: function () {
+                alert("Error al obtener el servicio para cargar el contenido de los sistemas");
+            }
+        });
+
+    }
+}
+
+function editarPerfilOpciones(){
+    alertify.confirm("¿Desea cancelar el documento?",
+        function(){
+          editarPerfilRealizar();
+        },
+        function(){
+         alertify.error('Cancel');
+        }
+    );
+}
+
+function editarPerfilRealizar(){
+    var form=$('#formPerfilEdit').serializeArray();;
+    var data = {};
+    $(form).each(function (index, obj) {
+        if (data[obj.name] != undefined) {
+            data[obj.name] += "," + obj.value;
+        } else {
+            data[obj.name] = obj.value;
+        }
+    });
+    $.ajax({
+        url: 'Perfiles/editarPerfil',
+        type: 'POST',
+        async: false,
+        data: ({data: data}),
+        success: function (response) {
+              console.log(response);
+        },
+        error: function () {
+            alert("Error al obtener el servicio para cargar el contenido de los sistemas");
+        }
+     });   
+}
+
+function obtenerArrayOpciones(opciones){
+    var arr=[];
+    for(i=0;i<opciones.length;i++){
+        arr.push(opciones[i]['idModuleOption']);
+    }
+    return arr;
+}
+
+function getOpciones(idPerfil){
+    var opciones;
+    $.ajax({
+            url: 'Perfiles/getOpciones',
+            type: 'POST',
+            async: false,
+            data: ({data: idPerfil}),
+            success: function (response) {
+                  var respuesta=jQuery.parseJSON(response);
+                  opciones=jQuery.parseJSON(respuesta.perfilesDTO);
+            },
+            error: function () {
+                alert("Error al obtener el servicio para cargar el contenido de los sistemas");
+            }
+     });
+    return opciones;
+}
+
 $(document).on('change', '#systemNameTable', function () {
 
     var id_sistema = $('select[name=systemNameTable]').val();
@@ -499,7 +479,8 @@ $(document).on('change', '#systemNameTable', function () {
                     data: null,
                     render: function (data, type, row) {
 
-                        return '<button id="btnUpdatePerfil" data-toggle="modal" data-target="#modalEditarPerfil" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></button> <button id="btnDeletePerfil" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';
+
+                        return '<button id="btnUpdatePerfil" data-toggle="modal" onclick="editarPerfil('+data.idPerfil+',\''+data.perfil+'\')" data-target="#modalEditarPerfil" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></button> <button id="btnDeletePerfil" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';
 
                     }
                 },

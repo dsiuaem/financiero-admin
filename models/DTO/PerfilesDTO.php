@@ -16,6 +16,8 @@ class PerfilesDTO
     //admin_access_content_perfil_tipo_options (Contenido de todos los TipoOption)
     public $idTipoOption;
 
+    public $idUser;
+
 }
 
 
