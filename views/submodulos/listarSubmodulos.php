@@ -69,7 +69,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar sistema</h4>
+                <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar submodulo</h4>
                 <button style="color: white;" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

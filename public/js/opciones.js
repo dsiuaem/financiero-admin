@@ -30,7 +30,7 @@ $(document).ready(function () {
             systemName: 'Falta seleccionar un sistema',
             moduleName: 'Falta seleccionar un módulo',
             submoduleName: 'Falta seleccionar un submodulo',
-            nameOption: 'Falta introducir nombre a la opción',
+            nameOption: 'Falta introducir nombre de la opción',
             description: 'Falta introducir una descripción',
             order: 'Falta introducir un orden'
         },

@@ -147,11 +147,11 @@ class UsuariosModel extends Model
         if ($responseCode == 200) {
             //El resultado se deserializa en la clase DTO devuelta
             $dataDescrypt = $jwt->Desencriptar($result);
-            $this->perfilesDTO = $dataDescrypt->perfilesDTO;
+            $this->usuariosDTO = $dataDescrypt->usuariosDTO;
             $this->respuesta = $dataDescrypt->respuesta;
             //Retornar los datos correctos más la respuesta de OK, o en caso de que el servicio mande error, aqui se retorna
         } else {
-            $this->perfilesDTO = $this->perfilesDTO;
+            $this->usuariosDTO = $this->usuariosDTO;
             $this->respuesta = 500;
         }
     }

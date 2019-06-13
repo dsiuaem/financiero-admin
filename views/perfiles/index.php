@@ -37,5 +37,6 @@
     <?php require 'views/footer.php' ?>
 </div>
 <?php include_once 'views/libreriasJS.php' ?>
+<?php include_once 'modals.php'?>
 </body>
 </html>

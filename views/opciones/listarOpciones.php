@@ -80,7 +80,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar sistema</h4>
+                <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar opción</h4>
                 <button style="color: white;" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -104,7 +104,7 @@
                         <div class="col col-md-2"></div>
                         <div class="col-12 col-md-8">
                             <label for="updateDescription" class="form-control-label">Descripción: </label>
-                            <textarea name="updateDescription" id="updateDescription" cols="30" rows="10"
+                            <textarea name="updateDescription" id="updateDescription" cols="30" rows="6"
                                       class="form-control"></textarea>
                         </div>
                         <div class="col col-md-2"></div>

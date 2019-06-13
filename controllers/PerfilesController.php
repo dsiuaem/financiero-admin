@@ -95,6 +95,25 @@ class PerfilesController extends Controller
 
     }
 
+    function getOpciones(){
+        $perfilesDTO = new PerfilesDTO;
+        $perfilesDTO->idPerfil = $_POST['data'];
+        $this->model->perfilesDTO = $perfilesDTO;
+        $this->model->getOpciones();
+        echo json_encode($this->model);
+    }
+
+    function editarPerfil(){
+        $perfilesDTO = new PerfilesDTO;
+       
+        $perfilesDTO->idPerfil = $_POST['data']['idPerfilEdit'];
+        $perfilesDTO->idModuleOption= $_POST['data']['idModuleOption'];
+        $perfilesDTO->perfil= $_POST['data']['perfil'];
+        $this->model->perfilesDTO = $perfilesDTO;
+        $this->model->editarOpciones();
+        echo json_encode($this->model);
+    }
+
 
 }
 

@@ -12,18 +12,40 @@ $(document).ready(function () {
         rules: {
             systemNameNewUser: 'required',
             userTypeNewUser: 'required',
-            //userName: 'required',
+            userName: 'required',
             userPass: 'required'
         },
         messages: {
             systemNameNewUser: 'Falta seleccionar un sistema',
             userTypeNewUser: 'Falta seleccionar un tipo de usuario',
-            //userName: 'Falta ingresar nombre al usuario',
+            userName: 'Falta ingresar un correo válido',
             userPass: 'Falta ingresar contraseña al usuario'
         },
         submitHandler: function () {
             //Se registran los datos del módulo
             saveRegistroUsuarios();
+            /*
+            $(function () {
+                $("#btnSaveModule").click(saveRegistroUsuarios());
+            });
+
+             */
+
+        }
+    });
+
+    $('form[id="actualizacionUsuario"]').validate({
+        rules: {
+            updateCorreoUsuario: 'required',
+            updatePassUsuario: 'required'
+        },
+        messages: {
+            updateCorreoUsuario: 'Falta ingresar un correo válido',
+            updatePassUsuario: 'Falta ingresar contraseña al usuario'
+        },
+        submitHandler: function () {
+            //Se registran los datos del módulo
+            //updateUsuario();
             /*
             $(function () {
                 $("#btnSaveModule").click(saveRegistroUsuarios());
@@ -209,6 +231,30 @@ function saveRegistroUsuarios() {
 //Función para vaciar formularios depués de cada acción
 function resetForm() {
     $('#registroUsuarios')[0].reset();
+}
+
+function estadoSwitch(id_user, estado) {
+
+    $.ajax({
+        url: 'Usuarios/enableUsuario',
+        type: 'POST',
+        data: ({datos: id_user, estado: estado}),
+        success: function (response) {
+            var obj = jQuery.parseJSON(response);
+            if (obj.respuesta == 200) {
+                //Función para recargar tabla
+                tableUsuarios.ajax.reload();
+                return false;
+            } else {
+                alertify.error("Error en la acción");
+            }
+        },
+        error: function () {
+            alertify.error("Error al obtener el servicio");
+        }
+    });
+    return false;
+
 }
 
 //######################################################################################################
@@ -471,6 +517,7 @@ function showSystemsListarUsuarios() {
 
 }
 
+var tableUsuarios;
 //Para DataTable
 //Funciones para obtener información de los select
 $(document).on('change', '#systemNameListarUsuarios', function () {
@@ -479,7 +526,7 @@ $(document).on('change', '#systemNameListarUsuarios', function () {
 
     if (id_system != "0") {
 
-        console.log("entra" + " " + id_system);
+        //console.log("entra" + " " + id_system);
 
         tableUsuarios = $('#tableUsuarios').DataTable({
             destroy: true,
@@ -498,7 +545,6 @@ $(document).on('change', '#systemNameListarUsuarios', function () {
                     data: null,
                     render: function (data, type, row) {
 
-                        /*
                         if (data.enable == 1) {
 
                             var estado = "checkbox";
@@ -508,9 +554,16 @@ $(document).on('change', '#systemNameListarUsuarios', function () {
                             var estado = "";
 
                         }
-                        */
 
-                        return '<button id="btnUpdateSubModule" data-toggle="modal" data-target="#modalEditarSubModulo" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></button>';
+                        return '<button id="btnUpdateUser" data-toggle="modal" data-target="#modalEditarUsuario" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></button> ' +
+                            '' +
+                            '<label class="switch switch-text switch-success switch-pill">\n' +
+                            '<input id="btnEnableUser" type="' + estado + '" class="switch-input" checked="true">\n' +
+                            '<span data-on="On" data-off="Off" class="switch-label"></span>\n' +
+                            '<span class="switch-handle"></span>\n' +
+                            '</label> ' +
+                            '' +
+                            '<button id="btnDeleteUser" title="Eliminar concepto" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';
 
                     }
                 },
@@ -527,6 +580,58 @@ $(document).on('change', '#systemNameListarUsuarios', function () {
             language: {
                 "url": "public/plugins/DataTables/Spanish.json",
             }
+        });
+
+
+        $('#tableUsuarios tbody').off('click', '#btnUpdateUser').on('click', '#btnUpdateUser', function () {
+            var data = tableUsuarios.row(this.closest('tr')).data();
+            //console.log(data);
+
+            alert(data);
+
+            /*
+            document.getElementById('updateCorreoUsuario').value = data.user;
+            document.getElementById('updatePassUsuario').value = data.password;
+            document.getElementById('idUserUpdate').value = data.idUser;
+            */
+
+        });
+
+        $('#tableUsuarios tbody').off('click', '#btnEnableUser').on('click', '#btnEnableUser', function () {
+            var data = tableUsuarios.row(this.closest('tr')).data();
+            var id = data.idUser;
+            var estado = data.enable;
+
+            if (estado == 1) {
+
+                var texto = "Desactivar";
+
+            } else if (estado == 0) {
+
+                var texto = "Activar";
+
+            }
+
+            alertify.confirm(texto + ' el usuario seleccionado ', function () {
+                    //estadoSwitch(id, estado);
+                }
+                , function () {
+                    alertify.error('Acción cancelada')
+                });
+
+        });
+
+        $('#tableUsuarios tbody').off('click', '#btnDeleteUser').on('click', '#btnDeleteUser', function () {
+            var data = tableUsuarios.row(this.closest('tr')).data();
+            var id = data.idUser;
+
+            alertify.confirm('Eliminar el usuario seleccionado ', function () {
+                    //deleteUsuario(id);
+                }
+                , function () {
+                    alertify.error('Acción cancelada')
+                });
+
         });
 
 

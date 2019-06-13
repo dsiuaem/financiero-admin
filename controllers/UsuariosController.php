@@ -78,7 +78,7 @@ class UsuariosController extends Controller
         //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
         //echo json_encode($this->model);
         //Para tablas según -_-
-        echo $this->model->perfilesDTO;
+        echo $this->model->usuariosDTO;
     }
 
     function usuariosListTableSinPerfil()

@@ -29,7 +29,7 @@
                 <th></th>
                 <th>Módulos registrados</th>
                 <th>Descripción</th>
-                <th>Modulo del Menú</th>
+                <th>Módulo del menú</th>
             </tr>
             </thead>
             <tbody>
@@ -60,7 +60,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar sistema</h4>
+                <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar módulo</h4>
                 <button style="color: white;" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -93,7 +93,7 @@
                         <div class="col col-md-2"></div>
                         <div class="col-12 col-md-8">
                             <label for="updateNameModuleMenu" class="form-control-label">Nombre del módulo del
-                                menú: </label>
+                                menú (Se utiliza en el menú del sistema para mantener el módulo abierto, este nombre debe ser igual al valor de la variable definida en el controlador): </label>
                             <input id="updateNameModuleMenu" name="updateNameModuleMenu" type="text"
                                    class="form-control">
                         </div>
