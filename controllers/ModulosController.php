@@ -115,6 +115,17 @@ class ModulosController extends Controller
         echo json_encode($this->model);
     }
 
+    function getDespliege(){
+        $modulosDTO = new ModulosDTO;
+        $modulosDTO->idSystem = $_POST['idSystem'];
+        $this->model->estadoModulosDTO = $modulosDTO;
+        //Recupera los datos del servicio web
+        $this->model->getDespliege();
+        //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+        echo json_encode($this->model);
+    }
+
+
 
 }
 

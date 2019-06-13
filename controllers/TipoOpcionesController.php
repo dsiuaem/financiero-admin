@@ -123,6 +123,17 @@ class TipoOpcionesController extends Controller
         echo json_encode($this->model);
     }
 
+    function tipoOpcionesListSelect(){
+        $tipoOpcionesDTO = new TipoOpcionesDTO;
+        $tipoOpcionesDTO->idModuleOption = $_POST['data'];
+        $this->model->estadoTypeOptionDTO = $tipoOpcionesDTO;
+        //Recupera los datos del servicio web
+
+        $this->model->tipoOpcionesListSelect();
+        //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+        echo json_encode($this->model);   
+    }
+
 
 }
 
