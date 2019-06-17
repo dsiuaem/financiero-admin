@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
     alertify.set('notifier', 'position', 'top-right');
 
@@ -135,26 +136,50 @@ function saveRegistroPerfiles() {
 
     });
 
-    $.ajax({
-        url: 'Perfiles/registrarPerfil',
-        type: 'POST',
-        data: ({datos: data}),
-        success: function (response) {
-            var obj = jQuery.parseJSON(response);
-            if (obj.respuesta == 200) {
-                resetForm();
-                alertify.success("Perfil registrado exitosamente");
-                return false;
-            } else {
-                //alert("Error al insertar los datos");
-                alertify.error("Error al registrar el perfil");
+    //var total = data.idModuleOption;
+
+    //console.log(total.length);
+
+    //console.log("hola:  " + data.idModuleOption);
+
+    if(data.systemName != 0){
+
+    	if (data.idModuleOption != undefined) {
+
+        $.ajax({
+            url: 'Perfiles/registrarPerfil',
+            type: 'POST',
+            data: ({datos: data}),
+            success: function (response) {
+
+                //console.log(response);
+
+                var obj = jQuery.parseJSON(response);
+                if (obj.respuesta == 200) {
+                    $('#modulospo').empty();
+                    resetForm();
+                    alertify.success("Perfil registrado exitosamente");
+                    return false;
+                } else {
+                    //alert("Error al insertar los datos");
+                    alertify.error("Error al registrar el perfil");
+                }
+            },
+            error: function () {
+                alertify.error("Error al obtener el servicio para registrar el perfil");
             }
-        },
-        error: function () {
-            alertify.error("Error al obtener el servicio para registrar el perfil");
-        }
-    });
-    return false;
+        });
+        return false;
+
+    } else {
+
+        alertify.warning("No has marcado ninguna opción");
+
+    }
+
+    }else{
+    	alertify.warning("No has seleccionado ningún sistema");
+    }
 
 }
 
@@ -304,9 +329,9 @@ function despliege(idSistema,$dropdownModulos,opciones){
                              $dropdownModulos.append($("<br />"));
                             $.each(opc.topcion,function(topcs,topc){
                                     console.log(topc);
-                                    $dropdownModulos.append("----------------");
-                                    $dropdownModulos.append($("<label>" + topc.name + "</label>"));
-                                    $dropdownModulos.append("----------------");
+                                    //$dropdownModulos.append("----------------");
+                                    $dropdownModulos.append($("<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + topc.name + "</label>"));
+                                    //$dropdownModulos.append("----------------");
                                     $dropdownModulos.append($("<br />"));
                             });
                          });
@@ -322,12 +347,12 @@ function despliege(idSistema,$dropdownModulos,opciones){
 }
 
 function editarPerfilOpciones(){
-    alertify.confirm("¿Desea cancelar el documento?",
+    alertify.confirm("¿Desea editar el perfil ?",
         function(){
           editarPerfilRealizar();
         },
         function(){
-         alertify.error('Cancel');
+         alertify.error('Acción cancelada');
         }
     );
 }
@@ -350,13 +375,14 @@ function editarPerfilRealizar(){
         success: function (response) {
               var respuesta=jQuery.parseJSON(response);
               if(respuesta.respuesta==200){
-                  alertify.success('Perfil modificado');
+              	  tableListadoPerfiles.ajax.reload();
+                  alertify.success('Perfil modificado exitosamente');
               }else{
-                  alertify.error('Algo salio mal');
+                  alertify.error('Error al actualizar el perfil');
               }
         },
         error: function () {
-            alert("Error al obtener el servicio para cargar el contenido de los sistemas");
+            alert("Error al obtener el servicio para actualizar el perfil");
         }
      });   
 }
@@ -387,6 +413,7 @@ function getOpciones(idPerfil){
     return opciones;
 }
 
+var tableListadoPerfiles;
 $(document).on('change', '#systemNameTable', function () {
 
     var id_sistema = $('select[name=systemNameTable]').val();
