@@ -219,8 +219,6 @@ class TipoOpcionesModel extends Model
         }
     }
 
-
-
 }
 
 ?>

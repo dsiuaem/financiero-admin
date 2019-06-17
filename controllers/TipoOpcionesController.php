@@ -135,7 +135,6 @@ class TipoOpcionesController extends Controller
     }
 
 
-
 }
 
 ?>

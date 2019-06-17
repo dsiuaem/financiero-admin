@@ -240,7 +240,6 @@ class PerfilesModel extends Model
         //Encritar datos que llegan del formulario
         $jwt = new JWT();
         $data = $jwt->TokenJWT($this->perfilesDTO);
-        //var_dump($data);die();
         //$data = json_encode($this->insertSystemtDTO);
         // define options
         $optArray = array(
@@ -267,9 +266,6 @@ class PerfilesModel extends Model
             $this->respuesta = 500;
         }    
     }
-
-
-
 }
 
 ?>
