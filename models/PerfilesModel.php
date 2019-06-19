@@ -266,6 +266,57 @@ class PerfilesModel extends Model
             $this->respuesta = 500;
         }    
     }
+
+    public function deletePerfil(){
+        $ch = curl_init();
+        $jwt = new JWT();
+        $data = $jwt->TokenJWT($this->perfilesDTO);
+        $optArray = array(
+            CURLOPT_URL => constant('URL_API_ADMIN') . 'deletePerfil',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => $data,
+            CURLOPT_HTTPHEADER => array('Content-type: text/plain'),
+        );
+
+        curl_setopt_array($ch, $optArray);
+        $result = curl_exec($ch);
+        $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if ($responseCode == 200) {
+
+            $dataDescrypt = $jwt->Desencriptar($result);
+            $this->respuesta = $dataDescrypt->respuesta;
+        } else {
+            $this->respuesta = 500;
+        }    
+    }
+
+    public function getUserPerfilSystem(){
+        $ch = curl_init();
+        $jwt = new JWT();
+        $data = $jwt->TokenJWT($this->perfilesDTO);
+        $optArray = array(
+            CURLOPT_URL => constant('URL_API_ADMIN') . 'getUserPerfilSystem',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => $data,
+            CURLOPT_HTTPHEADER => array('Content-type: text/plain'),
+        );
+
+        curl_setopt_array($ch, $optArray);
+        $result = curl_exec($ch);
+        $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if ($responseCode == 200) {
+
+            $dataDescrypt = $jwt->Desencriptar($result);
+            $this->respuesta = $dataDescrypt->respuesta;
+            $this->idPerfil = $dataDescrypt->idPerfil;
+        } else {
+            $this->respuesta = 500;
+        }       
+    }
 }
 
 ?>

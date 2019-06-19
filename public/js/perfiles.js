@@ -435,7 +435,8 @@ $(document).on('change', '#systemNameTable', function () {
                 {
                     data: null,
                     render: function (data, type, row) {
-                        return '<button id="btnUpdatePerfil" data-toggle="modal" onclick="editarPerfil('+data.idPerfil+',\''+data.perfil+'\')" data-target="#modalEditarPerfil" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></button> <button id="btnDeletePerfil" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';
+                        return '<button id="btnUpdatePerfil" data-toggle="modal" onclick="editarPerfil('+data.idPerfil+',\''+data.perfil+'\')" data-target="#modalEditarPerfil" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></button>'+
+                         ' <button id="btnDeletePerfil" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';
                     }
                 },
                 {
@@ -474,3 +475,24 @@ $(document).on('change', '#systemNameTable', function () {
     }
 
 });
+
+function deletePerfil(idPerfil){
+    $.ajax({
+        url: 'Perfiles/deletePerfil',
+        type: 'POST',
+        async: false,
+        data: ({data: {idPerfil:idPerfil}}),
+        success: function (response) {
+              var respuesta=jQuery.parseJSON(response);
+              if(respuesta.respuesta==200){
+                alertify.success('Perfil eliminado');
+                tableListadoPerfiles.ajax.reload();
+              }else{
+                alertify.error('Algo salio mal');
+              }
+        },
+        error: function () {
+            alert("Error al obtener el servicio para cargar el contenido de los sistemas");
+        }
+    });
+}

@@ -3,11 +3,15 @@
 class UsuariosDTO
 {
 
+    public $email;
+
     public $idUser;
 
     public $idUserType;
 
     public $user;
+
+    public $estado;
 
     //public $email;
 
@@ -18,6 +22,8 @@ class UsuariosDTO
     //Para asignar perfiles
 
     public $idPerfil;
+
+    public $actualIdPerfil;
 
     public $perfil;
 

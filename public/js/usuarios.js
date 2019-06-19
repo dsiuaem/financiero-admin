@@ -1,4 +1,59 @@
 $(document).ready(function () {
+
+    $('#checkboxPassword').click(function() {
+        // this will contain a reference to the checkbox   
+        if (this.checked) {
+            $('.editarPassword').show();
+            $('#updatePassUsuario').prop('disabled',false);
+            $('#password_repeat').prop('disabled',false);
+            $('#checkboxPassword').val(1);
+        } else {
+            $('.editarPassword').hide();
+            $('#updatePassUsuario').prop('disabled',true);
+            $('#password_repeat').prop('disabled',true);
+            $('#checkboxPassword').val(0);
+        }
+    });
+
+
+    $('#editUserBtn').click(function(){
+        var texto = $('#actualizacionUsuario').serializeArray();
+        var data = {};
+        $(texto ).each(function(index, obj){
+            if (data[obj.name]!=undefined) {
+            data[obj.name] += ","+obj.value;
+            }else{
+            data[obj.name] = obj.value;
+            }
+        });
+
+        $.ajax({
+            url: 'Usuarios/editUser',
+            type: 'POST',
+            async:false,
+            data: ({data:data}),
+            success: function (response) {
+               var respuesta= jQuery.parseJSON(response);
+               if(respuesta.respuesta==200){
+                  alertify.success('Usuario modificado');
+                  $('#modalEditarUsuario').modal('hide');
+                  //$('#actualizacionUsuario').reset();
+                  $('#updatePassUsuario').val('');
+                  $('#password_repeat').val('');
+                  if($('#checkboxPassword').val()==1){
+                     $('#checkboxPassword').click();
+                  }
+                  
+               }else{
+                  alertify.error('Algo salio mal');
+               }
+            },
+            error: function () {
+                alert("Error al obtener el servicio para cargar la lista");
+            }
+        });
+    });
+
     alertify.set('notifier', 'position', 'top-right');
 
     //Mostrar información en el select
@@ -543,29 +598,21 @@ $(document).on('change', '#systemNameListarUsuarios', function () {
 
                 {
                     data: null,
-                    render: function (data, type, row) {
+                    render: function (data, type, full, meta) {
+                        console.log(data);
+                        var checked;
+                        data.enable==1?checked='checkbox':checked='';
 
-                        if (data.enable == 1) {
-
-                            var estado = "checkbox";
-
-                        } else if (data.enable == 0) {
-
-                            var estado = "";
-
-                        }
-
-                        return '<button id="btnUpdateUser" data-toggle="modal" data-target="#modalEditarUsuario" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></button> ' +
+                        return '<a id="btnUpdateUser" data-toggle="modal" data-target="#modalEditarUsuario" href="" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></a> ' +
                             '' +
                             '<label class="switch switch-text switch-success switch-pill">\n' +
-                            '<input id="btnEnableUser" type="' + estado + '" class="switch-input" checked="true">\n' +
+                            '<input id="btnEnableUser" type="'+checked+'" class="switch-input" checked="true" >\n' +
                             '<span data-on="On" data-off="Off" class="switch-label"></span>\n' +
                             '<span class="switch-handle"></span>\n' +
-                            '</label> ' +
-                            '' +
-                            '<button id="btnDeleteUser" title="Eliminar concepto" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';
+                            '</label> ';
+                            //'<a id="btnDeleteUser" title="Eliminar concepto" href="#" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></a>';
 
-                    }
+                    },
                 },
                 {
                     data: "idUser",
@@ -585,59 +632,126 @@ $(document).on('change', '#systemNameListarUsuarios', function () {
 
         $('#tableUsuarios tbody').off('click', '#btnUpdateUser').on('click', '#btnUpdateUser', function () {
             var data = tableUsuarios.row(this.closest('tr')).data();
-            //console.log(data);
+            console.log(data);
+            $('#idUserUpdate').val(data.idUser);
+            $('#updateCorreoUsuario').val(data.user);
+            $('#updatePassUsuario').prop('disabled',true);
+            $('#password_repeat').prop('disabled',true);
+            var idPerfilActual=getUserPerfil(data.idUser,id_system);
+            $('.actualIdPerfil').val(idPerfilActual);
+            $.ajax({
+                url: 'Perfiles/perfilesListSelect',
+                type: 'POST',
+                async:false,
+                data: ({data: id_system}),
+                success: function (response) {
+                    var respuesta=jQuery.parseJSON(response);
+                    if(respuesta.respuesta==200){
+                        var perfiles=jQuery.parseJSON(respuesta.perfilesDTO);
+                        var select=$('.perfilesEditSelect');
+                        select.empty();
+                        $.each(perfiles,function(e,i){
+                            console.log(i);
+                            select.append($('<option/>').val(i.idPerfil).text(i.perfil));
+                        });
 
-            alert(data);
-
-            /*
-            document.getElementById('updateCorreoUsuario').value = data.user;
-            document.getElementById('updatePassUsuario').value = data.password;
-            document.getElementById('idUserUpdate').value = data.idUser;
-            */
+                        select.val(idPerfilActual);
+                        select.select2();
+                    }else{
+                       alertify.error('Algo salio mal');
+                    }
+                },
+                error: function () {
+                    alert("Error al obtener el servicio para cargar la lista");
+                }
+            });
+           
 
         });
 
         $('#tableUsuarios tbody').off('click', '#btnEnableUser').on('click', '#btnEnableUser', function () {
             var data = tableUsuarios.row(this.closest('tr')).data();
             var id = data.idUser;
-            var estado = data.enable;
 
-            if (estado == 1) {
-
-                var texto = "Desactivar";
-
-            } else if (estado == 0) {
-
-                var texto = "Activar";
-
-            }
-
-            alertify.confirm(texto + ' el usuario seleccionado ', function () {
-                    //estadoSwitch(id, estado);
+            alertify.confirm("¿Desea cambiar el estado ?",
+                function(){
+                  cabiarEstado(id,id_system,data.enable);
+                },
+                function(){
+                 alertify.error('Acción cancelada');
                 }
-                , function () {
-                    alertify.error('Acción cancelada')
-                });
+            );
 
         });
 
-        $('#tableUsuarios tbody').off('click', '#btnDeleteUser').on('click', '#btnDeleteUser', function () {
+        /*$('#tableUsuarios tbody').off('click', '#btnDeleteUser').on('click', '#btnDeleteUser', function () {
             var data = tableUsuarios.row(this.closest('tr')).data();
             var id = data.idUser;
 
             alertify.confirm('Eliminar el usuario seleccionado ', function () {
-                    //deleteUsuario(id);
+                    deleteUsuario(id);
                 }
                 , function () {
                     alertify.error('Acción cancelada')
                 });
 
-        });
+        });*/
 
 
     }
 
 });
+
+function getUserPerfil(idUser,idSystem){
+   var idPerfil;
+   $.ajax({
+        url: 'Perfiles/getUserPerfilSystem',
+        type: 'POST',
+        async:false,
+        data: ({data: {idUser,idSystem}}),
+        success: function (response) {
+            var respuesta=jQuery.parseJSON(response);
+            if(respuesta.respuesta==200){
+               idPerfil=respuesta.idPerfil[0].idPerfil;
+            }else{
+                alertify("Algo salio mal");
+            }
+        },
+        error: function () {
+            alert("Error al obtener el servicio para cargar la lista");
+        }
+    });
+    return idPerfil;
+}
+
+function cabiarEstado(idUser,idSystem,estado){
+   $.ajax({
+        url: 'Usuarios/cambiarEstado',
+        type: 'POST',
+        async:false,
+        data: ({data: {idUser,idSystem,estado}}),
+        success: function (response) {
+            var respuesta=jQuery.parseJSON(response);
+            if(respuesta.respuesta==200){
+                alertify.success('Usuario desactivado');
+                tableUsuarios.ajax.reload();
+            }else{
+                alertify.error('Algo salio mal');
+            }
+        },
+        error: function () {
+            alert("Error al obtener el servicio para cargar la lista");
+        }
+    });
+}
+
+function limpiarForm(){
+      $('#updatePassUsuario').val('');
+      $('#password_repeat').val('');
+      if($('#checkboxPassword').val()==1){
+         $('#checkboxPassword').click();
+      }
+}
 
 
 

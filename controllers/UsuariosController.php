@@ -128,6 +128,40 @@ class UsuariosController extends Controller
         echo json_encode($this->model);
     }
 
+    function editUser()
+    {
+        //Pasar los datos del formulario al DTO
+        $usuarioDTO = new UsuariosDTO;
+        //var_dump($_POST);die();
+        $usuarioDTO->idUser = $_POST['data']['idUser'];
+        $usuarioDTO->idPerfil = $_POST['data']['perfil'];
+        $usuarioDTO->email = $_POST['data']['email'];
+        $usuarioDTO->actualIdPerfil=$_POST['data']['actualIdPerfil'];
+        isset($_POST['data']['password'])?$usuarioDTO->password=$_POST['data']['password']:$usuarioDTO->password=null;
+        $this->model->asignarPerfilDTO = $usuarioDTO;
+        //Recupera los datos del servicio web
+
+
+        $this->model->editUser();
+        //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+        echo json_encode($this->model);
+    }
+
+    function cambiarEstado(){
+        $usuarioDTO = new UsuariosDTO;
+        //var_dump($_POST);die();
+        $usuarioDTO->idUser = $_POST['data']['idUser'];
+        $usuarioDTO->idSystem = $_POST['data']['idSystem'];
+        $usuarioDTO->estado = $_POST['data']['estado'];
+        $this->model->cambiarEstadoDTO = $usuarioDTO;
+        //Recupera los datos del servicio web
+
+
+        $this->model->cambiarEstado();
+        //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+        echo json_encode($this->model);
+    }
+
 
 }
 

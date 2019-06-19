@@ -113,6 +113,23 @@ class PerfilesController extends Controller
         echo json_encode($this->model);
     }
 
+    function deletePerfil(){
+        $perfilesDTO = new PerfilesDTO;
+        $perfilesDTO->idPerfil = $_POST['data']['idPerfil'];
+        $this->model->perfilesDTO = $perfilesDTO;
+        $this->model->deletePerfil();
+        echo json_encode($this->model);
+    }
+
+    function getUserPerfilSystem(){
+        $perfilesDTO = new PerfilesDTO;
+        $perfilesDTO->idSystem = $_POST['data']['idSystem'];
+        $perfilesDTO->idUser = $_POST['data']['idUser'];
+        $this->model->perfilesDTO = $perfilesDTO;
+        $this->model->getUserPerfilSystem();
+        echo json_encode($this->model);
+    }
+
 
 }
 
