@@ -1,3 +1,4 @@
+var tableUsuarios;
 $(document).ready(function () {
 
     $('#checkboxPassword').click(function() {
@@ -133,6 +134,116 @@ $(document).ready(function () {
         }
     });
 
+    $('#systemNameListarUsuarios').change(function(){
+         var id_system = $('select[name=systemNameListarUsuarios]').val();
+
+        if (id_system != "0") {
+
+        //console.log("entra" + " " + id_system);
+
+            tableUsuarios = $('#tableUsuarios').DataTable({
+                destroy: true,
+                responsive: {
+                    details: false
+                },
+                ajax: {
+                    url: 'Usuarios/usersListTable',
+                    type: 'POST',
+                    data: ({id: id_system}),
+                    dataSrc: "",
+                },
+                columns: [
+
+                    {
+                        data: null,
+                        render: function (data, type, full, meta) {
+                            console.log(data);
+                            var checked;
+                            data.enable==1?checked='checkbox':checked='';
+
+                            return '<a id="btnUpdateUser" data-toggle="modal" data-target="#modalEditarUsuario" href="" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></a> ' +
+                                '' +
+                                '<label class="switch switch-text switch-success switch-pill">\n' +
+                                '<input id="btnEnableUser" type="'+checked+'" class="switch-input" checked="true" >\n' +
+                                '<span data-on="On" data-off="Off" class="switch-label"></span>\n' +
+                                '<span class="switch-handle"></span>\n' +
+                                '</label> ';
+                                //'<a id="btnDeleteUser" title="Eliminar concepto" href="#" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></a>';
+
+                        },
+                    },
+                    {
+                        data: "idUser",
+                        visible: false,
+                        searchable: false
+                    },
+
+                    {data: "user"}
+
+                ],
+                fixedColumns: true,
+                language: {
+                    "url": "public/plugins/DataTables/Spanish.json",
+                }
+            });
+
+
+            $('#tableUsuarios tbody').off('click', '#btnUpdateUser').on('click', '#btnUpdateUser', function () {
+                var data = tableUsuarios.row(this.closest('tr')).data();
+                console.log(data);
+                $('#idUserUpdate').val(data.idUser);
+                $('#updateCorreoUsuario').val(data.user);
+                $('#updatePassUsuario').prop('disabled',true);
+                $('#password_repeat').prop('disabled',true);
+                var idPerfilActual=getUserPerfil(data.idUser,id_system);
+                $('.actualIdPerfil').val(idPerfilActual);
+                $.ajax({
+                    url: 'Perfiles/perfilesListSelect',
+                    type: 'POST',
+                    async:false,
+                    data: ({data: id_system}),
+                    success: function (response) {
+                        var respuesta=jQuery.parseJSON(response);
+                        if(respuesta.respuesta==200){
+                            var perfiles=jQuery.parseJSON(respuesta.perfilesDTO);
+                            var select=$('.perfilesEditSelect');
+                            select.empty();
+                            $.each(perfiles,function(e,i){
+                                console.log(i);
+                                select.append($('<option/>').val(i.idPerfil).text(i.perfil));
+                            });
+
+                            select.val(idPerfilActual);
+                            select.select2();
+                        }else{
+                           alertify.error('Algo salio mal');
+                        }
+                    },
+                    error: function () {
+                        alert("Error al obtener el servicio para cargar la lista");
+                    }
+                });
+               
+
+            });
+
+            $('#tableUsuarios tbody').off('click', '#btnEnableUser').on('click', '#btnEnableUser', function () {
+                var data = tableUsuarios.row(this.closest('tr')).data();
+                var id = data.idUser;
+
+                alertify.confirm("¿Desea cambiar el estado ?",
+                    function(){
+                      cabiarEstado(id,id_system,data.enable);
+                    },
+                    function(){
+                     alertify.error('Acción cancelada');
+                    }
+                );
+
+            });
+        }
+    });
+
 
 });
 
@@ -158,6 +269,8 @@ function redireccionarEstatus(optionMenu) {
     }
 }
 
+
+
 //CONSERVAR EL NOMBRE DE ESTA FUNCIÓN Y EL PARAMETRO
 function redireccionarVista(optionMenu) {
     // alert(optionMenu);
@@ -168,11 +281,13 @@ function redireccionarVista(optionMenu) {
             $('#listarUsuarios').hide();
             break;
         case 2:
+            cleanAsignarPerfiles();
             $('#nuevoUsuario').hide();
             $('#asignarPerfiles').show();
             $('#listarUsuarios').hide();
             break;
         case 3:
+            cleanListarUsuarios();
             $('#nuevoUsuario').hide();
             $('#asignarPerfiles').hide();
             $('#listarUsuarios').show();
@@ -183,6 +298,25 @@ function redireccionarVista(optionMenu) {
     }
     return false;
 }
+ 
+function cleanAsignarPerfiles(){
+   resetearSelect($('select[name=systemNameAsignarPerfil]'));
+   resetearSelect($('#perfilUser'));
+   $('.infoUsers').hide();
+   showSystemsAsignarPerfil();
+}
+
+function cleanListarUsuarios(){
+   resetearSelect($('select[name=systemNameListarUsuarios]'));
+   showSystemsListarUsuarios();
+   $('select[name=systemNameListarUsuarios]').val('').trigger('change');
+}
+
+function resetearSelect(select){
+     select.empty();
+     select.append($('<option>', { value : '' , text: 'Selecciona una opción' }));
+}
+
 
 function showSystemsNewUser() {
 
@@ -321,7 +455,6 @@ function estadoSwitch(id_user, estado) {
 //######################################################################################################
 
 function showSystemsAsignarPerfil() {
-
     $.ajax({
         url: 'Sistemas/systemListSelect',
         type: 'POST',
@@ -339,26 +472,22 @@ function showSystemsAsignarPerfil() {
             alertify.error("Error al obtener el servicio para cargar lista de sistemas");
         }
     });
-    return false;
+    //return false;
 
 }
 
 //Funciones para obtener información de los select
 $(document).on('change', '#systemNameAsignarPerfil', function () {
-
+    $('.infoUsers').hide();
     var id_sistema = $('select[name=systemNameAsignarPerfil]').val();
-
-    if (id_sistema != "0") {
-
+    resetearSelect($('#perfilUser'));
+    
+    if (id_sistema != "") {
         $.ajax({
             url: 'Perfiles/perfilesListSelect',
             type: 'POST',
             data: ({data: id_sistema}),
             success: function (response) {
-
-                //console.log(response);
-
-                $('#perfilUser').empty();
 
                 var modules = jQuery.parseJSON(response);
                 //console.log(modules);
@@ -367,7 +496,6 @@ $(document).on('change', '#systemNameAsignarPerfil', function () {
                 arreglo = jQuery.parseJSON(arreglo);
                 //console.log(typeof (arreglo));
                 var $dropdown = $("select[name$='perfilUser']");
-                $dropdown.append($("<option />").val(0).text("-- Selecciona --"));
                 for (var i = arreglo.length - 1; i >= 0; i--) {
                     $dropdown.append($("<option />").val(arreglo[i].idPerfil).text(arreglo[i].perfil));
                 }
@@ -393,9 +521,9 @@ $(document).on('change', '#perfilUser', function () {
 
     var id_system = $('select[name=systemNameAsignarPerfil]').val();
     var id_perfil = $('select[name=perfilUser]').val();
-
-    if (id_perfil != "0") {
-
+    $('.infoUsers').hide();
+    if (id_perfil != "") {
+        $('.infoUsers').show();
         //console.log("entra" + " " + id_system);
 
         tableListadoAsignacionPerfiles = $('#tableListadoAsignacionPerfiles').DataTable({
@@ -452,9 +580,9 @@ $(document).on('change', '#perfilUser', function () {
 
     var id_system = $('select[name=systemNameAsignarPerfil]').val();
     var id_perfil = $('select[name=perfilUser]').val();
-
-    if (id_perfil != "0") {
-
+    $('.infoUsers').hide();
+    if (id_perfil != "") {
+        $('.infoUsers').show();
         //console.log("entra" + " " + id_system);
 
         tableListadoAsignacionPerfilesExistentes = $('#tableListadoAsignacionPerfilesExistentes').DataTable({
@@ -562,6 +690,7 @@ function showSystemsListarUsuarios() {
             for (var i = systems.length - 1; i >= 0; i--) {
                 $dropdown.append($("<option />").val(systems[i].idSystem).text(systems[i].name));
             }
+            $dropdown.select2();
 
         },
         error: function () {
@@ -575,7 +704,7 @@ function showSystemsListarUsuarios() {
 var tableUsuarios;
 //Para DataTable
 //Funciones para obtener información de los select
-$(document).on('change', '#systemNameListarUsuarios', function () {
+/*$(document).on('change', '#systemNameListarUsuarios', function () {
 
     var id_system = $('select[name=systemNameListarUsuarios]').val();
 
@@ -684,7 +813,7 @@ $(document).on('change', '#systemNameListarUsuarios', function () {
 
         });
 
-        /*$('#tableUsuarios tbody').off('click', '#btnDeleteUser').on('click', '#btnDeleteUser', function () {
+        $('#tableUsuarios tbody').off('click', '#btnDeleteUser').on('click', '#btnDeleteUser', function () {
             var data = tableUsuarios.row(this.closest('tr')).data();
             var id = data.idUser;
 
@@ -695,12 +824,12 @@ $(document).on('change', '#systemNameListarUsuarios', function () {
                     alertify.error('Acción cancelada')
                 });
 
-        });*/
+        });
 
 
     }
 
-});
+});*/
 
 function getUserPerfil(idUser,idSystem){
    var idPerfil;

@@ -29,25 +29,17 @@
                        width="100%"
                        cellspacing="0">
                     <thead>
-                    <tr>
-                        <th>Acciones</th>
-                        <th></th>
-                        <th>Nombre</th>
-                    </tr>
+                        <tr>
+                            <th>Acciones</th>
+                            <th></th>
+                            <th>Nombre</th>
+                        </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    <tbody class="tBodyListarUsuarios">
+                       
                     </tbody>
                     <tfoot>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
+                    
                     </tfoot>
                 </table>
             </div>

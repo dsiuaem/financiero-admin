@@ -33,66 +33,53 @@
             </div>
             <div class="col col-md-2"></div>
         </div>
-
-        <div class="card-body card-block">
-            <div class="form-group">
-                <h2>Usuarios sin el perfil seleccionado asignado</h2><br><br><br>
-                <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
-                <table class="table table-striped table-bordered dt-responsive nowrap"
-                       id="tableListadoAsignacionPerfiles"
-                       width="100%"
-                       cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Nombre de usuario</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    </tfoot>
-                </table>
+        <div class="infoUsers">
+            <div class="card-body card-block">
+                <div class="form-group">
+                    <h2>Usuarios sin el perfil seleccionado asignado</h2><br><br><br>
+                    <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
+                    <table class="table table-striped table-bordered dt-responsive nowrap"
+                           id="tableListadoAsignacionPerfiles"
+                           width="100%"
+                           cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre de usuario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                       
+                        </tbody>
+                        <tfoot>
+                        
+                        </tfoot>
+                    </table>
+                </div>
             </div>
-        </div>
 
-        <hr>
-
-        <div class="card-body card-block">
-            <div class="form-group">
-                <h2>Usuarios con el perfil seleccionado asignado</h2><br><br><br>
-                <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
-                <table class="table table-striped table-bordered dt-responsive nowrap"
-                       id="tableListadoAsignacionPerfilesExistentes"
-                       width="100%"
-                       cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Nombre de usuario</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    </tfoot>
-                </table>
+            <div class="card-body card-block">
+                <div class="form-group">
+                    <h2>Usuarios con el perfil seleccionado asignado</h2><br><br><br>
+                    <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
+                    <table class="table table-striped table-bordered dt-responsive nowrap"
+                           id="tableListadoAsignacionPerfilesExistentes"
+                           width="100%"
+                           cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Nombre de usuario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        
+                        </tbody>
+                        <tfoot>
+                        
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
 
