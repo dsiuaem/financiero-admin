@@ -36,6 +36,7 @@ $(document).ready(function () {
             success: function (response) {
                var respuesta= jQuery.parseJSON(response);
                if(respuesta.respuesta==200){
+                  tableUsuarios.ajax.reload();
                   alertify.success('Usuario modificado');
                   $('#modalEditarUsuario').modal('hide');
                   //$('#actualizacionUsuario').reset();
