@@ -16,7 +16,6 @@
             <div class="col-12 col-md-8">
                 <label for="systemName" class="form-control-label">Listado de sistemas:</label>
                 <select name="systemName" id="systemName" class="form-control">
-                    <option value="0">- Seleccionar -</option>
                 </select>
             </div>
             <div class="col col-md-2"></div>
@@ -27,7 +26,6 @@
             <div class="col-12 col-md-8">
                 <label for="moduleName" class="form-control-label">Listado de módulos:</label>
                 <select name="moduleName" id="moduleName" class="form-control">
-                    <option value="0">- Seleccionar -</option>
                 </select>
             </div>
             <div class="col col-md-2"></div>

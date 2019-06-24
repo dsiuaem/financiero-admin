@@ -13,7 +13,6 @@
     <div class="col-12 col-md-8">
         <label for="systemNameTable" class="form-control-label">Seleccionar sistema: </label>
         <select name="systemNameTable" id="systemNameTable" class="form-control">
-            <option value="0">- Seleccionar -</option>
         </select>
     </div>
     <div class="col col-md-2"></div>
@@ -24,7 +23,6 @@
     <div class="col-12 col-md-8">
         <label for="moduleListTable" class="form-control-label">Seleccionar módulo: </label>
         <select name="moduleListTable" id="moduleListTable" class="form-control">
-            <option value="0">- Seleccionar -</option>
         </select>
     </div>
     <div class="col col-md-2"></div>
@@ -35,13 +33,12 @@
     <div class="col-12 col-md-8">
         <label for="submoduleListTable" class="form-control-label">Seleccionar submodulo: </label>
         <select name="submoduleListTable" id="submoduleListTable" class="form-control">
-            <option value="0">- Seleccionar -</option>
         </select>
     </div>
     <div class="col col-md-2"></div>
 </div>
 
-<div class="card-body card-block">
+<div class="card-body card-block listTableOption">
     <div class="form-group">
         <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
         <table class="table table-striped table-bordered dt-responsive nowrap" id="tableOpciones" width="100%"
@@ -55,20 +52,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+
             </tbody>
             <tfoot>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
+
             </tfoot>
         </table>
     </div>

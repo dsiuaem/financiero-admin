@@ -33,7 +33,7 @@ class SistemasController extends Controller
         $sistemasDTO = new SistemasDTO;
         //$SistemasDTO->idUser = $_SESSION["idUsuarioADMIN"];
         $sistemasDTO->name = $_POST['datos']['nombreSistema'];
-        $sistemasDTO->icon = $_POST['datos']['iconoSistema']['name'];
+        //$sistemasDTO->icon = $_POST['datos']['iconoSistema']['name'];
         $this->model->insertSystemtDTO = $sistemasDTO;
         //Recupera los datos del servicio web
 

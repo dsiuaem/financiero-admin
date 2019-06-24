@@ -21,30 +21,30 @@
             </div>
             <div class="col col-md-2"></div>
         </div>
-
-        <div class="card-body card-block">
-            <div class="form-group">
-                <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
-                <table class="table table-striped table-bordered dt-responsive nowrap" id="tableUsuarios"
-                       width="100%"
-                       cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Acciones</th>
-                            <th></th>
-                            <th>Nombre</th>
-                        </tr>
-                    </thead>
-                    <tbody class="tBodyListarUsuarios">
-                       
-                    </tbody>
-                    <tfoot>
-                    
-                    </tfoot>
-                </table>
-            </div>
-        </div>
     </form>
+
+    <div class="card-body card-block listaUsuarios" >
+        <div class="form-group">
+            <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
+            <table class="table table-striped table-bordered dt-responsive nowrap" id="tableUsuarios"
+                   width="100%"
+                   cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Acciones</th>
+                        <th></th>
+                        <th>Nombre</th>
+                    </tr>
+                </thead>
+                <tbody class="tBodyListarUsuarios">
+                   
+                </tbody>
+                <tfoot>
+                
+                </tfoot>
+            </table>
+        </div>
+    </div>
 </div>
 
 <!-- MODAL AGREGAR XML -->

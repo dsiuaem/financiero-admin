@@ -45,90 +45,46 @@
             <div class="col col-md-2"></div>
         </div>
 
-        <div class="row form-group">
-            <div class="col col-md-2"></div>
-            <div class="col-12 col-md-8">
-                <div name="modulospo" id="modulospo">
+        <div class="modal fade" id="modalAddPerfil" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-indexi: 1300;" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar perfil</h4>
+                        <button style="color: white;" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-3" style=" max-height: calc(100vh - 210px); overflow-y: auto;">
+                        <div class="row form-group">
+                            <div class="col col-md-2"></div>
+                            <div class="col-12 col-md-8">
+                                <div name="modulospo" id="modulospo">
+
+                                </div>
+                            </div>
+                            <div class="col col-md-2"></div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                           <button type="button" style="" id="" name="" data-dismiss="modal" class="btn btn-danger">
+                               <i class="fa fa-times"></i> Cerrar
+                            </button>
+                    </div>
 
                 </div>
-                <div name="submodulos" id="submodulos">
-
-                </div>
-                <div name="opciones" id="opciones">
-
-                </div>
-                <div name="tipoOpciones" id="tipoOpciones">
-
-                </div>
-                <ul>
-                    <li name="checkModulos" id="checkModulos">
-                        <ul>
-                            <li name="checkSubModulos" id="checkSubModulos">
-                                <ul>
-                                    <li name="checkOpciones" id="checkOpciones">
-                                        <ul>
-                                            <li name="checkTipoOpciones" id="checkTipoOpciones">
-
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
             </div>
-            <div class="col col-md-2"></div>
         </div>
 
+        <div class="container">
+             <center>
+                 <a href="#" class="btn btn-info opcsPerfil" data-toggle="modal" data-target="#modalAddPerfil"  style="display:none">Ver opciones</a>
+             </center>
+        </div>
+        <hr>
         <div align="center">
             <button id="btnSavePerfil" name="btnSavePerfil" class="btn btn-primary">Guardar</button>
         </div>
 
     </form>
 </div>
-
-<!--
-<div class="row form-group">
-    <div class="col col-md-2"></div>
-    <div class="col-12 col-md-8">
-        <ul>
-            <li>
-                <input type="checkbox" name="tall" id="tall">
-                <label for="tall">Módulos</label>
-
-                <ul>
-                    <li>
-                        <input type="checkbox" name="tall-1" id="tall-1">
-                        <label for="tall-1">Submodulos</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" name="tall-2" id="tall-2">
-                        <label for="tall-2">Submodulos</label>
-
-                        <ul>
-                            <li>
-                                <input type="checkbox" name="tall-2-1" id="tall-2-1">
-                                <label for="tall-2-1">Opciones</label>
-                                <ul>
-                                    <li>
-                                        <input type="checkbox" name="tall-2-2" id="tall-2-2">
-                                        <label for="tall-2-1">Tipo opciones</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" name="tall-2-2" id="tall-2-2">
-                                        <label for="tall-2-1">Tipo opciones2</label>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-    <div class="col col-md-2"></div>
-</div>
--->
-
-

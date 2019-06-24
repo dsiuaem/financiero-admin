@@ -24,7 +24,6 @@
     <div class="col-12 col-md-8">
         <label for="moduleListTable" class="form-control-label">Listado de módulos:</label>
         <select name="moduleListTable" id="moduleListTable" class="form-control">
-            <option value="0">- Seleccionar -</option>
         </select>
     </div>
     <div class="col col-md-2"></div>
@@ -35,7 +34,6 @@
     <div class="col-12 col-md-8">
         <label for="submoduleListTable" class="form-control-label">Listado de submodulos:</label>
         <select name="submoduleListTable" id="submoduleListTable" class="form-control">
-            <option value="0">- Seleccionar -</option>
         </select>
     </div>
     <div class="col col-md-2"></div>
@@ -46,40 +44,29 @@
     <div class="col-12 col-md-8">
         <label for="optionNameTable" class="form-control-label">Listado de opciones:</label>
         <select name="optionNameTable" id="optionNameTable" class="form-control">
-            <option value="0">- Seleccionar -</option>
         </select>
     </div>
     <div class="col col-md-2"></div>
 </div>
 
-<div class="card-body card-block">
+<div class="card-body card-block listTableTipoOptions">
     <div class="form-group">
         <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
         <table class="table table-striped table-bordered dt-responsive nowrap" id="tableTipoOpciones" width="100%"
                cellspacing="0">
             <thead>
-            <tr>
-                <th>Acciones</th>
-                <th></th>
-                <th>Tipo opciones registradas</th>
-                <th>Tipo</th>
-            </tr>
+                <tr>
+                    <th>Acciones</th>
+                    <th></th>
+                    <th>Tipo opciones registradas</th>
+                    <th>Tipo</th>
+                </tr>
             </thead>
             <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+            
             </tbody>
             <tfoot>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
+            
             </tfoot>
         </table>
     </div>

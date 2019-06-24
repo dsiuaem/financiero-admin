@@ -13,7 +13,6 @@
     <div class="col-12 col-md-8">
         <label for="systemNameTable" class="form-control-label">Seleccionar sistema: </label>
         <select name="systemNameTable" id="systemNameTable" class="form-control">
-            <option value="0">- Seleccionar -</option>
         </select>
     </div>
     <div class="col col-md-2"></div>
@@ -24,40 +23,29 @@
     <div class="col-12 col-md-8">
         <label for="moduleNameTable" class="form-control-label">Seleccionar módulo: </label>
         <select name="moduleNameTable" id="moduleNameTable" class="form-control">
-            <option value="0">- Seleccionar -</option>
         </select>
     </div>
     <div class="col col-md-2"></div>
 </div>
 
-<div class="card-body card-block">
+<div class="card-body card-block tableSubModulosSystem">
     <div class="form-group">
         <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
         <table class="table table-striped table-bordered dt-responsive nowrap" id="tableSubmodulos" width="100%"
                cellspacing="0">
             <thead>
-            <tr>
-                <th>Editar</th>
-                <th></th>
-                <th>Submodulos registrados</th>
-                <th>Controlador</th>
-            </tr>
+              <tr>
+                  <th>Editar</th>
+                  <th></th>
+                  <th>Submodulos registrados</th>
+                  <th>Controlador</th>
+              </tr>
             </thead>
             <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+
             </tbody>
             <tfoot>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
+            
             </tfoot>
         </table>
     </div>
@@ -117,5 +105,3 @@
 </div>
 </div>
 <!-- FIN MODAL AGREGAR XML -->
-
-

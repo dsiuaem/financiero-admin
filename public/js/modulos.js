@@ -1,3 +1,4 @@
+var tableModulos;
 $(document).ready(function () {
     alertify.set('notifier', 'position', 'top-right');
     // oculta las vistas del usuario hasta que el cambie la vista
@@ -55,6 +56,117 @@ $(document).ready(function () {
         }
     });
 
+    $('#systemNameTable').change(function(){
+      var id_sistema = $('select[name=systemNameTable]').val();
+      $('.listModulosSystem').hide();
+      if (id_sistema != "") {
+          $('.listModulosSystem').show();
+          tableModulos = $('#tableModulos').DataTable({
+              destroy: true,
+              responsive: {
+                  details: false
+              },
+              ajax: {
+                  url: 'Modulos/moduleListTable',
+                  type: 'POST',
+                  data: ({id: id_sistema}),
+                  dataSrc: "",
+              },
+              columns: [
+                  {
+                      data: null,
+                      render: function (data, type, row) {
+                          console.log(data);
+                          if (data.enable == 1) {
+
+                              var estado = "checkbox";
+
+                          } else if (data.enable == 0) {
+
+                              var estado = "";
+
+                          }
+
+                          return '<button id="btnUpdateModule" data-toggle="modal" data-target="#modalEditarModulo" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></button> ' +
+                              '' +
+                              '<label class="switch switch-text switch-success switch-pill">\n' +
+                              '<input id="btnEnableModule" type="' + estado + '" class="switch-input" checked="true">\n' +
+                              '<span data-on="On" data-off="Off" class="switch-label"></span>\n' +
+                              '<span class="switch-handle"></span>\n' +
+                              '</label> ';
+                              /*'' +
+                              '<button id="btnDeleteModule" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';*/
+
+                      }
+                  },
+                  {
+                      data: "idModule",
+                      visible: false,
+                      searchable: false
+                  },
+                  {data: "name"},
+                  {data: "description"},
+                  {data: "moduleMenu"}
+
+              ],
+              fixedColumns: true,
+              language: {
+                  "url": "public/plugins/DataTables/Spanish.json",
+              }
+          });
+
+          $('#tableModulos tbody').off('click', '#btnUpdateModule').on('click', '#btnUpdateModule', function () {
+              var data = tableModulos.row(this.closest('tr')).data();
+              //console.log(data);
+
+              document.getElementById('updateNameModule').value = data.name;
+              document.getElementById('updateDescription').value = data.description;
+              document.getElementById('updateNameModuleMenu').value = data.moduleMenu;
+              document.getElementById('idModuleUpdate').value = data.idModule;
+
+              //confirmEliminar(data["idConcepto"], (data["descripcion"]));
+          });
+
+          $('#tableModulos tbody').off('click', '#btnEnableModule').on('click', '#btnEnableModule', function () {
+              var data = tableModulos.row(this.closest('tr')).data();
+
+              var id = data.idModule;
+              var estado = data.enable;
+
+              if (estado == 1) {
+
+                  var texto = "Desactivar";
+
+              } else if (estado == 0) {
+
+                  var texto = "Activar";
+
+              }
+
+              alertify.confirm(texto + ' el módulo seleccionado ', function () {
+                      estadoSwitch(id, estado);
+                  }
+                  , function () {
+                      alertify.error('Acción cancelada')
+                  });
+
+          });
+
+          $('#tableModulos tbody').off('click', '#btnDeleteModule').on('click', '#btnDeleteModule', function () {
+              var data = tableModulos.row(this.closest('tr')).data();
+              var id = data.idModule;
+
+              alertify.confirm('Eliminar el módulo seleccionado ', function () {
+                      deleteModulo(id);
+                  }
+                  , function () {
+                      alertify.error('Acción cancelada')
+                  });
+
+          });
+
+      }
+    });
 
 });
 
@@ -77,10 +189,12 @@ function redireccionarVista(optionMenu) {
     // alert(optionMenu);
     switch (optionMenu) {
         case 1:
+            cleanAddModulo();
             $('#registrar').show();
             $('#listarModulos').hide();
             break;
         case 2:
+            cleanListModulos();
             $('#registrar').hide();
             $('#listarModulos').show();
             //redireccionarEstatus(1);
@@ -92,6 +206,28 @@ function redireccionarVista(optionMenu) {
     return false;
 }
 
+function cleanAddModulo(){
+   $('#registroModulos')[0].reset();
+   resetearSelect($('#systemName'));
+   showSystems();
+
+}
+
+function resetearSelect(select){
+     select.empty();
+     select.append($('<option>', { value : '' , text: 'Selecciona una opción' }));
+     select.select2();
+}
+
+
+
+function cleanListModulos(){
+    resetearSelect($('#systemNameTable'));
+    $('.listModulosSystem').hide();
+    showSystemsTable();
+}
+
+
 //Funcion para llevar a cabo el registro de un sistema
 function saveRegistroModulos() {
     var texto = $('#registroModulos').serializeArray();
@@ -100,14 +236,7 @@ function saveRegistroModulos() {
         data[obj.name] = obj.value;
     });
 
-    //console.log(data);
-
-    //console.log("hola");
-
-    //console.log(data.systemName);
-
-
-    if (data.systemName != 0) {
+    if (data.systemName != '') {
 
         $.ajax({
             url: 'Modulos/registrarModulo',
@@ -119,12 +248,9 @@ function saveRegistroModulos() {
 
                 var obj = jQuery.parseJSON(response);
                 if (obj.respuesta == 200) {
-                    //Resetear formulario
-                    resetForm();
-                    //Recargar tabla
-                    tableModulos.ajax.reload();
+                    cleanAddModulo();
+                    //tableModulos.ajax.reload();
                     alertify.success("Módulo registrado exitosamente");
-                    return false;
                 } else {
                     //alert("Error al insertar los datos");
                     alertify.error("Error al registrar el módulo");
@@ -196,7 +322,6 @@ function deleteModulo(id_module) {
                 //Recargar tabla
                 tableModulos.ajax.reload();
                 alertify.success("Módulo eliminado exitosamente");
-                return false;
             } else {
                 alertify.error("Error al eliminar el módulo");
             }
@@ -220,7 +345,11 @@ function estadoSwitch(id_module, estado) {
             if (obj.respuesta == 200) {
                 //Función para recargar tabla
                 tableModulos.ajax.reload();
-                return false;
+                if(estado==1){
+                    alertify.success('Módulo desactivado');
+                }else{
+                    alertify.success('Módulo activado');
+                }
             } else {
                 alertify.error("Error en la acción");
             }
@@ -251,6 +380,7 @@ function showSystems() {
             for (var i = systems.length - 1; i >= 0; i--) {
                 $dropdown.append($("<option />").val(systems[i].idSystem).text(systems[i].name));
             }
+            $dropdown.select2();
 
         },
         error: function () {
@@ -274,6 +404,7 @@ function showSystemsTable() {
             for (var i = systems.length - 1; i >= 0; i--) {
                 $dropdown.append($("<option />").val(systems[i].idSystem).text(systems[i].name));
             }
+            $dropdown.select2();
 
         },
         error: function () {
@@ -284,15 +415,14 @@ function showSystemsTable() {
 
 }
 
-var tableModulos;
 //Para DataTable
 //Funciones para obtener información de los select
-$(document).on('change', '#systemNameTable', function () {
+/*$(document).on('change', '#systemNameTable', function () {
 
     var id_sistema = $('select[name=systemNameTable]').val();
-
-    if (id_sistema != "0") {
-
+    $('.listModulosSystem').hide();
+    if (id_sistema != "") {
+        $('.listModulosSystem').show();
         tableModulos = $('#tableModulos').DataTable({
             destroy: true,
             responsive: {
@@ -399,8 +529,4 @@ $(document).on('change', '#systemNameTable', function () {
 
     }
 
-});
-
-
-
-
+});*/

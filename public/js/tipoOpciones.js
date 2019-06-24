@@ -1,3 +1,4 @@
+var tableTipoOpciones;
 $(document).ready(function () {
     alertify.set('notifier', 'position', 'top-right');
     // oculta las vistas del usuario hasta que el cambie la vista
@@ -15,8 +16,8 @@ $(document).ready(function () {
     $('#optionNameTable').prop('disabled', 'disabled');
 
     //Mostrar información en el select
-    showSystems();
-    showSystemsTable();
+    //showSystems();
+    //showSystemsTable();
 
     //jquery validator donde se corroboran que los datos esten introducidos y ningun campo se vaya en vacio
     $('form[id="registroTipoOpciones"]').validate({
@@ -63,6 +64,306 @@ $(document).ready(function () {
         }
     });
 
+    $('#systemNameTable').change(function(){
+        var id_sistema = $('select[name=systemNameTable]').val();
+        $('.listTableTipoOptions').hide();
+        resetearSelect($('#moduleListTable'));
+        resetearSelect($('#submoduleListTable'));
+        resetearSelect($('#optionNameTable'));
+        $('#moduleListTable').prop('disabled', false);
+        $('#submoduleListTable').prop('disabled', true);
+        $('#optionNameTable').prop('disabled', true);
+        if (id_sistema != "") {
+            $.ajax({
+                url: 'Modulos/moduleListSelect',
+                type: 'POST',
+                data: ({data: id_sistema}),
+                success: function (response) {
+                    var modules = jQuery.parseJSON(response);
+                    var arreglo = modules.modulosDTO;
+                    arreglo = jQuery.parseJSON(arreglo);
+                    var $dropdown = $("select[name$='moduleListTable']");;
+                    for (var i = arreglo.length - 1; i >= 0; i--) {
+                        $dropdown.append($("<option />").val(arreglo[i].idModule).text(arreglo[i].name));
+                    }
+                },
+                error: function () {
+                    alert("Error al obtener el servicio para cargar lista de módulos");
+                }
+            });
+
+        } else {
+            $('#moduleListTable').prop('disabled', 'disabled');
+
+        }
+    });
+
+    $('#moduleListTable').change(function () {
+        var id_module = $('select[name=moduleListTable]').val();
+        $('.listTableTipoOptions').hide();
+        resetearSelect($('#submoduleListTable'));
+        resetearSelect($('#optionNameTable'));
+        $('#submoduleListTable').prop('disabled', false);
+        $('#optionNameTable').prop('disabled', true);
+        if (id_module != "") {
+            $('#submoduleListTable').prop('disabled', false);
+            $.ajax({
+                url: 'Submodulos/submoduleListSelect',
+                type: 'POST',
+                data: ({data: id_module}),
+                success: function (response) {
+                    var modules = jQuery.parseJSON(response);
+                    var arreglo = modules.submodulosDTO;
+                    arreglo = jQuery.parseJSON(arreglo);
+                    var $dropdown = $("select[name$='submoduleListTable']");
+                    for (var i = arreglo.length - 1; i >= 0; i--) {
+                        $dropdown.append($("<option />").val(arreglo[i].idSubModule).text(arreglo[i].name));
+                    }
+                },
+                error: function () {
+                    alert("Error al obtener el servicio para cargar lista de submodulos");
+                }
+            });
+        } else {
+            $('#submoduleListTable').prop('disabled', 'disabled');
+        }
+    });
+
+    $('#submoduleListTable').change(function(){
+        var id_submodule = $('select[name=submoduleListTable]').val();
+        $('.listTableTipoOptions').hide();
+        resetearSelect($('#optionNameTable'));
+        $('#optionNameTable').prop('disabled', false);
+        if (id_submodule != "") {
+            $.ajax({
+                url: 'Opciones/opcionesListSelect',
+                type: 'POST',
+                data: ({data: id_submodule}),
+                success: function (response) {
+                    var modules = jQuery.parseJSON(response);
+                    var arreglo = modules.opcionesDTO;
+                    arreglo = jQuery.parseJSON(arreglo);
+                    var $dropdown = $("select[name$='optionNameTable']");
+                    for (var i = arreglo.length - 1; i >= 0; i--) {
+                        $dropdown.append($("<option />").val(arreglo[i].idModuleOption).text(arreglo[i].name));
+                    }
+                },
+                error: function () {
+                    alert("Error al obtener el servicio para cargar lista de submodulos");
+                }
+            });
+
+        } else {
+            $('#optionNameTable').prop('disabled', 'disabled');
+        }
+    });
+
+    $('#optionNameTable').change(function(){
+        $('.listTableTipoOptions').show();
+        var id_opcion = $('select[name=optionNameTable]').val();
+        if (id_opcion != "") {
+            tableTipoOpciones = $('#tableTipoOpciones').DataTable({
+                destroy: true,
+                responsive: {
+                    details: false
+                },
+                ajax: {
+                    url: 'TipoOpciones/tipoOpcionesListTable',
+                    type: 'POST',
+                    data: ({id: id_opcion}),
+                    dataSrc: "",
+                },
+                columns: [
+
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+
+                            if (data.enable == 1) {
+
+                                var estado = "checkbox";
+
+                            } else if (data.enable == 0) {
+
+                                var estado = "";
+
+                            }
+
+                            return '<button id="btnUpdateTipoOption" data-toggle="modal" data-target="#modalEditarTipoOpciones" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></button> ' +
+                                '' +
+                                '<label class="switch switch-text switch-success switch-pill">\n' +
+                                '<input id="btnEnableTipoOption" type="' + estado + '" class="switch-input" checked="true">\n' +
+                                '<span data-on="On" data-off="Off" class="switch-label"></span>\n' +
+                                '<span class="switch-handle"></span>\n' +
+                                '</label> ';
+
+                        }
+                    },
+                    {
+                        data: "idTipoOption",
+                        visible: false,
+                        searchable: false
+                    },
+
+                    {data: "name"},
+                    {data: "tipo"}
+
+                ],
+                fixedColumns: true,
+                language: {
+                    "url": "public/plugins/DataTables/Spanish.json",
+                }
+            });
+
+            $('#tableTipoOpciones tbody').off('click', '#btnUpdateTipoOption').on('click', '#btnUpdateTipoOption', function () {
+                var data = tableTipoOpciones.row(this.closest('tr')).data();
+                var type = data.tipo;
+                document.getElementById('updateNameTypeOption').value = data.name;
+                if (type == 1) {
+                    $(function () {
+                        $("#updateTypeOne").prop("checked", true);
+                    });
+
+                } else if (type == 2) {
+                    $(function () {
+                        $("#updateTypeTwo").prop("checked", true);
+                    });
+                }
+                document.getElementById('idTipoOpcionesUpdate').value = data.idTipoOption;
+            });
+
+            $('#tableTipoOpciones tbody').off('click', '#btnEnableTipoOption').on('click', '#btnEnableTipoOption', function () {
+                var data = tableTipoOpciones.row(this.closest('tr')).data();
+                var id = data.idTipoOption;
+                var estado = data.enable;
+
+                if (estado == 1) {
+
+                    var texto = "Desactivar";
+
+                } else if (estado == 0) {
+
+                    var texto = "Activar";
+
+                }
+
+                alertify.confirm(texto + ' el tipo opción seleccionado ', function () {
+                        estadoSwitch(id, estado);
+                    }
+                    , function () {
+                        alertify.error('Acción cancelada')
+                    });
+
+
+            });
+
+            $('#tableTipoOpciones tbody').off('click', '#btnDeleteTipoOption').on('click', '#btnDeleteTipoOption', function () {
+                var data = tableTipoOpciones.row(this.closest('tr')).data();
+                var id = data.idTipoOption;
+                alertify.confirm('Eliminar el tipo opción seleccionado ', function () {
+                        deleteTipoOpcion(id);
+                    }
+                    , function () {
+                        alertify.error('Acción cancelada')
+                    });
+
+            });
+
+        }
+
+    });
+
+    $('#systemName').change(function(){
+        var id_sistema = $('select[name=systemName]').val();
+        resetearSelect($('#moduleName'));
+        resetearSelect($('#submoduleName'));
+        resetearSelect($('#optionName'));
+        $('#moduleName').prop('disabled', false);
+        $('#submoduleName').prop('disabled', true);
+        $('#optionName').prop('disabled', true);
+        if (id_sistema != "") {
+            $.ajax({
+                url: 'Modulos/moduleListSelect',
+                type: 'POST',
+                data: ({data: id_sistema}),
+                success: function (response) {
+                    var modules = jQuery.parseJSON(response);
+                    var arreglo = modules.modulosDTO;
+                    arreglo = jQuery.parseJSON(arreglo);
+                    var $dropdown = $("select[name$='moduleName']");
+                    for (var i = arreglo.length - 1; i >= 0; i--) {
+                        $dropdown.append($("<option />").val(arreglo[i].idModule).text(arreglo[i].name));
+                    }
+                },
+                error: function () {
+                    alert("Error al obtener el servicio para cargar lista de módulos");
+                }
+            });
+        } else {
+            $('#moduleName').prop('disabled', 'disabled');
+        }
+    });
+
+    $('#moduleName').change(function () {
+        var id_module = $('select[name=moduleName]').val();
+        resetearSelect($('#submoduleName'));
+        resetearSelect($('#optionName'));
+        $('#submoduleName').prop('disabled', false);
+        $('#optionName').prop('disabled', true);
+        if (id_module != "") {
+            $.ajax({
+                url: 'Submodulos/submoduleListSelect',
+                type: 'POST',
+                data: ({data: id_module}),
+                success: function (response) {
+                    $('#submoduleName').empty();
+                    var modules = jQuery.parseJSON(response);
+                    var arreglo = modules.submodulosDTO;
+                    arreglo = jQuery.parseJSON(arreglo);
+                    var $dropdown = $("select[name$='submoduleName']");
+                    for (var i = arreglo.length - 1; i >= 0; i--) {
+                        $dropdown.append($("<option />").val(arreglo[i].idSubModule).text(arreglo[i].name));
+                    }
+
+                },
+                error: function () {
+                    alert("Error al obtener el servicio para cargar lista de submodulos");
+                }
+            });
+
+        } else {
+            $('#submoduleName').prop('disabled', 'disabled');
+        }
+    });
+
+    //Funciones para obtener información de los select
+    $('#submoduleName').change(function(){
+        var id_submodule = $('select[name=submoduleName]').val();
+        resetearSelect($('#optionName'));
+        $('#optionName').prop('disabled', false);
+        if (id_submodule != "") {
+            $.ajax({
+                url: 'Opciones/opcionesListSelect',
+                type: 'POST',
+                data: ({data: id_submodule}),
+                success: function (response) {
+                    var modules = jQuery.parseJSON(response);
+                    var arreglo = modules.opcionesDTO;
+                    arreglo = jQuery.parseJSON(arreglo);
+                    var $dropdown = $("select[name$='optionName']");
+                    for (var i = arreglo.length - 1; i >= 0; i--) {
+                        $dropdown.append($("<option />").val(arreglo[i].idModuleOption).text(arreglo[i].name));
+                    }
+                },
+                error: function () {
+                    alert("Error al obtener el servicio para cargar lista de submodulos");
+                }
+            });
+        } else {
+            $('#optionName').prop('disabled', 'disabled');
+        }
+    });
+
 });
 
 //CONSERVAR EL NOMBRE DE ESTA FUNCIÓN Y EL PARAMETRO
@@ -84,10 +385,12 @@ function redireccionarVista(optionMenu) {
     // alert(optionMenu);
     switch (optionMenu) {
         case 1:
+            cleanNewTipoOption();
             $('#registrar').show();
             $('#listarTipoOpciones').hide();
             break;
         case 2:
+            cleanListTipoOptions();
             $('#registrar').hide();
             $('#listarTipoOpciones').show();
             //redireccionarEstatus(1);
@@ -99,16 +402,38 @@ function redireccionarVista(optionMenu) {
     return false;
 }
 
+function cleanNewTipoOption(){
+   $('#registroTipoOpciones')[0].reset();
+   resetearSelect($('#systemName'));
+   resetearSelect($('#moduleName'));
+   resetearSelect($('#submoduleName'));
+   resetearSelect($('#optionName'));
+   showSystems();   
+}
+
+function cleanListTipoOptions(){
+   resetearSelect($('#systemNameTable'));
+   resetearSelect($('#moduleListTable'));
+   resetearSelect($('#submoduleListTable'));
+   resetearSelect($('#optionNameTable'));
+   showSystemsTable();
+   $('.listTableTipoOptions').hide();
+
+}
+
+function resetearSelect(select){
+    select.empty();
+    select.append($('<option>', { value : '' , text: 'Selecciona una opción' }));
+    select.select2();
+}
+
 //Funcion para llevar a cabo el registro de un sistema
 function saveRegistroTipoOpciones() {
-
     var texto = $('#registroTipoOpciones').serializeArray();
     var data = {};
     $(texto).each(function (index, obj) {
         data[obj.name] = obj.value;
     });
-
-    //console.log(data);
 
     if (data.systemName != 0) {
 
@@ -123,15 +448,11 @@ function saveRegistroTipoOpciones() {
                         type: 'POST',
                         data: ({datos: data}),
                         success: function (response) {
-
                             console.log(response);
-
                             var obj = jQuery.parseJSON(response);
                             if (obj.respuesta == 200) {
-                                tableTipoOpciones.ajax.reload();
-                                resetForm();
+                                cleanNewTipoOption();
                                 alertify.success("Tipo opción registrado exitosamente");
-                                return false;
                             } else {
                                 //alert("Error al insertar los datos");
                                 alertify.error("Error al registrar tipo opción");
@@ -244,7 +565,7 @@ function estadoSwitch(id_typeOption, estado) {
             if (obj.respuesta == 200) {
                 //Función para recargar tabla
                 tableTipoOpciones.ajax.reload();
-                return false;
+                alertify.success('Estado modificado');
             } else {
                 alertify.error("Error en la acción");
             }
@@ -325,156 +646,6 @@ function showSystems() {
 
 }
 
-//Funciones para obtener información de los select
-$(document).on('change', '#systemName', function () {
-
-    var id_sistema = $('select[name=systemName]').val();
-
-    if (id_sistema != "0") {
-        $('#moduleName').prop('disabled', false);
-
-        $.ajax({
-            url: 'Modulos/moduleListSelect',
-            type: 'POST',
-            data: ({data: id_sistema}),
-            success: function (response) {
-
-                $('#moduleName').empty();
-
-                var modules = jQuery.parseJSON(response);
-                //console.log(modules);
-                var arreglo = modules.modulosDTO;
-                //console.log(typeof (arreglo));
-                arreglo = jQuery.parseJSON(arreglo);
-                //console.log(typeof (arreglo));
-                var $dropdown = $("select[name$='moduleName']");
-                $dropdown.append($("<option />").val(0).text("-- Selecciona --"));
-                for (var i = arreglo.length - 1; i >= 0; i--) {
-                    $dropdown.append($("<option />").val(arreglo[i].idModule).text(arreglo[i].name));
-                }
-
-                /*
-                var modules = jQuery.parseJSON(response.modulosDTO);
-                var $dropdown = $("select[name$='moduleName']");
-                for (var i = modules.length - 1; i >= 0; i--) {
-                    $dropdown.append($("<option />").val(modules[i].idModule).text(modules[i].name));
-                }
-
-                 */
-
-            },
-            error: function () {
-                alert("Error al obtener el servicio para cargar lista de módulos");
-            }
-        });
-
-    } else {
-        $('#moduleName').prop('disabled', 'disabled');
-    }
-
-
-});
-
-//Funciones para obtener información de los select
-$(document).on('change', '#moduleName', function () {
-
-    var id_module = $('select[name=moduleName]').val();
-
-    if (id_module != "0") {
-        $('#submoduleName').prop('disabled', false);
-
-        $.ajax({
-            url: 'Submodulos/submoduleListSelect',
-            type: 'POST',
-            data: ({data: id_module}),
-            success: function (response) {
-
-                $('#submoduleName').empty();
-
-                var modules = jQuery.parseJSON(response);
-                //console.log(modules);
-                var arreglo = modules.submodulosDTO;
-                //console.log(typeof (arreglo));
-                arreglo = jQuery.parseJSON(arreglo);
-                //console.log(typeof (arreglo));
-                var $dropdown = $("select[name$='submoduleName']");
-                $dropdown.append($("<option />").val(0).text("-- Selecciona --"));
-                for (var i = arreglo.length - 1; i >= 0; i--) {
-                    $dropdown.append($("<option />").val(arreglo[i].idSubModule).text(arreglo[i].name));
-                }
-
-                /*
-                var modules = jQuery.parseJSON(response.modulosDTO);
-                var $dropdown = $("select[name$='moduleName']");
-                for (var i = modules.length - 1; i >= 0; i--) {
-                    $dropdown.append($("<option />").val(modules[i].idModule).text(modules[i].name));
-                }
-
-                 */
-
-            },
-            error: function () {
-                alert("Error al obtener el servicio para cargar lista de submodulos");
-            }
-        });
-
-    } else {
-        $('#submoduleName').prop('disabled', 'disabled');
-    }
-
-
-});
-
-//Funciones para obtener información de los select
-$(document).on('change', '#submoduleName', function () {
-
-    var id_submodule = $('select[name=submoduleName]').val();
-
-    if (id_submodule != "0") {
-        $('#optionName').prop('disabled', false);
-
-        $.ajax({
-            url: 'Opciones/opcionesListSelect',
-            type: 'POST',
-            data: ({data: id_submodule}),
-            success: function (response) {
-
-                $('#optionName').empty();
-
-                var modules = jQuery.parseJSON(response);
-                //console.log(modules);
-                var arreglo = modules.opcionesDTO;
-                //console.log(typeof (arreglo));
-                arreglo = jQuery.parseJSON(arreglo);
-                //console.log(typeof (arreglo));
-                var $dropdown = $("select[name$='optionName']");
-                $dropdown.append($("<option />").val(0).text("-- Selecciona --"));
-                for (var i = arreglo.length - 1; i >= 0; i--) {
-                    $dropdown.append($("<option />").val(arreglo[i].idModuleOption).text(arreglo[i].name));
-                }
-
-                /*
-                var modules = jQuery.parseJSON(response.modulosDTO);
-                var $dropdown = $("select[name$='moduleName']");
-                for (var i = modules.length - 1; i >= 0; i--) {
-                    $dropdown.append($("<option />").val(modules[i].idModule).text(modules[i].name));
-                }
-
-                 */
-
-            },
-            error: function () {
-                alert("Error al obtener el servicio para cargar lista de submodulos");
-            }
-        });
-
-    } else {
-        $('#optionName').prop('disabled', 'disabled');
-    }
-
-
-});
-
 //#################################################################################
 //Despliegue en DATATABLES
 function showSystemsTable() {
@@ -500,311 +671,5 @@ function showSystemsTable() {
 
 }
 
-//############################################################################################
-//Despliegue en DATATABLES
-//Funciones para obtener información de los select
-$(document).on('change', '#systemNameTable', function () {
 
-    var id_sistema = $('select[name=systemNameTable]').val();
-
-    if (id_sistema != "0") {
-        $('#moduleListTable').prop('disabled', false);
-
-        $.ajax({
-            url: 'Modulos/moduleListSelect',
-            type: 'POST',
-            data: ({data: id_sistema}),
-            success: function (response) {
-
-                $('#moduleListTable').empty();
-
-                var modules = jQuery.parseJSON(response);
-                //console.log(modules);
-                var arreglo = modules.modulosDTO;
-                //console.log(typeof (arreglo));
-                arreglo = jQuery.parseJSON(arreglo);
-                //console.log(typeof (arreglo));
-                var $dropdown = $("select[name$='moduleListTable']");
-                $dropdown.append($("<option />").val(0).text("-- Selecciona --"));
-                for (var i = arreglo.length - 1; i >= 0; i--) {
-                    $dropdown.append($("<option />").val(arreglo[i].idModule).text(arreglo[i].name));
-                }
-
-                /*
-                var modules = jQuery.parseJSON(response.modulosDTO);
-                var $dropdown = $("select[name$='moduleName']");
-                for (var i = modules.length - 1; i >= 0; i--) {
-                    $dropdown.append($("<option />").val(modules[i].idModule).text(modules[i].name));
-                }
-
-                 */
-
-            },
-            error: function () {
-                alert("Error al obtener el servicio para cargar lista de módulos");
-            }
-        });
-
-    } else {
-        $('#moduleListTable').prop('disabled', 'disabled');
-    }
-
-
-});
-
-//Funciones para obtener información de los select
-$(document).on('change', '#moduleListTable', function () {
-
-    var id_module = $('select[name=moduleListTable]').val();
-
-    if (id_module != "0") {
-        $('#submoduleListTable').prop('disabled', false);
-
-        $.ajax({
-            url: 'Submodulos/submoduleListSelect',
-            type: 'POST',
-            data: ({data: id_module}),
-            success: function (response) {
-
-                $('#submoduleListTable').empty();
-
-                var modules = jQuery.parseJSON(response);
-                //console.log(modules);
-                var arreglo = modules.submodulosDTO;
-                //console.log(typeof (arreglo));
-                arreglo = jQuery.parseJSON(arreglo);
-                //console.log(typeof (arreglo));
-                var $dropdown = $("select[name$='submoduleListTable']");
-                $dropdown.append($("<option />").val(0).text("-- Selecciona --"));
-                for (var i = arreglo.length - 1; i >= 0; i--) {
-                    $dropdown.append($("<option />").val(arreglo[i].idSubModule).text(arreglo[i].name));
-                }
-
-                /*
-                var modules = jQuery.parseJSON(response.modulosDTO);
-                var $dropdown = $("select[name$='moduleName']");
-                for (var i = modules.length - 1; i >= 0; i--) {
-                    $dropdown.append($("<option />").val(modules[i].idModule).text(modules[i].name));
-                }
-
-                 */
-
-            },
-            error: function () {
-                alert("Error al obtener el servicio para cargar lista de submodulos");
-            }
-        });
-
-    } else {
-        $('#submoduleListTable').prop('disabled', 'disabled');
-    }
-
-
-});
-
-//Funciones para obtener información de los select
-$(document).on('change', '#submoduleListTable', function () {
-
-    var id_submodule = $('select[name=submoduleListTable]').val();
-
-    if (id_submodule != "0") {
-        $('#optionNameTable').prop('disabled', false);
-
-        $.ajax({
-            url: 'Opciones/opcionesListSelect',
-            type: 'POST',
-            data: ({data: id_submodule}),
-            success: function (response) {
-
-                $('#optionNameTable').empty();
-
-                var modules = jQuery.parseJSON(response);
-                //console.log(modules);
-                var arreglo = modules.opcionesDTO;
-                //console.log(typeof (arreglo));
-                arreglo = jQuery.parseJSON(arreglo);
-                //console.log(typeof (arreglo));
-                var $dropdown = $("select[name$='optionNameTable']");
-                $dropdown.append($("<option />").val(0).text("-- Selecciona --"));
-                for (var i = arreglo.length - 1; i >= 0; i--) {
-                    $dropdown.append($("<option />").val(arreglo[i].idModuleOption).text(arreglo[i].name));
-                }
-
-                /*
-                var modules = jQuery.parseJSON(response.modulosDTO);
-                var $dropdown = $("select[name$='moduleName']");
-                for (var i = modules.length - 1; i >= 0; i--) {
-                    $dropdown.append($("<option />").val(modules[i].idModule).text(modules[i].name));
-                }
-
-                 */
-
-            },
-            error: function () {
-                alert("Error al obtener el servicio para cargar lista de submodulos");
-            }
-        });
-
-    } else {
-        $('#optionNameTable').prop('disabled', 'disabled');
-    }
-
-
-});
-
-var tableTipoOpciones;
-//Para DataTable
-//Funciones para obtener información de los select
-$(document).on('change', '#optionNameTable', function () {
-
-    /*
-    var id_modulo = $('select[name=moduleNameTable]').val();
-
-    console.log("entra id: " + " " + id_modulo);
-
-    $.ajax({
-        url: 'Submodulos/submoduleListTable',
-        type: 'POST',
-        data: ({id: id_modulo}),
-        success: function (response) {
-            console.log("datos");
-            console.log(response);
-
-        },
-        error: function () {
-            alertify.error("Error al obtener el servicio");
-        }
-    });
-
-     */
-
-    var id_opcion = $('select[name=optionNameTable]').val();
-
-    if (id_opcion != "0") {
-
-        console.log("entra" + " " + id_opcion);
-
-        tableTipoOpciones = $('#tableTipoOpciones').DataTable({
-            destroy: true,
-            responsive: {
-                details: false
-            },
-            ajax: {
-                url: 'TipoOpciones/tipoOpcionesListTable',
-                type: 'POST',
-                data: ({id: id_opcion}),
-                dataSrc: "",
-            },
-            columns: [
-
-                {
-                    data: null,
-                    render: function (data, type, row) {
-
-                        if (data.enable == 1) {
-
-                            var estado = "checkbox";
-
-                        } else if (data.enable == 0) {
-
-                            var estado = "";
-
-                        }
-
-                        return '<button id="btnUpdateTipoOption" data-toggle="modal" data-target="#modalEditarTipoOpciones" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></button> ' +
-                            '' +
-                            '<label class="switch switch-text switch-success switch-pill">\n' +
-                            '<input id="btnEnableTipoOption" type="' + estado + '" class="switch-input" checked="true">\n' +
-                            '<span data-on="On" data-off="Off" class="switch-label"></span>\n' +
-                            '<span class="switch-handle"></span>\n' +
-                            '</label> ' +
-                            '' +
-                            '<button id="btnDeleteTipoOption" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';
-
-                    }
-                },
-                {
-                    data: "idTipoOption",
-                    visible: false,
-                    searchable: false
-                },
-
-                {data: "name"},
-                {data: "tipo"}
-
-            ],
-            fixedColumns: true,
-            language: {
-                "url": "public/plugins/DataTables/Spanish.json",
-            }
-        });
-
-        $('#tableTipoOpciones tbody').off('click', '#btnUpdateTipoOption').on('click', '#btnUpdateTipoOption', function () {
-            var data = tableTipoOpciones.row(this.closest('tr')).data();
-            //console.log(data);
-            var type = data.tipo;
-
-            document.getElementById('updateNameTypeOption').value = data.name;
-
-            if (type == 1) {
-
-                $(function () {
-                    $("#updateTypeOne").prop("checked", true);
-                });
-
-
-            } else if (type == 2) {
-
-                $(function () {
-                    $("#updateTypeTwo").prop("checked", true);
-                });
-
-            }
-
-            document.getElementById('idTipoOpcionesUpdate').value = data.idTipoOption;
-
-        });
-
-        $('#tableTipoOpciones tbody').off('click', '#btnEnableTipoOption').on('click', '#btnEnableTipoOption', function () {
-            var data = tableTipoOpciones.row(this.closest('tr')).data();
-            var id = data.idTipoOption;
-            var estado = data.enable;
-
-            if (estado == 1) {
-
-                var texto = "Desactivar";
-
-            } else if (estado == 0) {
-
-                var texto = "Activar";
-
-            }
-
-            alertify.confirm(texto + ' el tipo opción seleccionado ', function () {
-                    estadoSwitch(id, estado);
-                }
-                , function () {
-                    alertify.error('Acción cancelada')
-                });
-
-
-        });
-
-        $('#tableTipoOpciones tbody').off('click', '#btnDeleteTipoOption').on('click', '#btnDeleteTipoOption', function () {
-
-            var data = tableTipoOpciones.row(this.closest('tr')).data();
-            var id = data.idTipoOption;
-
-            alertify.confirm('Eliminar el tipo opción seleccionado ', function () {
-                    deleteTipoOpcion(id);
-                }
-                , function () {
-                    alertify.error('Acción cancelada')
-                });
-
-        });
-
-    }
-
-});
 

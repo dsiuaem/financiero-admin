@@ -1,4 +1,4 @@
-
+var tableListadoPerfiles;
 $(document).ready(function () {
     alertify.set('notifier', 'position', 'top-right');
 
@@ -28,6 +28,66 @@ $(document).ready(function () {
              */
 
         }
+    });
+
+    $('#').change(function(){
+        var id_sistema = $('select[name=systemNameTable]').val();
+
+    if (id_sistema != "0") {
+
+        tableListadoPerfiles = $('#tableListadoPerfiles').DataTable({
+            destroy: true,
+            responsive: {
+                details: false
+            },
+            ajax: {
+                url: 'Perfiles/perfilesListTable',
+                type: 'POST',
+                data: ({id: id_sistema}),
+                dataSrc: "",
+            },
+            columns: [
+                {
+                    data: null,
+                    render: function (data, type, row) {
+                        return '<button id="btnUpdatePerfil" data-toggle="modal" onclick="editarPerfil('+data.idPerfil+',\''+data.perfil+'\')" data-target="#modalEditarPerfil" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></button>'+
+                         ' <button id="btnDeletePerfil" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';
+                    }
+                },
+                {
+                    data: "idPerfil",
+                    visible: false,
+                    searchable: false
+                },
+                {data: "perfil"}
+
+            ],
+            fixedColumns: true,
+            language: {
+                "url": "public/plugins/DataTables/Spanish.json",
+            }
+        });
+
+        $('#tableListadoPerfiles tbody').off('click', '#btnUpdatePerfil').on('click', '#btnUpdatePerfil', function () {
+            var data = tableListadoPerfiles.row(this.closest('tr')).data();
+            //console.log(data);
+
+        });
+
+        $('#tableListadoPerfiles tbody').off('click', '#btnDeletePerfil').on('click', '#btnDeletePerfil', function () {
+            var data = tableListadoPerfiles.row(this.closest('tr')).data();
+            var id = data.idPerfil;
+
+            alertify.confirm('Eliminar el perfil seleccionado ', function () {
+                    deletePerfil(id);
+                }
+                , function () {
+                    alertify.error('Acción cancelada')
+                });
+
+        });
+
+    }
     });
 });
 
@@ -67,6 +127,7 @@ function redireccionarVista(optionMenu) {
             $('#listarPerfiles').hide();
             break;
         case 2:
+            cleanListarPerfiles();
             $('#nuevoPerfil').hide();
             $('#listarPerfiles').show();
             //redireccionarEstatus(1);
@@ -76,6 +137,16 @@ function redireccionarVista(optionMenu) {
             break;
     }
     return false;
+}
+
+function cleanListarPerfiles(){
+    resetearSelect($('#systemNameTable'));
+    showSystemsTable();
+}
+
+function resetearSelect(select){
+     select.empty();
+     select.append($('<option>', { value : '' , text: 'Selecciona una opción' }));
 }
 
 function showSystems() {
@@ -264,6 +335,8 @@ function showSystemsTable() {
                 $dropdown.append($("<option />").val(systems[i].idSystem).text(systems[i].name));
             }
 
+            $dropdown.select2();
+
         },
         error: function () {
             alertify.error("Error al obtener el servicio para cargar lista de sistemas");
@@ -413,8 +486,8 @@ function getOpciones(idPerfil){
     return opciones;
 }
 
-var tableListadoPerfiles;
-$(document).on('change', '#systemNameTable', function () {
+//var tableListadoPerfiles;
+/*$(document).on('change', '#systemNameTable', function () {
 
     var id_sistema = $('select[name=systemNameTable]').val();
 
@@ -474,7 +547,7 @@ $(document).on('change', '#systemNameTable', function () {
 
     }
 
-});
+});*/
 
 function deletePerfil(idPerfil){
     $.ajax({

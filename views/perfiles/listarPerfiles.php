@@ -19,31 +19,23 @@
     <div class="col col-md-2"></div>
 </div>
 
-<div class="card-body card-block">
+<div class="card-body card-block listarPerfiles" style="display:none">
     <div class="form-group">
         <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
         <table class="table table-striped table-bordered dt-responsive nowrap" id="tableListadoPerfiles" width="100%"
                cellspacing="0">
             <thead>
-            <tr>
-                <th>Acciones</th>
-                <th></th>
-                <th>Perfiles registrados</th>
-            </tr>
+                    <tr>
+                        <th>Acciones</th>
+                        <th></th>
+                        <th>Perfiles registrados</th>
+                    </tr>
             </thead>
             <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+
             </tbody>
             <tfoot>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
+
             </tfoot>
         </table>
     </div>
@@ -60,63 +52,33 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body mx-3">
+            <form id="formPerfilEdit" name="formPerfilEdit" method="POST" enctype="multipart/form-data">
+              <div class="modal-body mx-3" style=" max-height: calc(100vh - 210px); overflow-y: auto;">
+                      <input type="text" name="perfil" class="form-control perfil">
+                          <input type="hidden" name="idPerfilEdit" id="idPerfilEdit" class="idPerfilEdit">
+                          <div class="row form-group">
+                              <div class="col col-md-2"></div>
+                              <div class="col-12 col-md-8">
+                                  <div name="modulospoEditar" id="modulospoEditar">
 
-                <form id="formPerfilEdit" name="formPerfilEdit" method="POST" enctype="multipart/form-data">
-                    
-                    <input type="text" name="perfil" class="form-control perfil">
-                        <input type="hidden" name="idPerfilEdit" id="idPerfilEdit" class="idPerfilEdit">
-                        <div class="row form-group">
-                            <div class="col col-md-2"></div>
-                            <div class="col-12 col-md-8">
-                                <div name="modulospoEditar" id="modulospoEditar">
+                                  </div>
+                              </div>
+                              <div class="col col-md-2"></div>
+                          </div>
 
-                                </div>
-                                <div name="submodulosEditar" id="submodulosEditar">
 
-                                </div>
-                                <div name="opcionesEditar" id="opcionesEditar">
-
-                                </div>
-                                <div name="tipoOpcionesEditar" id="tipoOpcionesEditar">
-
-                                </div>
-                                <ul>
-                                    <li name="checkModulos" id="checkModulos">
-                                        <ul>
-                                            <li name="checkSubModulos" id="checkSubModulos">
-                                                <ul>
-                                                    <li name="checkOpciones" id="checkOpciones">
-                                                        <ul>
-                                                            <li name="checkTipoOpciones" id="checkTipoOpciones">
-
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col col-md-2"></div>
-                        </div>
-
-                        <div class="modal-footer">
-                        <button type="button" id="btnUpdatePerfil" name="btnUpdatePerfil" class="btn btn-primary azul" data-dismiss="modal" onclick="editarPerfilOpciones()">
-                            <i class="fa fa-save"></i> Actualizar datos
-                        </button>
-                        <button type="button" style="" id="" name="" data-dismiss="modal" class="btn btn-danger">
-                            <i class="fa fa-times"></i> Cancelar
-                        </button>
-                    </div>
-
-                </form>
-            </div>
-
+              </div>
+              <div class="modal-footer">
+                  <button type="button" id="btnUpdatePerfil" name="btnUpdatePerfil" class="btn btn-primary azul" data-dismiss="modal" onclick="editarPerfilOpciones()">
+                      <i class="fa fa-save"></i> Actualizar datos
+                  </button>
+                  <button type="button" style="" id="" name="" data-dismiss="modal" class="btn btn-danger">
+                      <i class="fa fa-times"></i> Cancelar
+                  </button>
+              </div>
+            </form>
         </div>
     </div>
 </div>
 </div>
 <!-- FIN MODAL AGREGAR XML -->
-
