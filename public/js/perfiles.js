@@ -86,7 +86,6 @@ $(document).ready(function () {
     });
 
     $('#systemName').change(function () {
-
         var id_sistema = $('select[name=systemName]').val();
         if (id_sistema != "") {
             $('#modulospo').empty();

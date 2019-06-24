@@ -19,7 +19,7 @@
     <div class="col col-md-2"></div>
 </div>
 
-<div class="card-body card-block listarPerfiles" style="display:none">
+<div class="card-body card-block listarPerfiles">
     <div class="form-group">
         <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
         <table class="table table-striped table-bordered dt-responsive nowrap" id="tableListadoPerfiles" width="100%"

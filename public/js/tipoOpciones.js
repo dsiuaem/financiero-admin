@@ -316,7 +316,6 @@ $(document).ready(function () {
                 type: 'POST',
                 data: ({data: id_module}),
                 success: function (response) {
-                    $('#submoduleName').empty();
                     var modules = jQuery.parseJSON(response);
                     var arreglo = modules.submodulosDTO;
                     arreglo = jQuery.parseJSON(arreglo);

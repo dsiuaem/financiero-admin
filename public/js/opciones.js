@@ -69,12 +69,12 @@ $(document).ready(function () {
 
         var id_sistema = $('select[name=systemNameTable]').val();
         $('.listTableOption').hide();
-        if (id_sistema != "") {
-            resetearSelect($('#moduleListTable'));
-            resetearSelect($('#submoduleListTable'));
-            $('#moduleListTable').prop('disabled', false);
-            $('#submoduleListTable').prop('disabled', true);
+        resetearSelect($('#moduleListTable'));
+        resetearSelect($('#submoduleListTable'));
+        $('#moduleListTable').prop('disabled', false);
+        $('#submoduleListTable').prop('disabled', true);
 
+        if (id_sistema != "") {
             $.ajax({
                 url: 'Modulos/moduleListSelect',
                 type: 'POST',
@@ -95,10 +95,6 @@ $(document).ready(function () {
 
         } else {
             $('#moduleListTable').prop('disabled', 'disabled');
-            resetearSelect($('#moduleListTable'));
-            resetearSelect($('#submoduleListTable'));
-            $('#moduleListTable').prop('disabled', false);
-            $('#submoduleListTable').prop('disabled', true);
         }
 
 
@@ -107,9 +103,9 @@ $(document).ready(function () {
     $('#moduleListTable').change(function(){
         var id_module = $('select[name=moduleListTable]').val();
         $('.listTableOption').hide();
+        resetearSelect($('#submoduleListTable'));
+        $('#submoduleListTable').prop('disabled', false);
         if (id_module != "") {
-            resetearSelect($('#submoduleListTable'));
-            $('#submoduleListTable').prop('disabled', false);
             $.ajax({
                 url: 'Submodulos/submoduleListSelect',
                 type: 'POST',
@@ -131,8 +127,6 @@ $(document).ready(function () {
 
         } else {
             $('#submoduleListTable').prop('disabled', 'disabled');
-            resetearSelect($('#submoduleListTable'));
-            $('#submoduleListTable').prop('disabled', false);
         }
     });
 
@@ -233,17 +227,16 @@ $(document).ready(function () {
 
     $('#systemName').change(function() {
         var id_sistema = $('select[name=systemName]').val();
-        if (id_sistema != "0") {
-            resetearSelect($('#submoduleName'));
-            resetearSelect($('#moduleName'));
-            $('#moduleName').prop('disabled', false);
-            $('#submoduleName').prop('disabled',true);
+        resetearSelect($('#submoduleName'));
+        resetearSelect($('#moduleName'));
+        $('#moduleName').prop('disabled', false);
+        $('#submoduleName').prop('disabled',true);
+        if (id_sistema != "") {
             $.ajax({
                 url: 'Modulos/moduleListSelect',
                 type: 'POST',
                 data: ({data: id_sistema}),
                 success: function (response) {
-                    $('#moduleName').empty();
                     var modules = jQuery.parseJSON(response);
                     var arreglo = modules.modulosDTO;
                     arreglo = jQuery.parseJSON(arreglo);
@@ -260,18 +253,14 @@ $(document).ready(function () {
 
         } else {
             $('#moduleName').prop('disabled', 'disabled');
-            resetearSelect($('#submoduleName'));
-            resetearSelect($('#moduleName'));
-            $('#moduleName').prop('disabled', false);
-            $('#submoduleName').prop('disabled',true);
         }
     });
 
     $('#moduleName').change(function () {
         var id_module = $('select[name=moduleName]').val();
+        resetearSelect($('#submoduleName'));
+        $('#submoduleName').prop('disabled', false);
         if (id_module != "") {
-            resetearSelect($('#submoduleName'));
-            $('#submoduleName').prop('disabled', false);
             $.ajax({
                 url: 'Submodulos/submoduleListSelect',
                 type: 'POST',
@@ -291,8 +280,6 @@ $(document).ready(function () {
             });
         } else {
             $('#submoduleName').prop('disabled', 'disabled');
-            resetearSelect($('#submoduleName'));
-            $('#submoduleName').prop('disabled', false);
         }
     });
 
@@ -381,7 +368,6 @@ function saveRegistroOpciones() {
                         if (obj.respuesta == 200) {
                             cleanNewOptionSystem();
                             alertify.success("Opción registrada exitosamente");
-                            return false;
                         } else {
                             //alert("Error al insertar los datos");
                             alertify.error("Error al registrar la opción");
