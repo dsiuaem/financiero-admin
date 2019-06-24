@@ -170,10 +170,7 @@ $(document).ready(function () {
                                 '<input id="btnEnableOption" type="' + estado + '" class="switch-input" checked="true">\n' +
                                 '<span data-on="On" data-off="Off" class="switch-label"></span>\n' +
                                 '<span class="switch-handle"></span>\n' +
-                                '</label> ' +
-                                '' +
-                                '<button id="btnDeleteOption" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';
-
+                                '</label> ';
                         }
                     },
                     {

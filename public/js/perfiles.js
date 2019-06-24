@@ -2,11 +2,6 @@ var tableListadoPerfiles;
 $(document).ready(function () {
     alertify.set('notifier', 'position', 'top-right');
 
-    //Mostrar información en el select
-    showSystems();
-    //Para el listado en tables
-    showSystemsTable();
-
     //jquery validator donde se corroboran que los datos esten introducidos y ningun campo se vaya en vacio
     $('form[id="registroPerfiles"]').validate({
         rules: {
@@ -30,64 +25,82 @@ $(document).ready(function () {
         }
     });
 
-    $('#').change(function(){
+    $('#systemNameTable').change(function(){
         var id_sistema = $('select[name=systemNameTable]').val();
-
-    if (id_sistema != "0") {
-
-        tableListadoPerfiles = $('#tableListadoPerfiles').DataTable({
-            destroy: true,
-            responsive: {
-                details: false
-            },
-            ajax: {
-                url: 'Perfiles/perfilesListTable',
-                type: 'POST',
-                data: ({id: id_sistema}),
-                dataSrc: "",
-            },
-            columns: [
-                {
-                    data: null,
-                    render: function (data, type, row) {
-                        return '<button id="btnUpdatePerfil" data-toggle="modal" onclick="editarPerfil('+data.idPerfil+',\''+data.perfil+'\')" data-target="#modalEditarPerfil" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></button>'+
-                         ' <button id="btnDeletePerfil" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';
-                    }
+        $('.listarPerfiles').hide();
+        if (id_sistema != "") {
+            $('.listarPerfiles').show();
+            tableListadoPerfiles = $('#tableListadoPerfiles').DataTable({
+                destroy: true,
+                responsive: {
+                    details: false
                 },
-                {
-                    data: "idPerfil",
-                    visible: false,
-                    searchable: false
+                ajax: {
+                    url: 'Perfiles/perfilesListTable',
+                    type: 'POST',
+                    data: ({id: id_sistema}),
+                    dataSrc: "",
                 },
-                {data: "perfil"}
+                columns: [
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            return '<button id="btnUpdatePerfil" data-toggle="modal" onclick="editarPerfil('+data.idPerfil+',\''+data.perfil+'\')" data-target="#modalEditarPerfil" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></button>'+
+                             ' <button id="btnDeletePerfil" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';
+                        }
+                    },
+                    {
+                        data: "idPerfil",
+                        visible: false,
+                        searchable: false
+                    },
+                    {data: "perfil"}
 
-            ],
-            fixedColumns: true,
-            language: {
-                "url": "public/plugins/DataTables/Spanish.json",
-            }
-        });
-
-        $('#tableListadoPerfiles tbody').off('click', '#btnUpdatePerfil').on('click', '#btnUpdatePerfil', function () {
-            var data = tableListadoPerfiles.row(this.closest('tr')).data();
-            //console.log(data);
-
-        });
-
-        $('#tableListadoPerfiles tbody').off('click', '#btnDeletePerfil').on('click', '#btnDeletePerfil', function () {
-            var data = tableListadoPerfiles.row(this.closest('tr')).data();
-            var id = data.idPerfil;
-
-            alertify.confirm('Eliminar el perfil seleccionado ', function () {
-                    deletePerfil(id);
+                ],
+                fixedColumns: true,
+                language: {
+                    "url": "public/plugins/DataTables/Spanish.json",
                 }
-                , function () {
-                    alertify.error('Acción cancelada')
-                });
+            });
 
-        });
+            $('#tableListadoPerfiles tbody').off('click', '#btnUpdatePerfil').on('click', '#btnUpdatePerfil', function () {
+                var data = tableListadoPerfiles.row(this.closest('tr')).data();
+                //console.log(data);
 
-    }
+            });
+
+            $('#tableListadoPerfiles tbody').off('click', '#btnDeletePerfil').on('click', '#btnDeletePerfil', function () {
+                var data = tableListadoPerfiles.row(this.closest('tr')).data();
+                var id = data.idPerfil;
+
+                alertify.confirm('Eliminar el perfil seleccionado ', function () {
+                        deletePerfil(id);
+                    }
+                    , function () {
+                        alertify.error('Acción cancelada')
+                    });
+
+            });
+
+        }
+    });
+
+    $('#systemName').change(function () {
+
+        var id_sistema = $('select[name=systemName]').val();
+        if (id_sistema != "") {
+            $('#modulospo').empty();
+            $('.opcsPerfil').show();
+            $('.opcsPerfil').click();
+            var $dropdownModulos = $("#modulospo");
+            var $dropdownSubModulos = $("div[name$='submodulos']");
+            var $dropdownOpciones = $("div[name$='opciones']");
+            var $dropdownTipoOpciones = $("div[name$='tipoOpciones']");
+            despliege(id_sistema,$dropdownModulos,null);
+        }else{
+            $('.opcsPerfil').hide();
+        }
+
     });
 });
 
@@ -111,18 +124,7 @@ function redireccionarVista(optionMenu) {
     // alert(optionMenu);
     switch (optionMenu) {
         case 1://Captura
-            /*
-            $("#registroSistemas")[0].reset();
-            document.getElementById("textoBeneficiario").style.display = "none";
-            document.getElementById("listBeneficiarios").style.display = "none";
-            document.getElementById("textoSubfondo").style.display = "none";
-            document.getElementById("listSubRecurso").style.display = "none";
-            document.getElementById("listBeneficiarios").innerHTML = "";
-            document.getElementById("listSubRecurso").innerHTML = "";
-            unidadUsuarioEmpleado();
-            contBeneficiario = 0;
-            contSubfondo = 0;
-            */
+            cleanNewPerfil();
             $('#nuevoPerfil').show();
             $('#listarPerfiles').hide();
             break;
@@ -139,9 +141,17 @@ function redireccionarVista(optionMenu) {
     return false;
 }
 
+function cleanNewPerfil(){
+    resetearSelect($('#systemName'));
+    showSystems();
+    $('#namePerfil').val('');
+    $('.opcsPerfil').hide();
+}
+
 function cleanListarPerfiles(){
     resetearSelect($('#systemNameTable'));
     showSystemsTable();
+    $('.listarPerfiles').hide();
 }
 
 function resetearSelect(select){
@@ -150,7 +160,6 @@ function resetearSelect(select){
 }
 
 function showSystems() {
-
     $.ajax({
         url: 'Sistemas/systemListSelect',
         type: 'POST',
@@ -161,6 +170,7 @@ function showSystems() {
             for (var i = systems.length - 1; i >= 0; i--) {
                 $dropdown.append($("<option />").val(systems[i].idSystem).text(systems[i].name));
             }
+            $dropdown.select2();
 
         },
         error: function () {
@@ -168,29 +178,8 @@ function showSystems() {
         }
     });
     return false;
-
 }
 
-
-$(document).on('change', '#systemName', function () {
-
-    var id_sistema = $('select[name=systemName]').val();
-
-    if (id_sistema != "0") {
-        $('#modulos').empty();
-        $('#submodulos').empty();
-        $('#opciones').empty();
-        $('#tipoOpciones').empty();
-        $('#modulospo').empty();
-
-        var $dropdownModulos = $("#modulospo");
-        var $dropdownSubModulos = $("div[name$='submodulos']");
-        var $dropdownOpciones = $("div[name$='opciones']");
-        var $dropdownTipoOpciones = $("div[name$='tipoOpciones']");
-        despliege(id_sistema,$dropdownModulos,null);
-    }
-
-});
 
 //Funcion para llevar a cabo el registro de un sistema
 function saveRegistroPerfiles() {
@@ -207,12 +196,6 @@ function saveRegistroPerfiles() {
 
     });
 
-    //var total = data.idModuleOption;
-
-    //console.log(total.length);
-
-    //console.log("hola:  " + data.idModuleOption);
-
     if(data.systemName != 0){
 
     	if (data.idModuleOption != undefined) {
@@ -227,8 +210,7 @@ function saveRegistroPerfiles() {
 
                 var obj = jQuery.parseJSON(response);
                 if (obj.respuesta == 200) {
-                    $('#modulospo').empty();
-                    resetForm();
+                    cleanNewPerfil();
                     alertify.success("Perfil registrado exitosamente");
                     return false;
                 } else {

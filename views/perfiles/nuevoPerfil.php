@@ -30,7 +30,6 @@
             <div class="col-12 col-md-8">
                 <label for="systemName" class="form-control-label">Listado de sistemas:</label>
                 <select name="systemName" id="systemName" class="form-control">
-                    <option value="0">- Seleccionar -</option>
                 </select>
             </div>
             <div class="col col-md-2"></div>
@@ -78,7 +77,7 @@
 
         <div class="container">
              <center>
-                 <a href="#" class="btn btn-info opcsPerfil" data-toggle="modal" data-target="#modalAddPerfil"  style="display:none">Ver opciones</a>
+                 <a href="#" class="btn btn-info opcsPerfil" data-toggle="modal" data-target="#modalAddPerfil">Ver opciones</a>
              </center>
         </div>
         <hr>
