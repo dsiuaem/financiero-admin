@@ -106,7 +106,7 @@ class PerfilesController extends Controller
     function editarPerfil(){
         $perfilesDTO = new PerfilesDTO;
         $perfilesDTO->idPerfil = $_POST['data']['idPerfilEdit'];
-        $perfilesDTO->idModuleOption= $_POST['data']['idModuleOption'];
+        $perfilesDTO->idModuleOption=isset($_POST['data']['idModuleOption'])?$_POST['data']['idModuleOption']:null;
         $perfilesDTO->perfil= $_POST['data']['perfil'];
         $this->model->perfilesDTO = $perfilesDTO;
         $this->model->editarOpciones();

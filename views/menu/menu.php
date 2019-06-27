@@ -1,4 +1,4 @@
-<?php //var_dump (json_decode($this->permisosMenu))?>
+
 <?php $Systems = json_decode($this->permisosMenu, 1); ?>
 <script type="text/javascript" src="<?php echo constant('URL'); ?>public/js/menu.js"></script>
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="overflow-x: hidden;">
