@@ -11,7 +11,7 @@
 <div class="card-body card-block">
     <form id="registroUsuarios" name="registroUsuarios" method="POST" enctype="multipart/form-data">
 
-        <div class="row form-group">
+        <!--<div class="row form-group">
             <div class="col col-md-2"></div>
             <div class="col-12 col-md-8">
                 <label for="systemNameNewUser" class="form-control-label">Listado de sistemas:</label>
@@ -20,24 +20,36 @@
                 </select>
             </div>
             <div class="col col-md-2"></div>
-        </div>
+        </div>-->
 
         <div class="row form-group">
+            <div class="col col-md-2"></div>
+            <div class="col-12 col-md-8">
+                <label for="empleadoNewUser" class="form-control-label">Selecciona tipo de usuario: </label>
+                <select name="empleadoNewUser" id="empleadoNewUser" class="form-control">
+                </select>
+            </div>
+            <div class="col col-md-2"></div>
+        </div>
+
+
+        <div class="row form-group">
+            <div class="col col-md-2"></div>
+            <div class="col-12 col-md-8">
+                <label for="userName" class="form-control-label">Correo del usuario:</label>
+                <input type="email" id="userNameR" name="userNameR" class="form-control" disabled="">
+                <input type="hidden" id="userName" name="userName" >
+            </div>
+            <div class="col col-md-2"></div>
+        </div>
+
+         <div class="row form-group">
             <div class="col col-md-2"></div>
             <div class="col-12 col-md-8">
                 <label for="userTypeNewUser" class="form-control-label">Selecciona tipo de usuario: </label>
                 <select name="userTypeNewUser" id="userTypeNewUser" class="form-control">
                     <option value="0">- Seleccionar -</option>
                 </select>
-            </div>
-            <div class="col col-md-2"></div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col col-md-2"></div>
-            <div class="col-12 col-md-8">
-                <label for="userName" class="form-control-label">Correo del usuario:</label>
-                <input type="email" id="userName" name="userName" class="form-control" required>
             </div>
             <div class="col col-md-2"></div>
         </div>
