@@ -123,5 +123,131 @@
         </div>
     </div>
 </div>
-</div>
+
 <!-- FIN MODAL AGREGAR XML -->
+<div class="modal fade" id="modalAdminSystems" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar usuario</h4>
+                <button style="color: white;" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+
+                <table class="table enSistemaPerfil" border="1">
+                    <thead>
+                        <tr>
+                            <th>Sistema</th>
+                            <th>Perfil</th>
+                            <th>acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+                <table class="table sinSistemaPerfil" border="1">
+                    <thead>
+                        <tr>
+                            <th>Sistema</th>
+                            <th>acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEditarPerfilUsuario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar usuario</h4>
+                <button style="color: white;" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+
+                <form id="actualizacionPerfil" name="actualizacionPerfil" method="POST"
+                      enctype="multipart/form-data">
+
+                    <div class="row form-group">
+                        <div class="col col-md-2"></div>
+                        <div class="col-12 col-md-8">
+                            <label class="form-control-label">Selecciona una perfil:</label>
+                            <select class="form-control perfilEditSelect" id="perfilEditSelect" name="perfil">
+                                
+                            </select>
+                        </div>
+                        <div class="col col-md-2"></div>
+                    </div>
+
+                    <input type="hidden" id="idUserPerfil" name="idUser">
+                    <input type="hidden" name="actualIdPerfil" class="actualIdPerfilEdit">
+
+                    <div class="modal-footer">
+                        <a id="editUserPerfilBtn" name="editUserPerfilBtn" class="btn btn-primary azul" href="#">
+                            <i class="fa fa-save"></i> Actualizar perfil
+                        </a>
+                        <button type="button" style="" id="" name="" data-dismiss="modal" onclick="limpiarForm()" class="btn btn-danger">
+                            <i class="fa fa-times"></i> Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalSelectPerfil" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar usuario</h4>
+                <button style="color: white;" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+
+                <form id="agregarPerfil" name="actualizacionPerfil" method="POST"
+                      enctype="multipart/form-data">
+
+                    <div class="row form-group">
+                        <div class="col col-md-2"></div>
+                        <div class="col-12 col-md-8">
+                            <label class="form-control-label">Selecciona una perfil:</label>
+                            <select class="form-control perfilAddSelect" id="perfilAddSelect" name="perfil">
+                                
+                            </select>
+                        </div>
+                        <div class="col col-md-2"></div>
+                    </div>
+
+                    <input type="hidden" id="idUserP" name="idUserP">
+                    <input type="hidden" id="idPerfilAdd" name="idPerfilAdd">
+                    <input type="hidden" id="idSystemAdd" name="idSystemAdd">
+
+                    <div class="modal-footer">
+                        <a id="addPerfilBtn" name="addUserPerfilBtn" class="btn btn-primary azul" href="#">
+                            <i class="fa fa-save"></i> Agregar perfil
+                        </a>
+                        <button type="button" style="" id="" name="" data-dismiss="modal" onclick="limpiarForm()" class="btn btn-danger">
+                            <i class="fa fa-times"></i> Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

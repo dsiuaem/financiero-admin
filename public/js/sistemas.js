@@ -43,14 +43,19 @@ $(document).ready(function () {
     //jquery validator donde se corroboran que los datos esten introducidos y ningun campo se vaya en vacio
     $('form[id="registroSistemas"]').validate({
         rules: {
-            nombreSistema: 'required'
+            nombreSistema: {
+                required:true,
+                minlength: 6,
+                pattern: '^[a-zA-Z\ \á\é\í\ó\ú\Á\É\Í\Ó\Ú]+$'
+            }
+
         },
         messages: {
-            nombreSistema: 'Falta introducir nombre del sistema'
-        },
-        submitHandler: function () {
-            //Se llama a la función para registrar el sistema después de que todo esta bien
-            saveRegistroSistema();
+            nombreSistema:{
+                required:"Campo es requerido",
+                minlength: "6 caracteres como mínimo",
+                pattern: 'Formato incorrecto'
+            }
         }
     });
 
@@ -69,6 +74,37 @@ $(document).ready(function () {
     });
 
 });
+
+function saveRegistroSistema(){
+    if($('form[id="registroSistemas"]').valid()){
+        var texto = $('#registroSistemas').serializeArray();
+        var data = {};
+        $(texto).each(function (index, obj) {
+            data[obj.name] = obj.value;
+        });
+
+        //console.log(data)
+        $.ajax({
+            url: 'Sistemas/registerSystem',
+            type: 'POST',
+            data: ({datos: data}),
+            success: function (response) {
+                console.log(response);
+                var obj = jQuery.parseJSON(response);
+                if (obj.respuesta == 200) {
+                    cleanNewSystem();
+                    alertify.success("Registro exitoso");
+                } else {
+                    //alert("Error al insertar los datos");
+                    alertify.error("Error al registrar el sistema");
+                }
+            },
+            error: function () {
+                alertify.error("Error al obtener el servicio para registrar el sistema");
+            }
+        });
+    }
+}
 
 var tableSistemas;
 
@@ -218,37 +254,6 @@ function cleanNewSystem(){
 
 
 
-//Funcion para llevar a cabo el registro de un sistema
-function saveRegistroSistema() {
-    var texto = $('#registroSistemas').serializeArray();
-    var data = {};
-    $(texto).each(function (index, obj) {
-        data[obj.name] = obj.value;
-    });
-
-    //console.log(data)
-    $.ajax({
-        url: 'Sistemas/registerSystem',
-        type: 'POST',
-        data: ({datos: data}),
-        success: function (response) {
-            console.log(response);
-            var obj = jQuery.parseJSON(response);
-            if (obj.respuesta == 200) {
-                cleanNewSystem();
-                alertify.success("Registro exitoso");
-            } else {
-                //alert("Error al insertar los datos");
-                alertify.error("Error al registrar el sistema");
-            }
-        },
-        error: function () {
-            alertify.error("Error al obtener el servicio para registrar el sistema");
-        }
-    });
-    return false;
-
-}
 
 //Función para vaciar formularios depués de cada acción
 function resetForm() {

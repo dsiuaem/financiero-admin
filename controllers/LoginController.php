@@ -47,6 +47,7 @@ class LoginController extends Controller
                         //Se recuperan los permisos del usuario
                         $menuUser = new MenuUsuario();
                         $permisosMenu = $menuUser->permisosMenuSistema($usuarioDatos->idUser);
+                        //var_dump($permisosMenu);
                         $this->setPermisos($permisosMenu);
                         //---------------------------------------------
                         $this->view->render('home/index');

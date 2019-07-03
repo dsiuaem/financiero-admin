@@ -182,6 +182,59 @@ class UsuariosController extends Controller
         echo json_encode($this->model);
     }
 
+    function getSystemPerfil(){
+
+        $usuarioDTO = new UsuariosDTO;
+        $usuarioDTO->idUser=$_POST['idUser'];
+        $this->model->empleado = $usuarioDTO;
+        //Recupera los datos del servicio web
+        $this->model->getSystemPerfil();
+        //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+        echo json_encode($this->model->systemsList);
+
+    }
+
+    function getOutSystemPerfil(){
+
+        $usuarioDTO = new UsuariosDTO;
+        $usuarioDTO->idUser=$_POST['idUser'];
+        $this->model->empleado = $usuarioDTO;
+        //var_dump($usuarioDTO);die();
+        //Recupera los datos del servicio web
+        $this->model->getOutSystemPerfil();
+        //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+        echo json_encode($this->model->systemsList);
+
+    }
+
+    function changePerfil(){
+        $usuarioDTO = new UsuariosDTO;
+        //var_dump($_POST);die();
+        $usuarioDTO->idUser = $_POST['data']['idUser'];
+        $usuarioDTO->idPerfil = $_POST['data']['perfil'];
+        $usuarioDTO->actualIdPerfil=$_POST['data']['actualIdPerfil'];
+        $this->model->empleado = $usuarioDTO;
+        //Recupera los datos del servicio web
+        $this->model->editPerfilUser();
+        //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+        echo json_encode($this->model);
+    }
+
+    /*function agregarSystemPerfil(){
+        //Pasar los datos del formulario al DTO
+        var_dump($_POST);die();
+        $registrarPerfilesUsuariosDTO = new UsuariosDTO;
+        $registrarPerfilesUsuariosDTO->contenidoPerfiles = $_POST['datos'];
+        $registrarPerfilesUsuariosDTO->idSystem = $_POST['id_system'];
+        $registrarPerfilesUsuariosDTO->idPerfil = $_POST['id_perfil'];
+        $this->model->asignarPerfilDTO = $registrarPerfilesUsuariosDTO;
+        //Recupera los datos del servicio web
+
+        $this->model->asignarPerfiles();
+        //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+        echo json_encode($this->model);
+    }*/
+
 
 }
 

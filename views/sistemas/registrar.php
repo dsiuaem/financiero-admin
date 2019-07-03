@@ -29,7 +29,7 @@
         </div>
 
         <div align="center">
-            <button id="btnSaveSistema" name="btnSaveSistema" class="btn btn-primary">Guardar</button>
+            <a id="btnSaveSistema" name="btnSaveSistema" class="btn btn-primary" href="#">Guardar</a>
         </div>
     </form>
 </div>
