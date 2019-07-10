@@ -10,12 +10,12 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="fa fa-user-circle"></i><span
+                <i class="fas fa-user"></i><span
                         class="salir"><?php echo "   " . $_SESSION['usuarioADMIN']; ?></span>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <a onClick="salirSistema();" href="#" class="dropdown-item">
-                    <i class="fa fa-sign-out"></i>&nbsp;Cerrar sesión</a>
+                    <i class="fas fa-sign-out-alt"></i>&nbsp;Cerrar sesión</a>
             </div>
         </li>
     </ul>

@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
     <div class="col-12 col-md-12">
         <div class="small-box bg-info" style="text-align: right;">
             <div class="inner">
@@ -6,9 +6,11 @@
             </div>
         </div>
     </div>
+</div> -->
+<div class="card-header" style="background-color: #142f5a !important">
+    <h5 class="card-title" style="text-align: center; color: white;">Registro de usuarios</h5>
 </div>
-
-<div class="card-body card-block">
+<div class="card-body">
     <form id="registroUsuarios" name="registroUsuarios" method="POST" enctype="multipart/form-data">
 
         <!--<div class="row form-group">
@@ -76,7 +78,8 @@
         </div>
 
         <div align="center">
-            <button id="btnSaveUser" name="btnSaveUser" class="btn btn-primary">Guardar</button>
+            <!-- <button id="btnSaveUser" name="btnSaveUser" class="btn btn-primary">Guardar</button> -->
+            <button id="btnSaveUser" name="btnSaveUser" class="btn btn-lg btn-outline btn-registra" role="button">Guardar</button>
         </div>
     </form>
 </div>

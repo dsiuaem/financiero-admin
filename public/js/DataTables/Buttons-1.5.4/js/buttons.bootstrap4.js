@@ -39,7 +39,7 @@
                 className: 'dt-buttons btn-group'
             },
             button: {
-                className: 'btn btn-secondary'
+                className: 'btn'
             },
             collection: {
                 tag: 'div',
