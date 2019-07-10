@@ -40,12 +40,136 @@ Notes:	decreasing heading by 0.4em with every subsequent heading level
 /*                   GENERIC                           */
 /*-----------------------------------------------------*/
 /* ----- Normalize ----- */
+/* Customize the label (the container) */
+.btn-rounded{
+    border-radius: 60px !important;
+}
+
+.divListadoPermisos{
+    border-right: 1px solid rgba(0, 0, 0, 0.1) !important;
+    border-left: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.paddingCheck{
+    padding-left: 8px !important;
+}
+
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+}
+
+.checkmarkPermisos {
+  position: absolute;
+  top: 0;
+  left: 15px;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+.container:hover input ~ .checkmarkPermisos {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+.container input:checked ~ .checkmarkPermisos {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkmarkPermisos:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.container input:checked ~ .checkmarkPermisos:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 7px;
+  top: 4px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.container .checkmarkPermisos:after {
+  left: 7px;
+  top: 4px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
 * {
     margin: 0;
     padding: 0;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+}
+
+th, td{
+    text-align: center;
 }
 
 ul {
@@ -94,7 +218,7 @@ p {
 .btn {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
-    border-radius: 3px;
+    border-radius: 5px;
 }
 
 /* ----- Typography ----- */
@@ -1137,7 +1261,7 @@ section {
 .form-control {
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
-    border-radius: 2px;
+    border-radius: 8px;
 }
 
 .card {
@@ -5286,12 +5410,30 @@ section {
 .switch.switch-text .switch-label {
     position: relative;
     display: block;
-    height: inherit;
+    height: 34px;
     font-size: 10px;
     font-weight: 600;
     text-transform: uppercase;
-    background-color: #fff;
-    border: 1px solid #f2f2f2;
+    background-color: #CFCFCF;
+    box-shadow: 5px 5px 5px 0px rgba(128,128,128,1);
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-transition: opacity background .15s ease-out;
+    -o-transition: opacity background .15s ease-out;
+    -moz-transition: opacity background .15s ease-out;
+    transition: opacity background .15s ease-out;
+}
+
+.switch.switch-text .switch-label:hover {
+    position: relative;
+    display: block;
+    height: 34px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: #C1C1C1;
+    box-shadow: 5px 5px 5px 0px rgba(128,128,128,1);
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
@@ -5317,13 +5459,13 @@ section {
 
 .switch.switch-text .switch-label::before {
     right: 1px;
-    color: #e9ecef;
+    color: black !important;
     content: attr(data-off);
 }
 
 .switch.switch-text .switch-label::after {
     left: 1px;
-    color: #fff;
+    color: white !important;
     content: attr(data-on);
     opacity: 0;
 }
@@ -5338,10 +5480,10 @@ section {
 
 .switch.switch-text .switch-handle {
     position: absolute;
-    top: 2px;
+    top: 6px;
     left: 2px;
     width: 20px;
-    height: 20px;
+    height: 22px;
     background: #fff;
     border: 1px solid #f2f2f2;
     -webkit-border-radius: 1px;
@@ -5768,8 +5910,15 @@ section {
 }
 
 .switch-success > .switch-input:checked ~ .switch-label {
-    background: #28a745 !important;
+    background: #1e7e34 !important;
+    box-shadow: 5px 5px 5px 0px rgba(128,128,128,1);
     border-color: #1e7e34;
+}
+
+.switch-success > .switch-input:checked ~ .switch-label:hover {
+    background: #1B682C !important;
+    box-shadow: 5px 5px 5px 0px rgba(128,128,128,1);
+    border-color: #1B682C;
 }
 
 .switch-success > .switch-input:checked ~ .switch-handle {

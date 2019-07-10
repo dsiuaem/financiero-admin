@@ -1,5 +1,5 @@
 <div class="modal fade" id="modalArchivos" tabindex="-1" role="dialog" aria-labelledby="scrollmodalLabel"
-     aria-hidden="true">
+     aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -37,7 +37,7 @@
 </div>
 
 <div class="modal fade" id="modalDetalles" tabindex="-1" role="dialog" aria-labelledby="scrollmodalLabel"
-     aria-hidden="true">
+     aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -64,7 +64,7 @@
 </div>
 
 <div class="modal fade" id="modalXML" tabindex="-1" role="dialog" aria-labelledby="scrollmodalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg" role="document" data-backdrop="static" data-keyboard="false">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="scrollmodalLabel">Conceptos</h5>
@@ -93,7 +93,7 @@
 
 
 <div class="modal fade" id="modalPDF" tabindex="-1" role="dialog" aria-labelledby="scrollmodalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg" role="document" data-backdrop="static" data-keyboard="false">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="scrollmodalLabel">Conceptos</h5>

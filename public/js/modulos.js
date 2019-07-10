@@ -87,7 +87,7 @@ $(document).ready(function () {
 
                           }
 
-                          return '<button id="btnUpdateModule" data-toggle="modal" data-target="#modalEditarModulo" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></button> ' +
+                          return '<button id="btnUpdateModule" data-toggle="modal" data-target="#modalEditarModulo" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1"><i class="fas fa-edit"></i></button> ' +
                               '' +
                               '<label class="switch switch-text switch-success switch-pill">\n' +
                               '<input id="btnEnableModule" type="' + estado + '" class="switch-input" checked="true">\n' +
