@@ -210,7 +210,7 @@ $(document).ready(function () {
                dom: 'Bfrtip',
                 buttons: [{
                     text: 'Guardar',
-                    className: 'btn btn-success buttonDt',
+                    className: 'btn btn-lg btn-outline btn-registra',
                     action: function () {
                         saveAsignarperfil();
                     }
@@ -285,7 +285,7 @@ $(document).ready(function () {
                             var checked;
                             data.enable==1?checked='checkbox':checked='';
 
-                            return '<a id="btnUpdateUser" data-toggle="modal" data-target="#modalEditarUsuario" href="" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></a> ' +
+                            return '<a id="btnUpdateUser" data-toggle="modal" data-target="#modalEditarUsuario" href="" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1"><i class="fas fa-edit"></i></a> ' +
                                 '' +
                                 '<label class="switch switch-text switch-success switch-pill">\n' +
                                 '<input id="btnEnableUser" type="'+checked+'" class="switch-input" checked="true" >\n' +

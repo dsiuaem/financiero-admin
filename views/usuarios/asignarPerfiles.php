@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
     <div class="col-12 col-md-12">
         <div class="small-box bg-info" style="text-align: right;">
             <div class="inner">
@@ -6,9 +6,11 @@
             </div>
         </div>
     </div>
+</div> -->
+<div class="card-header" style="background-color: #142f5a !important">
+    <h5 class="card-title" style="text-align: center; color: white;">Asignación de perfiles</h5>
 </div>
-
-<div class="card-body card-block">
+<div class="card-body">
     <form id="asignarPerfiles" name="asignarPerfiles" method="POST" enctype="multipart/form-data">
 
         <div class="row form-group">
@@ -58,7 +60,7 @@
                 </div>
             </div>
 
-            <div class="card-body card-block">
+            <div>
                 <div class="form-group">
                     <h2>Usuarios con el perfil seleccionado asignado</h2><br><br><br>
                     <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->

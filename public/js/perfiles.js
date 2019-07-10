@@ -45,8 +45,8 @@ $(document).ready(function () {
                     {
                         data: null,
                         render: function (data, type, row) {
-                            return '<button id="btnUpdatePerfil" data-toggle="modal" onclick="editarPerfil('+data.idPerfil+',\''+data.perfil+'\')" data-target="#modalEditarPerfil" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></button>'+
-                             ' <button id="btnDeletePerfil" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';
+                            return '<button id="btnUpdatePerfil" data-toggle="modal" onclick="editarPerfil('+data.idPerfil+',\''+data.perfil+'\')" data-target="#modalEditarPerfil" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1 buttonDt"><i class="fas fa-edit"></i></button>'+
+                             ' <button id="btnDeletePerfil" class="btn btn-outline-danger btn-sm btn-rounded btn-custom"><i class="fas fa-trash-alt"></i></button>';
                         }
                     },
                     {
@@ -90,7 +90,7 @@ $(document).ready(function () {
         if (id_sistema != "") {
             $('#modulospo').empty();
             $('.opcsPerfil').show();
-            $('.opcsPerfil').click();
+            //$('.opcsPerfil').click();
             var $dropdownModulos = $("#modulospo");
             var $dropdownSubModulos = $("div[name$='submodulos']");
             var $dropdownOpciones = $("div[name$='opciones']");
@@ -356,41 +356,73 @@ function despliege(idSistema,$dropdownModulos,opciones){
         async:false,
         data: ({idSystem:idSistema}),
         success: function (response) {
+            var br = "<br>";
+            var salida = "</div>";
             var res=jQuery.parseJSON(response);
             if(res.respuesta==200){
+                var cont = 0;
+                var permisos = "";
                 mod=jQuery.parseJSON(res.modulosDTO);
-                console.log(mod);
+                // console.log(mod);
                 $.each(mod,function(modulos,modulo){
-                     $dropdownModulos.append($("<hr>"));
-                     $dropdownModulos.append($("<h2 />").text(modulo[0].name));
-                     $dropdownModulos.append($("<br />"));
+                    permisos = permisos+"<br><br><hr><div><h2 align='center'>"+modulo[0].name+"</h2></div><hr>";
+                    // var titulo = "<hr><div><h2 align='center'>"+modulo[0].name+"</h2></div><hr><br>";
+                    //  // $dropdownModulos.append($("<hr>"));
+                    //  // $dropdownModulos.append($("<h2 align='center' />").text(modulo[0].name));
+                    //  // $dropdownModulos.append($("<hr>"));
+                    //  // $dropdownModulos.append($("<br />"));
+                    // $("#modulospo").append(titulo);
+                    // var empizaOpc = "<div class='row form-group'>";
+                    // $("#modulospo").append(empizaOpc);
                     $.each(modulo.subModulos,function(subs,sub){
-                         $dropdownModulos.append($("<h2 />").text(sub[0].name));
-                         $dropdownModulos.append($("<br />"));
-                         $.each(sub.opcion,function(opcs,opc){
+                        if(cont==0){
+                            permisos = permisos+"<div class='row form-group'><div class='col-md-6 divListadoPermisos' align='center'><label for='description' class='form-control-label'><h3>"+sub[0].name+"</h3></label>";
+                            cont++;
+                        }else{
+                            permisos = permisos+"<div class='col-md-6 divListadoPermisos' align='center'><label for='description' class='form-control-label'><h3>"+sub[0].name+"</h3></label>";
+                            cont++;
+                        }
+                        // var subtitulo = "<br><div class='col-md-12' align='center'> <label for='description' class='form-control-label'><h3>"+sub[0].name+"</h3></label>";
+                        // //  // $dropdownModulos.append($("<h3 align='center' />").text(sub[0].name));
+                        // //  // $dropdownModulos.append($("<br />"));
+                        // $("#modulospo").append(subtitulo);
+                        $.each(sub.opcion,function(opcs,opc){
                             if(opciones!=null){
-                                 var opcItem=$("<input type='checkbox' name='idModuleOption' id='idModuleOption'>");
-                                 opcItem.val(opc[0].idModuleOption);  
-                                 if(jQuery.inArray(opc[0].idModuleOption, opciones)!=-1){
-                                    opcItem.attr('checked', true);
-                                 }
-                                 $dropdownModulos.append(opcItem);
-                                 console.log(opc[0].name);
-                                 $dropdownModulos.append($("<label>" + opc[0].name + "</label>"));
-                             }else{
-                                 $dropdownModulos.append($("<input type='checkbox' name='idModuleOption' id='idModuleOption' value='" + opc[0].idModuleOption + "'><label>" + opc[0].name + "</label>"));
-                             }
-                             $dropdownModulos.append($("<br />"));
-                            $.each(opc.topcion,function(topcs,topc){
-                                    console.log(topc);
-                                    //$dropdownModulos.append("----------------");
-                                    $dropdownModulos.append($("<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + topc.name + "</label>"));
-                                    //$dropdownModulos.append("----------------");
-                                    $dropdownModulos.append($("<br />"));
-                            });
+                                if(jQuery.inArray(opc[0].idModuleOption, opciones)!=-1){
+                                    var opcItem="<input type='checkbox' name='idModuleOption' id='idModuleOption' value='"+ opc[0].idModuleOption +"' checked>";
+                                }else{
+                                    var opcItem="<input type='checkbox' name='idModuleOption' id='idModuleOption' value='"+ opc[0].idModuleOption +"'>";
+                                }
+                                permisos = permisos + "<label class='container paddingCheck'>" + opc[0].name + opcItem + "<span class='checkmarkPermisos'></span></label>";
+                            //    $("#modulospo").append(opcItem);
+                            //      // console.log(opc[0].name);
+                            //     var nombre = "<label align='center'>" + opc[0].name + "</label>";
+                            //      $("#modulospo").append(nombre);
+                            }else{
+                                var check = "<input type='checkbox' name='idModuleOption' id='idModuleOption' value='" + opc[0].idModuleOption + "'>" + opc[0].name + "<span class='checkmarkPermisos'></span></label>";
+                                permisos = permisos+"<label class='container paddingCheck'>" + check;
+                            //      $("#modulospo").append(check);
+                            }
+                            //  $("#modulospo").append(br);
+                            // $.each(opc.topcion,function(topcs,topc){
+                            //         // console.log(topc);
+                            //         // var nombre2 = "<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + topc.name + "</label>";
+                            //         // //$dropdownModulos.append("----------------");
+                            //         // $("#modulospo").append(nombre2);
+                            //         // //$dropdownModulos.append("----------------");
+                            //         // $("#modulospo").append(br);
+                            // });
                          });
+                         if(cont==2){
+                            cont = 0;
+                            permisos = permisos + "</div></div><hr>";
+                         }else{
+                            permisos = permisos + "</div>";
+                         }
                     });
+                    permisos = permisos + "</div>";
                 });
+                $("#modulospo").append(permisos);
             }
         },
         error: function () {

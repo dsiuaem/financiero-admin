@@ -5329,13 +5329,13 @@ section {
 
 .switch.switch-text .switch-label::before {
     right: 1px;
-    color: #e9ecef;
+    color: black;
     content: attr(data-off);
 }
 
 .switch.switch-text .switch-label::after {
     left: 1px;
-    color: #fff;
+    color: black;
     content: attr(data-on);
     opacity: 0;
 }

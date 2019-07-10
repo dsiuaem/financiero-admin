@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
     <div class="col-12 col-md-12">
         <div class="small-box bg-info" style="text-align: right;">
             <div class="inner">
@@ -6,9 +6,11 @@
             </div>
         </div>
     </div>
+</div> -->
+<div class="card-header" style="background-color: #142f5a !important">
+    <h5 class="card-title" style="text-align: center; color: white;">Registro de tipo opción</h5>
 </div>
-
-<div class="card-body card-block">
+<div class="card-body">
     <form id="registroTipoOpciones" name="registroTipoOpciones" method="POST" enctype="multipart/form-data">
 
         <div class="row form-group">
@@ -68,14 +70,23 @@
             <div class="col col-md-2"></div>
             <div class="col-12 col-md-8">
                 <label for="description" class="form-control-label">Tipo: </label>
-                <input type="checkbox" id="typeOne" name="typeOne" value="1" onclick="checkOne()"> 1
-                <input type="checkbox" id="typeTwo" name="typeTwo" value="2" onclick="checkTwo()"> 2
+                <label class="container">Estatus
+                  <input type="checkbox" id="typeOne" name="typeOne" value="1" onclick="checkOne()">
+                  <span class="checkmark"></span>
+                </label>
+
+                <label class="container">Otra
+                  <input type="checkbox" id="typeTwo" name="typeTwo" value="2" onclick="checkTwo()">
+                  <span class="checkmark"></span>
+                </label>
+                <!-- <input type="checkbox" id="typeOne" name="typeOne" value="1" onclick="checkOne()"> 1
+                <input type="checkbox" id="typeTwo" name="typeTwo" value="2" onclick="checkTwo()"> 2 -->
             </div>
             <div class="col col-md-2"></div>
         </div>
 
         <div align="center">
-            <button id="btnSaveTypeOption" name="btnSaveTypeOption" class="btn btn-primary">Guardar</button>
+            <button id="btnSaveTypeOption" name="btnSaveTypeOption" class="btn btn-lg btn-outline btn-registra">Guardar</button>
         </div>
     </form>
 </div>

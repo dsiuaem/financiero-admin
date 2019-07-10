@@ -67,7 +67,6 @@ $(document).ready(function () {
             updateSistema();
         }
     });
-
 });
 
 var tableSistemas;
@@ -98,15 +97,15 @@ function systemsTable() {
 
                     }
 
-                    return '<button id="btnUpdateSystem" data-toggle="modal" data-target="#modalEditarSistema" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></button> ' +
+                    return '<button id="btnUpdateSystem" data-toggle="modal" data-target="#modalEditarSistema" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1"><i class="fas fa-edit"></i></button> ' +
                         '' +
-                        '<label class="switch switch-text switch-success switch-pill">\n' +
+                        '<label class="switch switch-text switch-success switch-pill mr-1">\n' +
                         '<input id="btnEnableSystem" type="' + estado + '" class="switch-input" checked="true">\n' +
                         '<span data-on="On" data-off="Off" class="switch-label"></span>\n' +
                         '<span class="switch-handle"></span>\n' +
                         '</label> ' +
                         '' +
-                        '<button id="btnDeleteSystem" title="Eliminar concepto" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';
+                        '<button id="btnDeleteSystem" title="Eliminar concepto" class="btn btn-outline-danger btn-sm btn-rounded btn-custom"><i class="fas fa-trash-alt"></i></i></button>';
 
                 }
             },
@@ -168,7 +167,6 @@ function systemsTable() {
             });
 
     });
-
 }
 
 //CONSERVAR EL NOMBRE DE ESTA FUNCIÓN Y EL PARAMETRO
