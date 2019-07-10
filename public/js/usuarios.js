@@ -62,10 +62,10 @@ $(document).ready(function () {
     alertify.set('notifier', 'position', 'top-right');
 
     //Mostrar información en el select
-    showSystemsNewUser();
-    showUsersTypeNewUser();
-    showSystemsAsignarPerfil();
-    showSystemsListarUsuarios();
+    //showSystemsNewUser();
+    //showUsersTypeNewUser();
+    //showSystemsAsignarPerfil();
+    //showSystemsListarUsuarios();
 
     //jquery validator donde se corroboran que los datos esten introducidos y ningun campo se vaya en vacio
     $('form[id="registroUsuarios"]').validate({
@@ -178,6 +178,21 @@ $(document).ready(function () {
         $('.infoUsers').hide();
         if (id_perfil != "") {
             $('.infoUsers').show();
+
+            $.ajax({
+                url: 'Usuarios/usuariosListTableSinPerfil',
+                type: 'POST',
+                data: ({id_perfil: id_perfil, id_system: id_system}),
+                success: function (response) {
+
+                    console.log(response);
+
+                },
+                error: function () {
+                    alertify.error("Error al obtener el servicio para cargar lista de sistemas");
+                }
+            });
+            //return false;
             tableListadoAsignacionPerfiles = $('#tableListadoAsignacionPerfiles').DataTable({
                destroy: true,
                responsive: {
@@ -246,6 +261,9 @@ $(document).ready(function () {
         $('.listaUsuarios').hide();
         if (id_system != "") {
             $('.listaUsuarios').show();
+
+
+
 
             tableUsuarios = $('#tableUsuarios').DataTable({
                 destroy: true,
@@ -351,6 +369,31 @@ $(document).ready(function () {
     });
 
 
+    $('#empleadoNewUser').change(function(){
+        var idEmpleado=$('#empleadoNewUser').val();
+        $.ajax({
+            url: 'Usuarios/getEmpleado',
+            type: 'POST',
+            dataType: 'JSON',
+            data:{idEmpleado},
+            success: function (response) {
+                console.log(response);
+                if(response.respuesta==200){
+                    var empleado=jQuery.parseJSON(response.empleadoList);
+                    $('#userNameR').val(empleado.email);
+                    $('#userName').val(empleado.email);
+        
+                }else{
+                    alertify.error("Error: getEmpleado");
+                }
+            },
+            error: function () {
+                alertify.error("Error al obtener el servicio para cargar lista de sistemas");
+            }
+        });
+    });
+
+
 
 
 });
@@ -409,11 +452,12 @@ function redireccionarVista(optionMenu) {
 }
 
 function cleanAgregarUser(){
-    resetearSelect($('#systemNameNewUser'));
+    //resetearSelect($('#systemNameNewUser'));
     resetearSelect($('#userTypeNewUser'));
-    $('#registroUsuarios')[0].reset();
-    showSystemsNewUser();
+    resetearSelect($('#empleadoNewUser'));
     showUsersTypeNewUser();
+    $('#registroUsuarios')[0].reset();
+    getEmpleados();
 }
  
 function cleanAsignarPerfiles(){
@@ -459,25 +503,28 @@ function showSystemsNewUser() {
             alertify.error("Error al obtener el servicio para cargar lista de sistemas");
         }
     });
-    return false;
 
 }
 
-function showUsersTypeNewUser() {
+function getEmpleados() {
 
     $.ajax({
-        url: 'Usuarios/userTypeList',
+        url: 'Usuarios/getEmpleados',
         type: 'POST',
         dataType: 'JSON',
         success: function (response) {
-
-            var userType = jQuery.parseJSON(response.usuariosDTO);
-            var $dropdown = $("select[name$='userTypeNewUser']");
-            for (var i = userType.length - 1; i >= 0; i--) {
-                $dropdown.append($("<option />").val(userType[i].idUserType).text(userType[i].type));
+            if(response.respuesta==200){
+                var empleados=jQuery.parseJSON(response.empleadosList);
+                var dropdown=$('#empleadoNewUser');
+                $.each(empleados,function(e,emp){
+                   dropdown.append($("<option />").val(emp.idEmpleado).text(emp.nombre+' '+emp.apPaterno+' '+emp.apMaterno));
+                });
+                
+                dropdown.select2();
+            }else{
+                alertify.error('Error: getEmpleados');
             }
 
-            $dropdown.select2();
 
         },
         error: function () {
@@ -496,45 +543,36 @@ function saveRegistroUsuarios() {
         data[obj.name] = obj.value;
     });
 
-    if (data.systemNameNewUser != 0) {
+    if (data.userTypeNewUser != 0) {
 
-        if (data.userTypeNewUser != 0) {
+        $.ajax({
+            url: 'Usuarios/registrarUsuarios',
+            type: 'POST',
+            data: ({datos: data}),
+            success: function (response) {
 
-            $.ajax({
-                url: 'Usuarios/registrarUsuarios',
-                type: 'POST',
-                data: ({datos: data}),
-                success: function (response) {
+                console.log(response);
 
-                    console.log(response);
-
-                    var obj = jQuery.parseJSON(response);
-                    if (obj.respuesta == 200) {
-                        //tableListadoAsignacionPerfiles.ajax.reload();
-                        cleanAgregarUser();
-                        //tableListadoAsignacionPerfiles.ajax.reload();
-                        alertify.success("Usuario registrado exitosamente");
-                        return false;
-                    } else {
-                        //alert("Error al insertar los datos");
-                        alertify.error("Error al registrar al usuario");
-                    }
-                },
-                error: function () {
-                    alertify.error("Error al obtener el servicio para registrar el usuario");
+                var obj = jQuery.parseJSON(response);
+                if (obj.respuesta == 200){
+                    cleanAgregarUser();
+                    alertify.success("Usuario registrado exitosamente");
+                   
+                } else {
+                    obj.respuesta==404?alertify.error("El empleado ya tiene cuenta de usuario"):alertify.error("Error al registrar al usuario");
                 }
-            });
-            return false;
+            },
+            error: function () {
+                alertify.error("Error al obtener el servicio para registrar el usuario");
+            }
+        });
+        return false;
 
-
-        } else {
-
-            alertify.warning("No has seleccionado un tipo de usuario");
-
-        }
 
     } else {
-        alertify.warning("No has seleccionado un sistema");
+
+        alertify.warning("No has seleccionado un tipo de usuario");
+
     }
 
 }
@@ -600,143 +638,7 @@ function showSystemsAsignarPerfil() {
 
 }
 
-//Funciones para obtener información de los select
-/*$(document).on('change', '#systemNameAsignarPerfil', function () {
-    $('.infoUsers').hide();
-    var id_sistema = $('select[name=systemNameAsignarPerfil]').val();
-    resetearSelect($('#perfilUser'));
-    
-    if (id_sistema != "") {
-        $.ajax({
-            url: 'Perfiles/perfilesListSelect',
-            type: 'POST',
-            data: ({data: id_sistema}),
-            success: function (response) {
 
-                var modules = jQuery.parseJSON(response);
-                //console.log(modules);
-                var arreglo = modules.perfilesDTO;
-                //console.log(typeof (arreglo));
-                arreglo = jQuery.parseJSON(arreglo);
-                //console.log(typeof (arreglo));
-                var $dropdown = $("select[name$='perfilUser']");
-                for (var i = arreglo.length - 1; i >= 0; i--) {
-                    $dropdown.append($("<option />").val(arreglo[i].idPerfil).text(arreglo[i].perfil));
-                }
-
-            },
-            error: function () {
-                alert("Error al obtener el servicio para cargar la lista");
-            }
-        });
-
-    }
-
-});*/
-
-//####################################
-//Usuarios sin perfil asignado
-//####################################
-//var id_usuarios;
-//var tableListadoAsignacionPerfiles;
-
-/*$(document).on('change', '#perfilUser', function () {
-
-    var id_system = $('select[name=systemNameAsignarPerfil]').val();
-    var id_perfil = $('select[name=perfilUser]').val();
-    $('.infoUsers').hide();
-    if (id_perfil != "") {
-        $('.infoUsers').show();
-        //console.log("entra" + " " + id_system);
-
-        tableListadoAsignacionPerfiles = $('#tableListadoAsignacionPerfiles').DataTable({
-            destroy: true,
-            responsive: {
-                details: false
-            },
-            ajax: {
-                url: 'Usuarios/usuariosListTableSinPerfil',
-                type: 'POST',
-                data: ({id_perfil: id_perfil, id_system: id_system}),
-                dataSrc: "",
-            },
-            select: {
-                style: 'multi'
-            },
-            dom: 'Bfrtip',
-            buttons: [
-                {
-                    text: 'Guardar',
-                    className: 'btn btn-success buttonDt',
-                    action: function () {
-                        saveAsignarperfil();
-                    }
-                }
-            ],
-            columns: [
-                {
-                    data: "idUser",
-                    visible: false,
-                    searchable: false
-                },
-                {data: "user"}
-
-            ],
-            fixedColumns: true,
-            language: {
-                "url": "public/plugins/DataTables/Spanish.json",
-            }
-        });
-
-    }
-
-});*/
-
-//####################################
-//Usuarios con perfil asignado
-//####################################
-
-//var tableListadoAsignacionPerfilesExistentes;
-//Para DataTable
-//Funciones para obtener información de los select
-/*$(document).on('change', '#perfilUser', function () {
-
-    var id_system = $('select[name=systemNameAsignarPerfil]').val();
-    var id_perfil = $('select[name=perfilUser]').val();
-    $('.infoUsers').hide();
-    if (id_perfil != "") {
-        $('.infoUsers').show();
-        //console.log("entra" + " " + id_system);
-
-        tableListadoAsignacionPerfilesExistentes = $('#tableListadoAsignacionPerfilesExistentes').DataTable({
-            destroy: true,
-            responsive: {
-                details: false
-            },
-            ajax: {
-                url: 'Usuarios/usuariosListTableConPerfil',
-                type: 'POST',
-                data: ({id_perfil: id_perfil, id_system: id_system}),
-                dataSrc: "",
-            },
-            columns: [
-                {
-                    data: "idUser",
-                    visible: false,
-                    searchable: false
-                },
-                {data: "user"}
-
-            ],
-            fixedColumns: true,
-            language: {
-                "url": "public/plugins/DataTables/Spanish.json",
-            }
-        });
-
-    }
-
-});*/
 
 //Funcion para llevar a cabo el registro de un sistema
 function saveAsignarperfil() {
@@ -824,135 +726,7 @@ function showSystemsListarUsuarios() {
 
 }
 
-var tableUsuarios;
-//Para DataTable
-//Funciones para obtener información de los select
-/*$(document).on('change', '#systemNameListarUsuarios', function () {
 
-    var id_system = $('select[name=systemNameListarUsuarios]').val();
-
-    if (id_system != "0") {
-
-        //console.log("entra" + " " + id_system);
-
-        tableUsuarios = $('#tableUsuarios').DataTable({
-            destroy: true,
-            responsive: {
-                details: false
-            },
-            ajax: {
-                url: 'Usuarios/usersListTable',
-                type: 'POST',
-                data: ({id: id_system}),
-                dataSrc: "",
-            },
-            columns: [
-
-                {
-                    data: null,
-                    render: function (data, type, full, meta) {
-                        console.log(data);
-                        var checked;
-                        data.enable==1?checked='checkbox':checked='';
-
-                        return '<a id="btnUpdateUser" data-toggle="modal" data-target="#modalEditarUsuario" href="" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></a> ' +
-                            '' +
-                            '<label class="switch switch-text switch-success switch-pill">\n' +
-                            '<input id="btnEnableUser" type="'+checked+'" class="switch-input" checked="true" >\n' +
-                            '<span data-on="On" data-off="Off" class="switch-label"></span>\n' +
-                            '<span class="switch-handle"></span>\n' +
-                            '</label> ';
-                            //'<a id="btnDeleteUser" title="Eliminar concepto" href="#" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></a>';
-
-                    },
-                },
-                {
-                    data: "idUser",
-                    visible: false,
-                    searchable: false
-                },
-
-                {data: "user"}
-
-            ],
-            fixedColumns: true,
-            language: {
-                "url": "public/plugins/DataTables/Spanish.json",
-            }
-        });
-
-
-        $('#tableUsuarios tbody').off('click', '#btnUpdateUser').on('click', '#btnUpdateUser', function () {
-            var data = tableUsuarios.row(this.closest('tr')).data();
-            console.log(data);
-            $('#idUserUpdate').val(data.idUser);
-            $('#updateCorreoUsuario').val(data.user);
-            $('#updatePassUsuario').prop('disabled',true);
-            $('#password_repeat').prop('disabled',true);
-            var idPerfilActual=getUserPerfil(data.idUser,id_system);
-            $('.actualIdPerfil').val(idPerfilActual);
-            $.ajax({
-                url: 'Perfiles/perfilesListSelect',
-                type: 'POST',
-                async:false,
-                data: ({data: id_system}),
-                success: function (response) {
-                    var respuesta=jQuery.parseJSON(response);
-                    if(respuesta.respuesta==200){
-                        var perfiles=jQuery.parseJSON(respuesta.perfilesDTO);
-                        var select=$('.perfilesEditSelect');
-                        select.empty();
-                        $.each(perfiles,function(e,i){
-                            console.log(i);
-                            select.append($('<option/>').val(i.idPerfil).text(i.perfil));
-                        });
-
-                        select.val(idPerfilActual);
-                        select.select2();
-                    }else{
-                       alertify.error('Algo salio mal');
-                    }
-                },
-                error: function () {
-                    alert("Error al obtener el servicio para cargar la lista");
-                }
-            });
-           
-
-        });
-
-        $('#tableUsuarios tbody').off('click', '#btnEnableUser').on('click', '#btnEnableUser', function () {
-            var data = tableUsuarios.row(this.closest('tr')).data();
-            var id = data.idUser;
-
-            alertify.confirm("¿Desea cambiar el estado ?",
-                function(){
-                  cabiarEstado(id,id_system,data.enable);
-                },
-                function(){
-                 alertify.error('Acción cancelada');
-                }
-            );
-
-        });
-
-        $('#tableUsuarios tbody').off('click', '#btnDeleteUser').on('click', '#btnDeleteUser', function () {
-            var data = tableUsuarios.row(this.closest('tr')).data();
-            var id = data.idUser;
-
-            alertify.confirm('Eliminar el usuario seleccionado ', function () {
-                    deleteUsuario(id);
-                }
-                , function () {
-                    alertify.error('Acción cancelada')
-                });
-
-        });
-
-
-    }
-
-});*/
 
 function getUserPerfil(idUser,idSystem){
    var idPerfil;
@@ -1003,6 +777,31 @@ function limpiarForm(){
       if($('#checkboxPassword').val()==1){
          $('#checkboxPassword').click();
       }
+}
+
+function showUsersTypeNewUser() {
+
+    $.ajax({
+        url: 'Usuarios/userTypeList',
+        type: 'POST',
+        dataType: 'JSON',
+        success: function (response) {
+
+            var userType = jQuery.parseJSON(response.usuariosDTO);
+            var $dropdown = $("select[name$='userTypeNewUser']");
+            for (var i = userType.length - 1; i >= 0; i--) {
+                $dropdown.append($("<option />").val(userType[i].idUserType).text(userType[i].type));
+            }
+
+            $dropdown.select2();
+
+        },
+        error: function () {
+            alertify.error("Error al obtener el servicio para cargar lista de sistemas");
+        }
+    });
+    return false;
+
 }
 
 

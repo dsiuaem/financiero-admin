@@ -40,13 +40,13 @@ class UsuariosController extends Controller
         //Pasar los datos del formulario al DTO
         $registrarUsuariosDTO = new UsuariosDTO;
         //$SistemasDTO->idUser = $_SESSION["idUsuarioADMIN"];
-        $registrarUsuariosDTO->idSystem = $_POST['datos']['systemNameNewUser'];
-        $registrarUsuariosDTO->idUserType = $_POST['datos']['userTypeNewUser'];
+        $registrarUsuariosDTO->idUser = $_SESSION['idUsuarioADMIN'];
+        $registrarUsuariosDTO->idEmpleado = $_POST['datos']['empleadoNewUser'];
+        $registrarUsuariosDTO->idUserType= $_POST['datos']['userTypeNewUser'];
         $registrarUsuariosDTO->user = $_POST['datos']['userName'];
         //$registrarUsuariosDTO->email = $_POST['datos']['userEmail'];
         $registrarUsuariosDTO->password = $_POST['datos']['userPass'];
         $this->model->insertUserDTO = $registrarUsuariosDTO;
-        //Recupera los datos del servicio web
 
         $this->model->registrarUsuario();
         //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
@@ -158,6 +158,26 @@ class UsuariosController extends Controller
 
 
         $this->model->cambiarEstado();
+        //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+        echo json_encode($this->model);
+    }
+
+    function getEmpleados(){
+        $usuarioDTO = new UsuariosDTO;
+        //var_dump($_POST);die();
+        $this->model->empleados = $usuarioDTO;
+        //Recupera los datos del servicio web
+        $this->model->getEmpleados();
+        //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+        echo json_encode($this->model);
+    }
+
+     function getEmpleado(){
+        $usuarioDTO = new UsuariosDTO;
+        $usuarioDTO->id=$_POST['idEmpleado'];
+        $this->model->empleado = $usuarioDTO;
+        //Recupera los datos del servicio web
+        $this->model->getEmpleado();
         //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
         echo json_encode($this->model);
     }

@@ -7,6 +7,10 @@ class UsuariosDTO
 
     public $idUser;
 
+    public $id;
+
+    public $idEmpleado;
+
     public $idUserType;
 
     public $user;

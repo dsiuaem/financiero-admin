@@ -50,9 +50,10 @@ class UsuariosModel extends Model
         $ch = curl_init();
         //Encritar datos que llegan del formulario
         $jwt = new JWT();
+
         $data = $jwt->TokenJWT($this->insertUserDTO);
         //$data = json_encode($this->insertUserDTO);
-        //var_dump($data);
+        //var_dump($data);die();
         // define options
         $optArray = array(
             CURLOPT_URL => constant('URL_API_ADMIN') . 'usuarios',
@@ -72,7 +73,6 @@ class UsuariosModel extends Model
         if ($responseCode == 200) {
             //El resultado se deserializa en la clase DTO devuelta
             $dataDescrypt = $jwt->Desencriptar($result);
-            $this->usuariosDTO = $dataDescrypt->usuariosDTO;
             $this->respuesta = $dataDescrypt->respuesta;
             //Retornar los datos correctos más la respuesta de OK, o en caso de que el servicio mande error, aqui se retorna
         } else {
@@ -164,7 +164,7 @@ class UsuariosModel extends Model
         //Encritar datos que llegan del formulario
         $jwt = new JWT();
         $data = $jwt->TokenJWT($this->getUsuariosTableSinPerfilDTO);
-        //var_dump($data);
+       // var_dump($data);die();
         // define options
         $optArray = array(
             CURLOPT_URL => constant('URL_API_ADMIN') . 'usuariosSinPerfil',
@@ -240,7 +240,7 @@ class UsuariosModel extends Model
         $data = $jwt->TokenJWT($this->asignarPerfilDTO);
         //$data = json_encode($this->asignarPerfilDTO);
         //var_dump($data);die();
-        //var_dump("hola");die();
+
         // define options
         $optArray = array(
             CURLOPT_URL => constant('URL_API_ADMIN') . 'usuarios/perfil',
@@ -331,6 +331,67 @@ class UsuariosModel extends Model
             //Retornar los datos correctos más la respuesta de OK, o en caso de que el servicio mande error, aqui se retorna
         } else {
             $this->respuesta = 500;
+        }
+    }
+
+    function getEmpleados(){
+        $ch = curl_init();
+        // define options
+        $jwt = new JWT();
+        $optArray = array(
+            CURLOPT_URL => constant('API_URL_SIA').'resource/empleados',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST=>'GET',
+            CURLOPT_HTTPHEADER=>array('Content-type: text/plain')
+        );
+        // apply those options
+        curl_setopt_array($ch, $optArray);
+        // execute request and get response
+        $result = curl_exec($ch);
+        //Response code
+        $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        $consulta = new JWT;
+        if($responseCode==200){
+            //El resultado se deserializa en la clase DTO devuelta
+             $dataDescrypt = $jwt->Desencriptar($result);
+            $this->empleadosList=$dataDescrypt->solicitudList;
+            $this->respuesta = $dataDescrypt->respuesta;
+
+        }else{
+           $this->respuesta = 500;
+        }
+    }
+
+    function getEmpleado(){
+        $ch = curl_init();
+        // define options
+        $jwt = new JWT();
+        $data = $jwt->TokenJWT($this->empleado);
+        $optArray = array(
+            CURLOPT_URL => constant('API_URL_SIA').'resource/empleado',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST=>'GET',
+            CURLOPT_POSTFIELDS => $data,
+            CURLOPT_HTTPHEADER=>array('Content-type: text/plain')
+        );
+        // apply those options
+        curl_setopt_array($ch, $optArray);
+        // execute request and get response
+        $result = curl_exec($ch);
+        //Response code
+        $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        $consulta = new JWT;
+        if($responseCode==200){
+            //El resultado se deserializa en la clase DTO devuelta
+            $dataDescrypt = $jwt->Desencriptar($result);
+            $this->empleadoList=$dataDescrypt->solicitudList;
+            //$this->empleadosList=$dataDescrypt->solicitudList;
+            $this->respuesta = $dataDescrypt->respuesta;
+
+        }else{
+           $this->respuesta = 500;
         }
     }
 
