@@ -332,9 +332,6 @@ function editarPerfil(idPerfil,perfil){
         $('.perfil').val(perfil);
         var id_sistema = $('select[name=systemNameTable]').val();
         $('#modulos').empty();
-        $('#submodulosEditar').empty();
-        $('#opcionesEditar').empty();
-        $('#tipoOpcionesEditar').empty();
         $('#modulospoEditar').empty();
         $('.idPerfilEdit').val(idPerfil);
         var opciones=getOpciones(idPerfil);
@@ -342,9 +339,6 @@ function editarPerfil(idPerfil,perfil){
           opciones=obtenerArrayOpciones(opciones);
         }
         var dropdownModulos = $("#modulospoEditar");
-        var dropdownSubModulos = $("div[name$='submodulosEditar']");
-        var dropdownOpciones = $("div[name$='opcionesEditar']");
-        var dropdownTipoOpciones = $("div[name$='tipoOpcionesEditar']");
         despliege(id_sistema,dropdownModulos,opciones);
     }
 }
@@ -422,13 +416,13 @@ function despliege(idSistema,$dropdownModulos,opciones){
                     });
                     permisos = permisos + "</div>";
                 });
-                $("#modulospo").append(permisos);
+                $dropdownModulos.append(permisos);
             }
         },
         error: function () {
             alert("Error al obtener el servicio para cargar el contenido de los sistemas");
         }
-            
+
     });
 }
 
@@ -470,7 +464,7 @@ function editarPerfilRealizar(){
         error: function () {
             alert("Error al obtener el servicio para actualizar el perfil");
         }
-     });   
+     });
 }
 
 function obtenerArrayOpciones(opciones){

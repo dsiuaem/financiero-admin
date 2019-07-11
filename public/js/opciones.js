@@ -160,10 +160,10 @@ $(document).ready(function () {
                             }
                             return '<button id="btnUpdateOption" data-toggle="modal" data-target="#modalEditarOpciones" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1"><i class="fas fa-edit"></i></button> ' +
                                 '' +
-                                '<label class="switch switch-text switch-success switch-pill">\n' +
-                                '<input id="btnEnableOption" type="' + estado + '" class="switch-input" checked="true">\n' +
-                                '<span data-on="On" data-off="Off" class="switch-label"></span>\n' +
-                                '<span class="switch-handle"></span>\n' +
+                                '<label class="switch switch-text switch-success switch-pill">' +
+                                '<input id="btnEnableOption" type="' + estado + '" class="switch-input" checked="true">' +
+                                '<span data-on="On" data-off="Off" class="switch-label"></span>' +
+                                '<span class="switch-handle"></span>' +
                                 '</label> ';
                         }
                     },
@@ -533,12 +533,3 @@ function showSystemsTable() {
     return false;
 
 }
-
-
-
-
-
-
-
-
-
