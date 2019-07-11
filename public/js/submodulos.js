@@ -26,7 +26,7 @@ $(document).ready(function () {
         messages: {
             systemName: 'Falta seleccionar un sistema',
             moduleName: 'Falta seleccionar un módulo',
-            nameSubmodule: 'Falta introducir un nombre al submdulo',
+            nameSubmodule: 'Falta introducir un nombre al submódulo',
             nameController: 'Falta introducir nombre al controlador',
             order: 'Falta introducir un orden'
         },
@@ -51,7 +51,7 @@ $(document).ready(function () {
             updateNameController: 'required'
         },
         messages: {
-            updateNameSubmodule: 'Falta introducir un nombre al submdulo',
+            updateNameSubmodule: 'Falta introducir un nombre al submódulo',
             updateNameController: 'Falta introducir nombre al controlador'
         },
         submitHandler: function () {
@@ -171,7 +171,7 @@ $(document).ready(function () {
 
                 }
 
-                alertify.confirm(texto + ' el submodulo seleccionado ', function () {
+                alertify.confirm(texto + ' el submódulo seleccionado ', function () {
                         estadoSwitch(id, estado);
                     }
                     , function () {
@@ -184,7 +184,7 @@ $(document).ready(function () {
                 var data = tableSubmodulos.row(this.closest('tr')).data();
                 var id = data.idSubModule;
 
-                alertify.confirm('Eliminar el submodulo seleccionado ', function () {
+                alertify.confirm('Eliminar el submódulo seleccionado ', function () {
                         deleteSubModulo(id);
                     }
                     , function () {
@@ -325,14 +325,14 @@ function saveRegistroSubModulos() {
                     console.log(obj);
                     if (obj.respuesta == 200) {
                         cleanNewSubModule();
-                        alertify.success("Submodulo registrado exitosamente");
+                        alertify.success("Submódulo registrado exitosamente");
                     } else {
                         //alert("Error al insertar los datos");
                         alertify.error("Error al registrar el submodulo");
                     }
                 },
                 error: function () {
-                    alertify.error("Error al obtener el servicio para registrar el submodulo");
+                    alertify.error("Error al obtener el servicio para registrar el submódulo");
                 }
             });
             return false;
@@ -374,15 +374,15 @@ function updateSubModulos() {
             if (obj.respuesta == 200) {
                 $("#modalEditarSubModulo").modal('hide');
                 tableSubmodulos.ajax.reload();
-                alertify.success("Submodulo actualizado exitosamente");
+                alertify.success("Submódulo actualizado exitosamente");
                 return false;
             } else {
                 //alert("Error al insertar los datos");
-                alertify.error("Error al actualizar el submodulo");
+                alertify.error("Error al actualizar el submódulo");
             }
         },
         error: function () {
-            alertify.error("Error al obtener el servicio para actualizar el submodulo");
+            alertify.error("Error al obtener el servicio para actualizar el submódulo");
         }
     });
     return false;
@@ -403,15 +403,15 @@ function deleteSubModulo(id_submodule) {
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
                 tableSubmodulos.ajax.reload();
-                alertify.success("Submodulo eliminado exitosamente");
+                alertify.success("Submódulo eliminado exitosamente");
                 return false;
             } else {
                 //alert("Error al insertar los datos");
-                alertify.error("Error al eliminar el submodulo");
+                alertify.error("Error al eliminar el submódulo");
             }
         },
         error: function () {
-            alertify.error("Error al obtener el servicio para eliminar el submodulo");
+            alertify.error("Error al obtener el servicio para eliminar el submódulo");
         }
     });
     return false;

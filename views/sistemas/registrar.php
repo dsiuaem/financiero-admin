@@ -58,7 +58,8 @@
         </div>
 
         <div align="center">
-            <button id="btnSaveSistema" name="btnSaveSistema" class="btn btn-lg btn-outline btn-registra" role="button">Guardar</button>
+            <!-- <button id="btnSaveSistema" name="btnSaveSistema" class="btn btn-lg btn-outline btn-registra" role="button">Guardar</button> -->
+            <a id="btnSaveSistema" name="btnSaveSistema" class="btn btn-primary" href="#" onclick="saveRegistroSistema()">Guardar</a>
         </div>
     </form>
   </div>

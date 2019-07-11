@@ -35,7 +35,7 @@
 <div class="row form-group">
     <div class="col col-md-2"></div>
     <div class="col-12 col-md-8">
-        <label for="submoduleListTable" class="form-control-label">Listado de submodulos:</label>
+        <label for="submoduleListTable" class="form-control-label">Listado de submódulos:</label>
         <select name="submoduleListTable" id="submoduleListTable" class="form-control">
         </select>
     </div>

@@ -8,7 +8,7 @@
     </div>
 </div> -->
 <div class="card-header" style="background-color: #142f5a !important">
-    <h5 class="card-title" style="text-align: center; color: white;">Registro de submodulos</h5>
+    <h5 class="card-title" style="text-align: center; color: white;">Registro de submódulos</h5>
 </div>
 
 <div class="card-body">
@@ -37,7 +37,7 @@
         <div class="row form-group">
             <div class="col col-md-2"></div>
             <div class="col-12 col-md-8">
-                <label for="nameSubmodule" class="form-control-label">Agregar nombre del submodulo: </label>
+                <label for="nameSubmodule" class="form-control-label">Agregar nombre del submódulo: </label>
                 <input type="text" id="nameSubmodule" name="nameSubmodule" class="form-control">
             </div>
             <div class="col col-md-2"></div>

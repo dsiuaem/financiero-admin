@@ -395,6 +395,105 @@ class UsuariosModel extends Model
         }
     }
 
+   /* function getSystemPerfil(){
+        $ch = curl_init();
+        // define options
+        $jwt = new JWT();
+        $data = $jwt->TokenJWT($this->empleado);
+        $optArray = array(
+            CURLOPT_URL => constant('URL_API_ADMIN').'userSystemPerfil',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST=>'POST',
+            CURLOPT_POSTFIELDS => $data,
+            CURLOPT_HTTPHEADER=>array('Content-type: text/plain')
+        );
+        // apply those options
+        curl_setopt_array($ch, $optArray);
+        // execute request and get response
+        $result = curl_exec($ch);
+        //Response code
+        $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        $consulta = new JWT;
+        if($responseCode==200){
+            //El resultado se deserializa en la clase DTO devuelta
+            $dataDescrypt = $jwt->Desencriptar($result);
+            $this->systemsList=$dataDescrypt->list;
+            //$this->empleadosList=$dataDescrypt->solicitudList;
+            $this->respuesta = $dataDescrypt->respuesta;
+
+        }else{
+           $this->respuesta = 500;
+        }
+    }
+
+    function getOutSystemPerfil(){
+        $ch = curl_init();
+        // define options
+        $jwt = new JWT();
+        $data = $jwt->TokenJWT($this->empleado);
+        $optArray = array(
+            CURLOPT_URL => constant('URL_API_ADMIN').'userOutSystemPerfil',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST=>'POST',
+            CURLOPT_POSTFIELDS => $data,
+            CURLOPT_HTTPHEADER=>array('Content-type: text/plain')
+        );
+        // apply those options
+        curl_setopt_array($ch, $optArray);
+        // execute request and get response
+        $result = curl_exec($ch);
+        //Response code
+        $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        $consulta = new JWT;
+        if($responseCode==200){
+            //El resultado se deserializa en la clase DTO devuelta
+            $dataDescrypt = $jwt->Desencriptar($result);
+            $this->systemsList=$dataDescrypt->list;
+            //$this->empleadosList=$dataDescrypt->solicitudList;
+            $this->respuesta = $dataDescrypt->respuesta;
+
+        }else{
+           $this->respuesta = 500;
+        }
+    }
+
+    function editPerfilUser(){
+        $ch = curl_init();
+        // define options
+        $jwt = new JWT();
+        $data = $jwt->TokenJWT($this->empleado);
+        //var_dump($data);die();
+        //var_dump(constant('URL_API_ADMIN').'editPerfilUser');die();
+        $optArray = array(
+            CURLOPT_URL => constant('URL_API_ADMIN').'editPerfilUser',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST=>'POST',
+            CURLOPT_POSTFIELDS => $data,
+            CURLOPT_HTTPHEADER=>array('Content-type: text/plain')
+        );
+        // apply those options
+        curl_setopt_array($ch, $optArray);
+        // execute request and get response
+        $result = curl_exec($ch);
+        //Response code
+        $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        $consulta = new JWT;
+         if($responseCode==200){
+            //El resultado se deserializa en la clase DTO devuelta
+            $dataDescrypt = $jwt->Desencriptar($result);
+ 
+            //$this->empleadosList=$dataDescrypt->solicitudList;
+            $this->respuesta = $dataDescrypt->respuesta;
+
+        }else{
+            
+           $this->respuesta = 500;
+        }
+    }*/
+
     function getSystemPerfil(){
         $ch = curl_init();
         // define options

@@ -8,7 +8,7 @@
     </div>
 </div> -->
 <div class="card-header" style="background-color: #142f5a !important">
-    <h5 class="card-title" style="text-align: center; color: white;">Listado de submodulos</h5>
+    <h5 class="card-title" style="text-align: center; color: white;">Listado de submódulos</h5>
 </div>
 <div class="row form-group">
     <div class="col col-md-2"></div>
@@ -39,7 +39,7 @@
               <tr>
                   <th>Editar</th>
                   <th></th>
-                  <th>Submodulos registrados</th>
+                  <th>Submódulos registrados</th>
                   <th>Controlador</th>
               </tr>
             </thead>
@@ -59,7 +59,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar submodulo</h4>
+                <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar submódulo</h4>
                 <!-- <button style="color: white;" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button> -->
@@ -73,7 +73,7 @@
                         <div class="col col-md-2"></div>
                         <div class="col-12 col-md-8">
                             <label for="updateNameSubmodule" class="form-control-label">Agregar nombre del
-                                submodulo: </label>
+                                submódulo: </label>
                             <input type="text" id="updateNameSubmodule" name="updateNameSubmodule" class="form-control">
                         </div>
                         <div class="col col-md-2"></div>

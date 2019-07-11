@@ -21,7 +21,7 @@ $(document).ready(function () {
             systemName: 'No has seleccionado un sistema',
             nameModule: 'Falta introducir nombre del módulo',
             description: 'Falta introducir la descripción',
-            nameModuleMenu: 'Falta introducir nombre del módulo'
+            nameModuleMenu: 'Falta introducir nombre del módulo menú'
         },
         submitHandler: function () {
             //Se registran los datos del módulo
@@ -47,7 +47,7 @@ $(document).ready(function () {
         messages: {
             updateNameModule: 'Falta introducir nombre del módulo',
             updateDescription: 'Falta introducir la descripción',
-            updateNameModuleMenu: 'Falta introducir nombre del módulo'
+            updateNameModuleMenu: 'Falta introducir nombre del módulo menú'
         },
         submitHandler: function () {
             //Se registran los datos del módulo

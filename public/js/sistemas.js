@@ -46,7 +46,7 @@ $(document).ready(function () {
             nombreSistema: {
                 required:true,
                 minlength: 6,
-                pattern: '^[a-zA-Z\ \á\é\í\ó\ú\Á\É\Í\Ó\Ú]+$'
+                //pattern: '^[a-zA-Z\ \á\é\í\ó\ú\Á\É\Í\Ó\Ú]+$'
             }
 
         },
@@ -54,7 +54,7 @@ $(document).ready(function () {
             nombreSistema:{
                 required:"Campo es requerido",
                 minlength: "6 caracteres como mínimo",
-                pattern: 'Formato incorrecto'
+                //pattern: 'Formato incorrecto'
             }
         }
     });

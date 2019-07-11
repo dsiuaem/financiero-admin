@@ -30,7 +30,7 @@ $(document).ready(function () {
         messages: {
             systemName: 'Falta seleccionar un sistema',
             moduleName: 'Falta seleccionar un módulo',
-            submoduleName: 'Falta seleccionar un submodulo',
+            submoduleName: 'Falta seleccionar un submódulo',
             nameOption: 'Falta introducir nombre de la opción',
             description: 'Falta introducir una descripción',
             order: 'Falta introducir un orden'
@@ -121,7 +121,7 @@ $(document).ready(function () {
 
                 },
                 error: function () {
-                    alert("Error al obtener el servicio para cargar lista de submodulos");
+                    alert("Error al obtener el servicio para cargar lista de submódulos");
                 }
             });
 
@@ -275,7 +275,7 @@ $(document).ready(function () {
                     }
                 },
                 error: function () {
-                    alert("Error al obtener el servicio para cargar lista de submodulos");
+                    alert("Error al obtener el servicio para cargar lista de submódulos");
                 }
             });
         } else {
@@ -380,7 +380,7 @@ function saveRegistroOpciones() {
                 return false;
 
             } else {
-                alertify.warning("No has seleccionado un submodulo");
+                alertify.warning("No has seleccionado un submódulo");
             }
 
         } else {
