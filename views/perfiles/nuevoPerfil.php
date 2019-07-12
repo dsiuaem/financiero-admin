@@ -99,7 +99,7 @@
             <div class="col-md-3"></div>
             <div class="col-md-3">
                 <div align="center">
-                    <button class="btn btn-lg btn-permisos opcsPerfil" data-toggle="modal" data-target="#modalAddPerfil">Permisos de Perfil</button>
+                    <a class="btn btn-lg btn-permisos opcsPerfil" data-toggle="modal" data-target="#modalAddPerfil" href="#">Permisos de Perfil</a>
                 </div>
             </div>
             <div class="col-md-3">

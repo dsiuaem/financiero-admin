@@ -135,9 +135,9 @@ function systemsTable() {
 
                     return '<button id="btnUpdateSystem" data-toggle="modal" data-target="#modalEditarSistema" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1"><i class="fas fa-edit"></i></button> ' +
                         '' +
-                        '<label class="switch switch-text switch-success switch-pill mr-1">\n' +
-                        '<input id="btnEnableSystem" type="' + estado + '" class="switch-input" checked="true">\n' +
-                        '<span data-on="On" data-off="Off" class="switch-label"></span>\n' +
+                        '<label class="switch switch-text switch-success switch-pill mr-1">' +
+                        '<input id="btnEnableSystem" type="' + estado + '" class="switch-input" checked="true">' +
+                        '<span data-on="On" data-off="Off" class="switch-label"></span>' +
                         '<span class="switch-handle"></span>\n' +
                         '</label> ' +
                         '' +

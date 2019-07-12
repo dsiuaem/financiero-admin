@@ -89,10 +89,10 @@ $(document).ready(function () {
 
                           return '<button id="btnUpdateModule" data-toggle="modal" data-target="#modalEditarModulo" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1"><i class="fas fa-edit"></i></button> ' +
                               '' +
-                              '<label class="switch switch-text switch-success switch-pill">\n' +
-                              '<input id="btnEnableModule" type="' + estado + '" class="switch-input" checked="true">\n' +
-                              '<span data-on="On" data-off="Off" class="switch-label"></span>\n' +
-                              '<span class="switch-handle"></span>\n' +
+                              '<label class="switch switch-text switch-success switch-pill">' +
+                              '<input id="btnEnableModule" type="' + estado + '" class="switch-input" checked="true">' +
+                              '<span data-on="On" data-off="Off" class="switch-label"></span>' +
+                              '<span class="switch-handle"></span>' +
                               '</label> ';
                               /*'' +
                               '<button id="btnDeleteModule" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';*/
