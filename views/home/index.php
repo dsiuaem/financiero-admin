@@ -2,8 +2,6 @@
 <!DOCTYPE html>
 <html lang="es-mx">
 <?php require 'views/header.php' ?>
-<script src="<?php echo constant('URL'); ?>public/js/jquery.flot.pie.min.js"></script>
-<script type="text/javascript" src="<?php echo constant('URL'); ?>public/js/donut_chart.js"></script>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
     <!-- Menu Header -->

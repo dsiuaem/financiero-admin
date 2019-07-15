@@ -289,12 +289,10 @@ $(document).ready(function () {
                             data.enable==1?checked='checkbox':checked='';
 
                             return '<a id="btnUpdateUser" data-toggle="modal" data-target="#modalEditarUsuario" href="" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1"><i class="fas fa-edit"></i></a> ' +
-                                '<label class="switch switch-text switch-success switch-pill">' +
-                                '<input id="btnEnableUser" type="'+checked+'" class="switch-input" checked="true" >' +
+                                '<label class="switch switch-text switch-success switch-pill">' + '<input id="btnEnableUser" type="'+checked+'" class="switch-input" checked="true" >' +
                                 '<span data-on="On" data-off="Off" class="switch-label"></span>' +
                                 '<span class="switch-handle"></span>' +
-                                '</label> '+
-                                '<a class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1 fas fa-plus" href="#" onclick="verUserSystemsPefil('+data.idUser+')"data-toggle="modal" data-target="#modalAdminSystems"></a>';
+                                '</label> '+'<a class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1 fas fa-plus" href="#" onclick="verUserSystemsPefil('+data.idUser+')"data-toggle="modal" data-target="#modalAdminSystems"></a>';
                                 //'<a id="btnDeleteUser" title="Eliminar concepto" href="#" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></a>';
 
                         },
