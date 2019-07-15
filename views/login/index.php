@@ -1,63 +1,80 @@
 <!DOCTYPE html>
-<!-- LOGIN ADMINLTE -->
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Content-Language" content="es"/>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="shortcut icon" type="image/x-icon" href="" />
+  <title>Iniciar sesión</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
 <?php require 'views/header.php' ?>
-<body class="hold-transition login-page">
-<div class="login-box">
-    <div class="login-logo">
-        <b>Administrador de Sistemas UAEM</b>
-    </div>
-    <!-- /.login-logo -->
-    <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg"><?php echo $this->errorLogin; ?></p>
-
-            <form action="<?php echo constant('URL'); ?>login/validar" method="POST">
-                <div class="form-group has-feedback">
-                    <input class="form-control" type="text" name="nombre" id="nombre" placeholder="Usuario" required>
-                    <!-- <span class="fa fa-envelope form-control-feedback"></span> -->
-                </div>
-                <div class="form-group has-feedback">
-                    <input class="form-control" type="password" name="password" id="password" placeholder="Contraseña"
-                           required>
-                    <!-- <span class="fa fa-lock form-control-feedback"></span> -->
-                </div>
-                <div class="row">
-                    <!-- <div class="col-8">
-                      <div class="checkbox icheck">
-                        <label>
-                          <input type="checkbox"> Remember Me
-                        </label>
-                      </div>
-                    </div> -->
-                    <!-- /.col -->
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Iniciar sesión</button>
-                    </div>
-                    <!-- /.col -->
-                </div>
-            </form>
-
-            <!-- <div class="social-auth-links text-center mb-3">
-              <p>- OR -</p>
-              <a href="#" class="btn btn-block btn-primary">
-                <i class="fa fa-facebook mr-2"></i> Sign in using Facebook
-              </a>
-              <a href="#" class="btn btn-block btn-danger">
-                <i class="fa fa-google-plus mr-2"></i> Sign in using Google+
-              </a>
-            </div> -->
-            <!-- /.social-auth-links -->
-
-            <!-- <p class="mb-1">
-              <a href="#">I forgot my password</a>
-            </p>
-            <p class="mb-0">
-              <a href="register.html" class="text-center">Register a new membership</a>
-            </p> -->
+<body>
+  <div id="principal">
+    <div>
+      <div class="login-box">
+        <div class="login-logo">
+            <b style="color: white;">Administrador de Sistemas <strong>UAEM</strong></b>
         </div>
-        <!-- /.login-card-body -->
+            <div class="card-body login-card-body">
+                <p class="login-box-msg"><?php echo $this->errorLogin; ?></p>
+
+                <form action="<?php echo constant('URL'); ?>login/validar" method="POST">
+                    <div class="form-group has-feedback">
+                      <div align="center">
+                        <label>CORREO INSTITUCIONAL</label>
+                        <input class="form-control inputlogin" type="text" name="nombre" id="nombre" placeholder="Usuario" required>
+                      </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                      <div align="center">
+                        <label>CONTRASEÑA</label>
+                        <input class="form-control inputlogin" type="password" name="password" id="password" placeholder="Contraseña"
+                               required>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12" align="center">
+                            <button type="submit" class="btn btn-block botonlogin">Iniciar sesión</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+    </div>
+  </div>              
+  </div>
+<footer class="text-center footerTrans" id="footer">
+<div class="container" style="height: 100%;">
+    <div class="row" style="height: 100%;">
+      <div class="col-md-12" style="height: 100%;z-index: 2">
+        <table id="footerTable">
+          
+          <tr>
+            <td style="padding-top: 7px;">Coordinación General de Planeación y Adminsitración</td>
+          </tr>
+          <tr>
+            <td>Dirección General de Tecnologías de Información y Comunicación</td>
+          </tr>
+          <tr>
+            <td>Dirección de Sistemas de Información</td>
+          </tr>
+          <tr>
+            <td><p style="margin-bottom: 0.5rem;"></p></td>
+          </tr>
+          <tr>
+            <td style="padding-bottom: 8px;">wwww.uaem.mx</td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+        </table>
+
+      </div>
     </div>
 </div>
+</footer>
 <?php include_once 'views/libreriasJS.php' ?>
 </body>
 </html>
