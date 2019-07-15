@@ -74,14 +74,14 @@ function tablaAvisos(id){
         ,
         {
             text: 'Eliminar seleccionados',
-            className:'btn btn-custom btn-rounded btn-outline-danger mb-4 buttonDt',
+            className:'btn btn-custom btn-rounded btn-outline-danger mb-4 buttonDt ml-4',
             action: function () {
                 //eliminarGrupo();
             }
         },
         {
             text: 'Agregar Aviso',
-            className:'btn btn-custom btn-rounded btn-outline-primary mb-4 buttonDt',
+            className:'btn btn-custom btn-rounded btn-outline-primary mb-4 buttonDt ml-4',
             action: function () {
                 vistaAvisos(0,0);
             }

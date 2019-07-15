@@ -2468,7 +2468,7 @@
   .btn-outline-primary:hover {
     color: #ffffff;
     background-color: #006DE2;
-    border-color: none;
+    border-color: #006DE2;
   }
   
   .btn-outline-primary:focus, .btn-outline-primary.focus {
@@ -2595,16 +2595,16 @@
   }
   
   .btn-outline-warning {
-    color: #ffc107;
-    background-color: transparent;
+    color: #fff;
+    background-color: #ffc107;
     background-image: none;
     border-color: #ffc107;
   }
   
   .btn-outline-warning:hover {
-    color: #1F2D3D;
-    background-color: #ffc107;
-    border-color: #ffc107;
+    color: #fff;
+    background-color: #E5AD04;
+    border-color: #E5AD04;
   }
   
   .btn-outline-warning:focus, .btn-outline-warning.focus {

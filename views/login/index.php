@@ -24,13 +24,13 @@
                 <form action="<?php echo constant('URL'); ?>login/validar" method="POST">
                     <div class="form-group has-feedback">
                       <div align="center">
-                        <label>CORREO INSTITUCIONAL</label>
+                        <label class="titulo">CORREO INSTITUCIONAL</label>
                         <input class="form-control inputlogin" type="text" name="nombre" id="nombre" placeholder="Usuario" required>
                       </div>
                     </div>
                     <div class="form-group has-feedback">
                       <div align="center">
-                        <label>CONTRASEÑA</label>
+                        <label class="titulo">CONTRASEÑA</label>
                         <input class="form-control inputlogin" type="password" name="password" id="password" placeholder="Contraseña"
                                required>
                       </div>
