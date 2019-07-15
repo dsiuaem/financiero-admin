@@ -63,7 +63,7 @@ $(function()
  function salirSistema(){
     var urlPath=window.location.pathname;
     var arrayPath = urlPath.split('/');
-    var proyectPath=arrayPath[1]+'/'+arrayPath[2];
+    var proyectPath=arrayPath[1]+arrayPath[1];
     var urlWholeProyect=window.location.origin+'/'+proyectPath;
     $.ajax({
     url: urlWholeProyect+'/Login/logOut',
@@ -71,8 +71,8 @@ $(function()
     data: {'closeSession' : 'close'},
     success: function (response) {
     window.location.href = urlWholeProyect+'/Login';
-    localStorage.removeItem('turnados'); // se remueven las variables del localstorage
-    localStorage.removeItem('CargaOficio');
+    // localStorage.removeItem('turnados'); // se remueven las variables del localstorage
+    // localStorage.removeItem('CargaOficio');
     localStorage.removeItem('estatus');
     localStorage.removeItem('idDocumento');
     },
