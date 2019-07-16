@@ -92,7 +92,7 @@ function tablaAvisos(id){
         data: "idAviso",
         render: function ( data, type, row, meta ) {
           return '<button title="Eliminar" class="btn btn-outline-danger btn-sm btn-rounded btn-custom ml-3 btn-eliminar-externo"><i class="fa fa-trash"></i></button>'+
-                 '<button title="Editar" class="btn btn-outline-success btn-sm btn-rounded btn-custom ml-3 btn-edit-externo"><i class="fa fa-edit"></i></button>';
+                 '<button title="Editar" class="btn btn-outline-success btn-sm btn-rounded btn-custom ml-3 btn-edit-externo"><i class="fas fa-edit"></i></button>';
           },
           className: "text-center"
      },

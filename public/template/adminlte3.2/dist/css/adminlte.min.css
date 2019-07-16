@@ -55,6 +55,10 @@
     -ms-overflow-style: scrollbar;
     -webkit-tap-highlight-color: transparent;
   }
+
+  li{
+    cursor: pointer;
+  }
   
   @-ms-viewport {
     width: device-width;
@@ -2129,7 +2133,6 @@
     display: inline-block;
     font-weight: 400;
     text-align: center;
-    white-space: nowrap;
     vertical-align: middle;
     user-select: none;
     border: 1px solid transparent;
