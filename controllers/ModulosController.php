@@ -22,7 +22,6 @@ class ModulosController extends Controller
          */
         $this->setTipoController("Modulos");
         $this->setModuleMenu("Gestion de Sistemas");
-
         $this->view->render('modulos/index');
     }
 

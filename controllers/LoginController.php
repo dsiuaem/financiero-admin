@@ -1,19 +1,15 @@
 <?php
 require_once 'models/DTO/UsuarioDTO.php';
 require_once 'controllers/helpers/JWT.php';
-
-class LoginController extends Controller
-{
+class LoginController extends Controller{
 
 
-    function __construct()
-    {
+    function __construct(){
         //echo "Controlador login";
         parent::__construct();
     }
 
-    function render()
-    {
+    function render(){
         //Prueba: tener una session activa, y luego colocar solo el login: http://localhost/uaem_blank/login
         if (SessionUsuario::sessionActiva()) {//Validar session iniciada
             $this->view->render('home/index');
@@ -22,8 +18,7 @@ class LoginController extends Controller
         $this->view->render('login/index');
     }
 
-    public function validar()
-    {
+    public function validar() {
         if (isset($_POST["nombre"])) {//Indica que viene de un formulario
             $usuarioDTO = new UsuarioDTO;
             $usuarioDTO->nombre = $_POST["nombre"];
@@ -47,11 +42,11 @@ class LoginController extends Controller
                         //Se recuperan los permisos del usuario
                         $menuUser = new MenuUsuario();
                         $permisosMenu = $menuUser->permisosMenuSistema($usuarioDatos->idUser);
-                        //var_dump($permisosMenu);
                         $this->setPermisos($permisosMenu);
                         //---------------------------------------------
                         $this->view->render('home/index');
-                    } else {
+                    }
+                    else {
                         $this->view->errorLogin = "Contraseña incorrecta";
                         $this->view->render('login/index');
                     }
@@ -73,8 +68,7 @@ class LoginController extends Controller
         }
     }
 
-    public function logOut()
-    {
+    public function logOut(){
 
         if (isset($_POST['closeSession'])) {
 

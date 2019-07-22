@@ -18,13 +18,26 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                          <div id="avisos">
-                              <div class="form-group contenedorAviso" id="listado">
+                          <div id="avisos" style="display:none;">
+                              <div class="form-group contenedor" id="listadoAviso">
                                   <?php include_once 'views/soporteSistemas/avisos/listado.php'?>
                               </div>
-                              <div class="form-group contenedorAviso" id="avisoForm">
+                              <div class="form-group contenedor" id="avisoForm">
                                   <?php include_once 'views/soporteSistemas/avisos/avisoForm.php'?>
                               </div>
+                          </div>
+                          <div id="preguntasFrecuentes" style="display:none;">
+                              <div class="form-group contenedor" id="listadoPreguntas">
+                                  <?php include_once 'views/soporteSistemas/preguntasFrecuentes/listado.php'?>
+                              </div>
+                              <div class="form-group contenedor" id="preguntasFrecuentesForm">
+                                  <?php include_once 'views/soporteSistemas/preguntasFrecuentes/preguntasFrecuentesForm.php'?>
+                              </div>
+                          </div>
+                          <div id="listadoSistemas" style="display:none;">
+                            <div class="form-group contenedor" id="listado">
+                                <?php include_once 'views/soporteSistemas/listado.php'?>
+                            </div>
                           </div>
                         </div>
                     </div>

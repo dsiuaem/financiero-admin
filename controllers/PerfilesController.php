@@ -22,7 +22,6 @@ class PerfilesController extends Controller
          */
         $this->setTipoController("Perfiles");
         $this->setModuleMenu("Gestion de Sistemas");
-
         $this->view->render('perfiles/index');
     }
 

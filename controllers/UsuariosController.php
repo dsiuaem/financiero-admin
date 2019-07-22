@@ -14,15 +14,8 @@ class UsuariosController extends Controller
     // se renderiza la vista de solictud de pago
     function render()
     {
-        //Parametros para mostrar el menu en active
-        /*
-         * Estos datos son extraidos de la base de datos
-         * esto para poder mantener el menu abierto y no se pierda la dirección
-         *
-         */
         $this->setTipoController("Usuarios");
         $this->setModuleMenu("Gestion de Sistemas");
-
         $this->view->render('usuarios/index');
     }
 

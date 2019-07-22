@@ -22,7 +22,6 @@ class SubmodulosController extends Controller
          */
         $this->setTipoController("Submodulos");
         $this->setModuleMenu("Gestion de Sistemas");
-
         $this->view->render('submodulos/index');
     }
 

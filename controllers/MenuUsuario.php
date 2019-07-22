@@ -3,24 +3,19 @@ include_once 'models/helpers/PermisoMenu.php';
 include_once 'models/helpers/MenuUsuarioSistema.php';
 require_once 'controllers/helpers/JWT.php';
 
-class MenuUsuario extends Model
-{
-    public function __construct()
-    {
+class MenuUsuario extends Model{
+    public function __construct(){
         parent::__construct();
     }
-
     public $menuList;
     public $respuesta;
 
-    function permisosMenuSistema($idUser)
-    {
+    function permisosMenuSistema($idUser){
         $this->consultaService($idUser);
         return $this->menuList;
     }
 
-    public function consultaService($idUser)
-    {
+    public function consultaService($idUser){
         $jwt = new JWT();
         $usuarioSistema = new UsuarioSistema();
         $usuarioSistema->idUser = $idUser;
@@ -55,5 +50,4 @@ class MenuUsuario extends Model
         }
     }
 }
-
 ?>
