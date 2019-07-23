@@ -106,7 +106,7 @@ function saveRegistroSistema(){
 }
 
 var tableSistemas;
-
+var estado;
 function systemsTable() {
 
     tableSistemas = $('#tableSistemas').DataTable({
@@ -125,11 +125,11 @@ function systemsTable() {
 
                     if (data.enable == 1) {
 
-                        var estado = "checkbox";
+                         estado = "checkbox";
 
                     } else if (data.enable == 0) {
 
-                        var estado = "";
+                         estado = "";
 
                     }
 
@@ -170,22 +170,24 @@ function systemsTable() {
     $('#tableSistemas tbody').off('click', '#btnEnableSystem').on('click', '#btnEnableSystem', function () {
         var data = tableSistemas.row(this.closest('tr')).data();
         var id = data.idSystem;
-        var estado = data.enable;
+        var estadoBase = data.enable;
 
-        if (estado == 1) {
+        if (estadoBase == 1) {
 
             var texto = "Desactivar";
 
-        } else if (estado == 0) {
+        } else if (estadoBase == 0) {
 
             var texto = "Activar";
 
         }
 
         alertify.confirm(texto + ' el sistema seleccionado ', function () {
-                estadoSwitch(id, estado);
+                estadoSwitch(id, estadoBase);
             }
             , function () {
+            
+               tableSistemas.ajax.reload();
                 alertify.error('Acción cancelada')
             });
 

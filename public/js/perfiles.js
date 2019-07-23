@@ -77,6 +77,7 @@ $(document).ready(function () {
                         deletePerfil(id);
                     }
                     , function () {
+                        tableListadoPerfiles.ajax.reload();
                         alertify.error('Acción cancelada')
                     });
 

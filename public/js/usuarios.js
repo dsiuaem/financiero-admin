@@ -157,7 +157,6 @@ $(document).ready(function () {
                     var arreglo = modules.perfilesDTO;
                     //console.log(typeof (arreglo));
                     arreglo = jQuery.parseJSON(arreglo);
-                    //console.log(typeof (arreglo));
                     var $dropdown = $("select[name$='perfilUser']");
                     for (var i = arreglo.length - 1; i >= 0; i--) {
                         $dropdown.append($("<option />").val(arreglo[i].idPerfil).text(arreglo[i].perfil));
@@ -288,13 +287,15 @@ $(document).ready(function () {
                             var checked;
                             data.enable==1?checked='checkbox':checked='';
 
-                            return '<a id="btnUpdateUser" data-toggle="modal" data-target="#modalEditarUsuario" href="" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1"><i class="fas fa-edit"></i></a> ' +
-                                '<label class="switch switch-text switch-success switch-pill">' + '<input id="btnEnableUser" type="'+checked+'" class="switch-input" checked="true" >' +
-                                '<span data-on="On" data-off="Off" class="switch-label"></span>' +
-                                '<span class="switch-handle"></span>' +
-                                '</label> '+'<a class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1 fas fa-plus" href="#" onclick="verUserSystemsPefil('+data.idUser+')"data-toggle="modal" data-target="#modalAdminSystems"></a>';
+                            var botones='<a id="btnUpdateUser" data-toggle="modal" data-target="#modalEditarUsuario" href="" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1"><i class="fas fa-edit"></i></a> ';
+                                if(id_system!=0){
+                                    botones=botones+' <label class="switch switch-text switch-success switch-pill">' + '<input id="btnEnableUser" type="'+checked+'" class="switch-input" checked="true" >' +
+                                    '<span data-on="On" data-off="Off" class="switch-label"></span>' +
+                                    '<span class="switch-handle"></span>';
+                                }
+                                botones =botones+' </label> '+'<a class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1 fas fa-plus" href="#" onclick="verUserSystemsPefil('+data.idUser+')"data-toggle="modal" data-target="#modalAdminSystems"></a>';
                                 //'<a id="btnDeleteUser" title="Eliminar concepto" href="#" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></a>';
-
+                                return botones;
                         },
                     },
                     {
@@ -303,7 +304,12 @@ $(document).ready(function () {
                         searchable: false
                     },
 
-                    {data: "user"}
+                    {data: "user"},
+                    {data: null, render:function (data)
+                      {
+                         return data.nombre+" "+data.apPaterno+" "+data.apMaterno;
+                      }
+                    }
 
                 ],
                 fixedColumns: true,
@@ -361,6 +367,7 @@ $(document).ready(function () {
                       cabiarEstado(id,id_system,data.enable);
                     },
                     function(){
+                     tableUsuarios.ajax.reload();
                      alertify.error('Acción cancelada');
                     }
                 );
@@ -570,8 +577,8 @@ function editarPerfilSystem(id_system,idPerfil,idUser){
     $('#modalEditarPerfilUsuario').modal('show');
     $('#idUserPerfil').val(idUser);
     $('.actualIdPerfilEdit').val(idPerfil);
-    idPerfilActual=getUserPerfil(idUser,id_system);
-    resetearSelect($('.perfilEditSelect'));
+    //idPerfilActual=getUserPerfil(idUser,id_system);
+    /*resetearSelect($('.perfilEditSelect'));
     $.ajax({
         url: 'Perfiles/perfilesListSelect',
         type: 'POST',
@@ -597,7 +604,7 @@ function editarPerfilSystem(id_system,idPerfil,idUser){
         error: function () {
             alert("Error al obtener el servicio para cargar la lista");
         }
-    });
+    });*/
 
 }
 //CONSERVAR EL NOMBRE DE ESTA FUNCIÓN Y EL PARAMETRO
@@ -671,6 +678,7 @@ function cleanAsignarPerfiles(){
 
 function cleanListarUsuarios(){
    resetearSelect($('select[name=systemNameListarUsuarios]'));
+   $('select[name=systemNameListarUsuarios]').append($("<option />").val(0).text("Todos los empleados"));
    $('.listaUsuarios').hide();
    showSystemsListarUsuarios();
    //$('select[name=systemNameListarUsuarios]').val('').trigger('change');

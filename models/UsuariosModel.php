@@ -132,7 +132,7 @@ class UsuariosModel extends Model
         $optArray = array(
             CURLOPT_URL => constant('URL_API_ADMIN') . 'users-perfiles/table',
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => $data,
             CURLOPT_HTTPHEADER => array('Content-type: text/plain'),
         );

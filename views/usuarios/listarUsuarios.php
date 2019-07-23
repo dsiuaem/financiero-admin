@@ -35,6 +35,7 @@
                     <tr>
                         <th>Acciones</th>
                         <th></th>
+                        <th>Email</th>
                         <th>Nombre</th>
                     </tr>
                 </thead>
@@ -73,16 +74,6 @@
                         <div class="col col-md-2"></div>
                     </div>
 
-                    <div class="row form-group">
-                        <div class="col col-md-2"></div>
-                        <div class="col-12 col-md-8">
-                            <label for="updateCorreoUsuario" class="form-control-label">Selecciona una perfil:</label>
-                            <select class="form-control perfilesEditSelect" id="perfilesEditSelect" name="perfil">
-                                
-                            </select>
-                        </div>
-                        <div class="col col-md-2"></div>
-                    </div>
 
                     <div class="row form-group">
                         <div class="col col-md-2"></div>
@@ -138,7 +129,7 @@
                 </button>
             </div>
             <div class="modal-body mx-3">
-
+                <h3 class="text-info text">Sistemas actuales </h3>
                 <table class="table enSistemaPerfil" border="1">
                     <thead>
                         <tr>
@@ -151,6 +142,7 @@
                         
                     </tbody>
                 </table>
+                 <h3 class="text-info text">Sistemas por definir</h3>
                 <table class="table sinSistemaPerfil" border="1">
                     <thead>
                         <tr>
