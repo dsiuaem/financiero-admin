@@ -205,6 +205,7 @@ $(document).ready(function () {
                         estadoSwitch(id, estado);
                     }
                     , function () {
+                        tableOpciones.ajax.reload();
                         alertify.error('Acción cancelada')
                     });
             });

@@ -23,6 +23,7 @@ class TipoOpcionesModel extends Model
         //Encritar datos que llegan del formulario
         $jwt = new JWT();
         $data = $jwt->TokenJWT($this->insertTypeOptionDTO);
+        //var_dump($data);die();
         // define options
         $optArray = array(
             CURLOPT_URL => constant('URL_API_ADMIN') . 'tipo_opciones',

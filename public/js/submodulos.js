@@ -175,6 +175,7 @@ $(document).ready(function () {
                         estadoSwitch(id, estado);
                     }
                     , function () {
+                        tableSubmodulos.ajax.reload();
                         alertify.error('Acción cancelada')
                     });
 

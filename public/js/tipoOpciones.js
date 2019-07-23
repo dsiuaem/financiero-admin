@@ -251,6 +251,7 @@ $(document).ready(function () {
                         estadoSwitch(id, estado);
                     }
                     , function () {
+                        tableTipoOpciones.ajax.reload();
                         alertify.error('Acción cancelada')
                     });
 
