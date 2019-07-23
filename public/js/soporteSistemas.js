@@ -82,15 +82,19 @@ var empleadoSeleccionado = 0;
 function redireccionarVista(optionMenu) {
     // alert(optionMenu);
     resetForm();
-    $('#listadoSistemas').show();
     $('.contenedor').hide();
-    $('#listado').show();
-    $('#idTablaSistemas').show();
     switch (optionMenu) {
         case 1:
-            tablaSistemas("SoporteSistemas/obtenerAvisos","Aviso");
+            $('#listadoSistemas').hide();
+            $('#avisos').show();
+            $('#listadoAviso').show();
+            $('#idTablaAvisos').show();
+            tablaAvisos(optionMenu);
             break;
         case 2:
+            $('#listadoSistemas').show();
+            $('#listado').show();
+            $('#idTablaSistemas').show();
             tablaSistemas("SoporteSistemas/obtenerPreguntasFrecuentes","Pregunta");
             break;
         default:
@@ -102,7 +106,7 @@ function redireccionarVista(optionMenu) {
 
 //  ------------------------------------- AVISOS--------------------------------
 var listaAvisos;
-var dataPregunta;
+var dataInfo;
 function tablaAvisos(id){
     // $.ajax({
     //   url: 'SoporteSistemas/obtenerAvisos',
@@ -118,7 +122,6 @@ function tablaAvisos(id){
     ajax: {
       url: "SoporteSistemas/obtenerAvisos",
       type: 'POST',
-      data: {idSystem:id},
       dataSrc: "",
     },
     select :{
@@ -128,21 +131,21 @@ function tablaAvisos(id){
           "<'row'<'col-sm-12'tr>>" +
           "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
     buttons: [
-        {
-            text: 'Restablecer',
-            className:'btn btn-custom btn-rounded btn-outline-warning mb-4 buttonDt',
-            action: function () {
-                listaAvisos.rows().deselect();
-            }
-        },
-        ,
-        {
-            text: 'Eliminar seleccionados',
-            className:'btn btn-custom btn-rounded btn-outline-danger mb-4 buttonDt ml-4',
-            action: function () {
-                //eliminarGrupo();
-            }
-        },
+        // {
+        //     text: 'Restablecer',
+        //     className:'btn btn-custom btn-rounded btn-outline-warning mb-4 buttonDt',
+        //     action: function () {
+        //         listaAvisos.rows().deselect();
+        //     }
+        // },
+        // ,
+        // {
+        //     text: 'Eliminar seleccionados',
+        //     className:'btn btn-custom btn-rounded btn-outline-danger mb-4 buttonDt ml-4',
+        //     action: function () {
+        //         confirmarEliminarTodos();
+        //     }
+        // },
         {
             text: 'Agregar Aviso',
             className:'btn btn-custom btn-rounded btn-outline-primary mb-4 buttonDt ml-4',
@@ -153,10 +156,23 @@ function tablaAvisos(id){
     ],
     columns: [
       {
-        data: "idAviso",
+        data: null,
         render: function ( data, type, row, meta ) {
-          return '<button title="Eliminar" class="btn btn-outline-danger btn-sm btn-rounded btn-custom ml-3 btn-eliminar-aviso"><i class="fas fa-trash"></i></button>'+
-                 '<button title="Editar" class="btn btn-outline-success btn-sm btn-rounded btn-custom ml-3 btn-edit-aviso"><i class="fas fa-edit"></i></button>';
+          if(data.activo == 1){
+            var estado = "checkbox"
+          }else{
+            var estado = "";
+          }
+          return '' +
+          '<label class="switch switch-text switch-success switch-pill mr-1">' +
+          '<input type="'+estado+'" class="switch-input btnEnableSystem" checked="true">' +
+          '<span data-on="On" data-off="Off" class="switch-label"></span>' +
+          '<span class="switch-handle"></span>\n' +
+          '</label> ' +
+          '' +
+          '<button title="Editar" class="btn btn-outline-success btn-sm btn-rounded btn-custom ml-3 btn-edit-aviso"><i class="fas fa-edit"></i></button>';
+          // return '<button title="Eliminar" class="btn btn-outline-danger btn-sm btn-rounded btn-custom ml-3 btn-eliminar-aviso"><i class="fas fa-trash"></i></button>'+
+          //        '<button title="Editar" class="btn btn-outline-success btn-sm btn-rounded btn-custom ml-3 btn-edit-aviso"><i class="fas fa-edit"></i></button>';
           },
           className: "text-center"
      },
@@ -186,6 +202,14 @@ function tablaAvisos(id){
       var data = listaAvisos.row( this.closest('tr') ).data();
       confirmarEliminarAviso(data.idAviso);
   });
+  $('#tablaAvisos tbody').off('click', 'input.btnEnableSystem').on( 'click', 'input.btnEnableSystem', function () {
+      var data = listaAvisos.row( this.closest('tr') ).data();
+      if(data.activo==1){
+        confirmarDeshabilitarAviso(data.idAviso);
+      }else{
+        confirmarHabilitarAviso(data.idAviso);
+      }
+  });
 }
 
 function vistaAvisos(vista,data){
@@ -202,7 +226,7 @@ function vistaAvisos(vista,data){
     break;
     case 1:
       $('#avisos').show();
-      tablaAvisos(data.idSystem);
+      tablaAvisos(0);
       $('#listadoAviso').show();
       $('#idTablaAvisos').show();
       $('#avisoForm').hide();
@@ -217,6 +241,7 @@ function vistaAvisos(vista,data){
       $('.aviso').val(data.aviso);
       $("select[name$='systemName']").prop('multiple',true);
 
+      empleadoSeleccionado = data.idEmpleado;
       option = new Option(data.nombre, data.idEmpleado, true, true);
       $("select[name$='selectEmpleado']").append(option).trigger('change');
       $(".divNivelSuperior").show();
@@ -317,22 +342,81 @@ function confirmarEliminarAviso(idAviso){
   });
 }
 
+function confirmarDeshabilitarAviso(idAviso){
+  alertify.confirm("¿Deseas deshabilitar los avisos para todos los sistemas?",
+  function(){
+		eliminarAviso(idAviso);
+  },
+  function(){
+    listaAvisos.ajax.reload();
+    //alertify.warning('Cancelado');
+  });
+}
+
+function confirmarHabilitarAviso(idAviso){
+  alertify.confirm("¿Deseas habilitar los avisos para todos los sistemas?",
+  function(){
+		activarAviso(idAviso);
+  },
+  function(){
+    listaAvisos.ajax.reload();
+    //alertify.warning('Cancelado');
+  });
+}
+
 function eliminarAviso(idAviso){
-  console.log(idAviso);
 	$.ajax({
 		url: 'SoporteSistemas/eliminarAviso',
 		type: 'POST',
 		data: {idAviso: idAviso},
 		success: function (response) {
-			alertify.success("Registro borrado");
+			alertify.success("Aviso deshabilitado");
+			listaAvisos.ajax.reload();
+		}
+  });
+}
+
+function activarAviso(idAviso){
+	$.ajax({
+		url: 'SoporteSistemas/activarAviso',
+		type: 'POST',
+		data: {idAviso: idAviso},
+		success: function (response) {
+			alertify.success("Aviso habilitado");
 			listaAvisos.ajax.reload();
 		}
   });
 }
 
 function regresar(){
-  redireccionarVista(1);
+  vistaAvisos(1,dataInfo);
 }
+
+function confirmarEliminarTodos(){
+  alertify.confirm("¿Deseas eliminar los registros seleccionados?",
+  function(){
+		eliminarTodos();
+  },
+  function(){
+    //alertify.warning('Cancelado');
+  });
+}
+
+function eliminarTodos(){
+  var seleccionados = listaAvisos.rows({ selected: true }).data();
+  var data = new FormData();
+  if(seleccionados.length>0){
+    var ids = [];
+    for (var i = 0; i < seleccionados.length; i++) {
+      ids.push(seleccionados[i].idAviso);
+    }
+    console.log(ids);
+    eliminarAviso(ids);
+    // console.log(idGrupo);
+    data.append('datos',ids);
+  }
+}
+
 // ------------------------------- END AVISO -----------------------------------
 
 
@@ -341,6 +425,15 @@ function regresar(){
 
 var listaSistemas;
 function tablaSistemas(url,tipo){
+    // $.ajax({
+    //   url: url,
+    //   type: 'POST',
+    //   data: {idSystem: 0},
+    //   success: function (response) {
+    //     console.log(response);
+    //   }
+    // });
+
     listaSistemas = $('#tablaSistemas').DataTable({
     destroy: true,
     ajax: {
@@ -391,6 +484,7 @@ function tablaSistemas(url,tipo){
       }
       if(tipo=="Aviso"){
         vistaAvisos(1,data);
+        dataInfo = data;
       }
   });
 }
@@ -465,7 +559,7 @@ function tablaPreguntas(id){
   $('#tablaPreguntas tbody').off('click', 'button.btn-edit-pregunta').on( 'click', 'button.btn-edit-pregunta', function () {
       var data = listaPreguntas.row( this.closest('tr') ).data();
       vistaPreguntas(2,data);
-      dataPregunta = data;
+      dataInfo = data;
   });
   $('#tablaPreguntas tbody').off('click', 'button.btn-eliminar-pregunta').on( 'click', 'button.btn-eliminar-pregunta', function () {
       var data = listaPreguntas.row( this.closest('tr') ).data();
@@ -603,7 +697,7 @@ function eliminarPregunta(idPregunta){
 
 
 function cancelarPregunta(){
-  vistaPreguntas(1,dataPregunta);
+  vistaPreguntas(1,dataInfo);
 }
 
 // ------------------------------- END PREGUNTAS -------------------------------

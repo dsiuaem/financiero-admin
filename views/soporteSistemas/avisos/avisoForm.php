@@ -58,7 +58,7 @@
       <div id="estatusAviso" class="row form-group" style="display:none">
         <div class="col col-md-2"></div>
         <div class="col-12 col-md-8">
-          <label for="text-input" class=" form-control-label mr-2">Cambiar estatus del aviso</label>
+          <label for="text-input" class=" form-control-label mr-2">Cambiar estatus del aviso para todos los sistemas seleccionados</label>
           <input type="checkbox" name="mostrarAviso" class="mostrarAviso flat-red" title="Marcar para mostrar el aviso">
         </div>
         <div class="col col-md-2"></div>

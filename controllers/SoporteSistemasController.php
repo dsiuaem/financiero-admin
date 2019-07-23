@@ -97,8 +97,6 @@ class SoporteSistemasController extends Controller{
     function obtenerAvisos(){
        $soporteSistemasDTO = new SoporteSistemasDTO;
        $this->model->avisoList = $soporteSistemasDTO;
-       $soporteSistemasDTO->idSystem = $_POST['idSystem'];
-       $soporteSistemasDTO->idAviso = $_POST['idAviso'];
        //Recupera los datos del servicio web
        $this->model->obtenerAvisos();
        //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
@@ -137,9 +135,21 @@ class SoporteSistemasController extends Controller{
      $soporteSistemasDTO = new SoporteSistemasDTO;
      $soporteSistemasDTO->idUser = $_SESSION['idUsuarioADMIN'];
      $soporteSistemasDTO->idAviso = $_POST['idAviso'];
+     $soporteSistemasDTO->ip = $this->getIP();
      $this->model->soporteSistemasDTO = $soporteSistemasDTO;
      //Recupera los datos del servicio web
      $this->model->eliminarAviso();
+     //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+     echo json_encode($this->model);
+   }
+
+   function activarAviso(){
+     $soporteSistemasDTO = new SoporteSistemasDTO;
+     $soporteSistemasDTO->idUser = $_SESSION['idUsuarioADMIN'];
+     $soporteSistemasDTO->idAviso = $_POST['idAviso'];
+     $this->model->soporteSistemasDTO = $soporteSistemasDTO;
+     //Recupera los datos del servicio web
+     $this->model->activarAviso();
      //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
      echo json_encode($this->model);
    }
