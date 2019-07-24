@@ -8,9 +8,9 @@
             <thead>
                 <tr>
                     <th>Acciones</th>
+                    <th>Cambiar orden</th>
                     <th>Pregunta</th>
-                    <th>Respuesta</th>
-                    <th>Sistema</th>
+                    <th>Orden</th>
                     <th>Estatus</th>
                 </tr>
             </thead>

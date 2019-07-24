@@ -46,6 +46,7 @@
         </section>
     </div> <!--  end content-wraper -->
     <?php require 'views/footer.php' ?>
+    <?php require 'views/soporteSistemas/preguntasFrecuentes/modalOrdenPreguntas.php'?>
 </div>
 <?php include_once 'views/libreriasJS.php' ?>
 </body>

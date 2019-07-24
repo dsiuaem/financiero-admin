@@ -9,7 +9,7 @@
                 <tr>
                     <th>Acciones</th>
                     <th>Sistema</th>
-                    <th>Total</th>
+                    <th>No. de preguntas</th>
                 </tr>
             </thead>
             <tbody>

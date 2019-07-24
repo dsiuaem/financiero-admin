@@ -23,9 +23,8 @@
       <div class="row form-group">
         <div class="col col-md-2"></div>
         <div class="col-12 col-md-8">
-          <label for="systemName" class="form-control-label">Selecciona sistema</label>
+          <label for="systemName" class="form-control-label">Sistemas para los cuales estará disponible el aviso</label>
           <select name="systemName" class="form-control systemName" multiple="multiple"></select>
-          <input type="hidden" name="lastSystem" class="form-control lastSystem">
         </div>
         <div class="col col-md-2"></div>
       </div>
@@ -34,7 +33,7 @@
         <div class="col-12 col-md-8">
           <label for="text-input" class="form-control-label">Empleado solicitante</label>
           <select class="form-control-sm form-control selectEmpleado" name="selectEmpleado"></select>
-          <label for="text-input" class=" form-control-label mr-2">Mostrar empleado solicitante en el aviso</label>
+          <label for="text-input" class=" form-control-label mr-2">Seleccionar casilla para mostrar el nombre del empleado en el aviso</label>
           <input type="checkbox" name="mostrarEmpleado" class="mostrarEmpleado flat-red" title="Marcar para mostrar en el aviso nombre del solicitante">
         </div>
         <div class="col col-md-2"></div>
@@ -52,14 +51,6 @@
         <div class="col-12 col-md-6">
           <label for="text-input" class="form-control-label">Fecha de caducidad</label>
           <input type="text" data-date-format='yyyy-mm-dd' name="fecha" class="form-control datepicker fecha" value="" autocomplete="off">
-        </div>
-        <div class="col col-md-2"></div>
-      </div>
-      <div id="estatusAviso" class="row form-group" style="display:none">
-        <div class="col col-md-2"></div>
-        <div class="col-12 col-md-8">
-          <label for="text-input" class=" form-control-label mr-2">Cambiar estatus del aviso para todos los sistemas seleccionados</label>
-          <input type="checkbox" name="mostrarAviso" class="mostrarAviso flat-red" title="Marcar para mostrar el aviso">
         </div>
         <div class="col col-md-2"></div>
       </div>

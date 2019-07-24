@@ -20,6 +20,7 @@
     public $idPregunta;
     public $pregunta;
     public $respuesta;
+    public $orden;
 
   }
 ?>

@@ -39,7 +39,7 @@
       <div align="center">
         <a id="btnSavePregunta" name="btnSavePregunta" class="btn btn-primary btnSavePregunta" href="#" onclick="nuevaPregunta()">Guardar</a>
         <a id="btnUpdatePregunta" name="btnUpdatePregunta" class="btn btn-primary btnUpdatePregunta" href="#" onclick="actualizarPregunta()" style="display:none;">Actualizar</a>
-        <a id="btnPreguntaCancel" name="btnPreguntaCancel" class="btn btn-primary btnPreguntaCancel" href="#" onclick="cancelarPregunta()" style="display:none;">Regresar</a>
+        <a id="btnPreguntaCancel" name="btnPreguntaCancel" class="btn btn-primary btnPreguntaCancel" href="#" onclick="cancelarPregunta()">Regresar</a>
         <!-- <button type="submit" name="btn-btnSaveAviso" class="btn btn-lg btn-outline btn-btnSaveAviso">Guardar</button> -->
       </div>
   </form>

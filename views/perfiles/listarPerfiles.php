@@ -60,13 +60,11 @@
                       <input type="text" name="perfil" class="form-control perfil">
                           <input type="hidden" name="idPerfilEdit" id="idPerfilEdit" class="idPerfilEdit">
                           <div class="row form-group">
-                              <div class="col col-md-2"></div>
-                              <div class="col-12 col-md-8">
+                              <div class="col-12 col-md-12">
                                   <div name="modulospoEditar" id="modulospoEditar">
 
                                   </div>
                               </div>
-                              <div class="col col-md-2"></div>
                           </div>
 
 
