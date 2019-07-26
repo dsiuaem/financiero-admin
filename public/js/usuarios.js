@@ -197,9 +197,6 @@ $(document).ready(function () {
             //return false;
             tableListadoAsignacionPerfiles = $('#tableListadoAsignacionPerfiles').DataTable({
                destroy: true,
-               responsive: {
-                 details: false
-               },
                ajax: {
                   url: 'Usuarios/usuariosListTableSinPerfil',
                   type: 'POST',
@@ -232,9 +229,6 @@ $(document).ready(function () {
 
             tableListadoAsignacionPerfilesExistentes = $('#tableListadoAsignacionPerfilesExistentes').DataTable({
                 destroy: true,
-                responsive: {
-                       details: false
-                },
                 ajax: {
                     url: 'Usuarios/usuariosListTableConPerfil',
                     type: 'POST',
@@ -269,9 +263,6 @@ $(document).ready(function () {
 
             tableUsuarios = $('#tableUsuarios').DataTable({
                 destroy: true,
-                responsive: {
-                    details: false
-                },
                 ajax: {
                     url: 'Usuarios/usersListTable',
                     type: 'POST',
@@ -489,9 +480,6 @@ $(document).ready(function () {
 function verUserSystemsPefil(idUser){
     enSistemaPerfil=$('.enSistemaPerfil').DataTable({
             destroy: true,
-            responsive: {
-                details: false
-            },
             ajax: {
                 url:'Usuarios/getSystemPerfil',
                 type:'POST',
@@ -515,9 +503,6 @@ function verUserSystemsPefil(idUser){
 
     sinSistemaPerfil=$('.sinSistemaPerfil').DataTable({
             destroy: true,
-            responsive: {
-                details: false
-            },
             ajax: {
                 url:'Usuarios/getOutSystemPerfil',
                 type:'POST',

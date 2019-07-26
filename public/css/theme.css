@@ -160,6 +160,10 @@ Notes:	decreasing heading by 0.4em with every subsequent heading level
   transform: rotate(45deg);
 }
 
+.switch-input{
+    max-width: 100% !important;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -1266,6 +1270,10 @@ section {
 
 .card {
     margin-bottom: 30px;
+    border-top-left-radius: 1.25rem !important;
+    border-top-right-radius: 1.25rem !important;
+    border-bottom-left-radius: 1.25rem !important;
+    border-bottom-right-radius: 1.25rem !important;
 }
 
 .input-group-addon {
@@ -5911,7 +5919,7 @@ section {
 
 .switch-success > .switch-input:checked ~ .switch-label {
     background: #1e7e34 !important;
-    box-shadow: 5px 5px 5px 0px rgba(128,128,128,1);
+    box-shadow: 5px 7px 14px -7px rgba(0,0,0,0.7) !important;
     border-color: #1e7e34;
 }
 

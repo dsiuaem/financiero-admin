@@ -164,9 +164,6 @@ $(document).ready(function () {
         if (id_opcion != "") {
             tableTipoOpciones = $('#tableTipoOpciones').DataTable({
                 destroy: true,
-                responsive: {
-                    details: false
-                },
                 ajax: {
                     url: 'TipoOpciones/tipoOpcionesListTable',
                     type: 'POST',

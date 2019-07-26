@@ -2129,7 +2129,7 @@
   }
   
   .btn {
-    box-shadow: 5px 5px 5px 0px rgba(128,128,128,1) !important;
+    box-shadow: 5px 7px 14px -7px rgba(0,0,0,0.7) !important;
     display: inline-block;
     font-weight: 400;
     text-align: center;
@@ -3652,10 +3652,18 @@
   
   .nav {
     display: flex;
-    flex-wrap: wrap;
+    /*flex-wrap: wrap;*/
     padding-left: 0;
     margin-bottom: 0;
     list-style: none;
+  }
+
+  .nav-sidebar{
+    font-size: .9rem;
+  }
+
+  .level1 > p{
+    padding-top: 2%;
   }
   
   .nav-link {
@@ -5152,7 +5160,7 @@
   .modal-footer {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     padding: 1rem;
     border-top: 1px solid #e9ecef;
   }
@@ -8914,7 +8922,8 @@
     text-align: left; /*Elimina center icons*/
     width: 1.6rem;
     font-size: 1.2rem;
-    margin-right: 0px; /*elimina .2rem para hacer menú más a la izquierda*/
+    margin-right: 10px; /*elimina .2rem para hacer menú más a la izquierda*/
+    margin-top: 5px;
   }
   .hijo {
     padding-left: 15px;
@@ -8999,6 +9008,7 @@
   .sidebar-dark-primary .nav-sidebar > .nav-item:hover > .nav-link {
     color: #ffffff;
     background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
   }
   
   .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active {
@@ -9017,6 +9027,7 @@
   
   .sidebar-dark-primary .sidebar a {
     color: #C2C7D0;
+    border-radius: 20px;
   }
   
   .sidebar-dark-primary .sidebar a:hover {
@@ -9025,11 +9036,13 @@
   
   .sidebar-dark-primary .nav-treeview > .nav-item > .nav-link {
     color: #C2C7D0;
+    border-radius: 20px;
   }
   
   .sidebar-dark-primary .nav-treeview > .nav-item > .nav-link:hover {
     color: #ffffff;
     background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
   }
   
   .sidebar-dark-primary .nav-treeview > .nav-item > .nav-link.active, .sidebar-dark-primary .nav-treeview > .nav-item > .nav-link.active:hover {
@@ -10734,8 +10747,8 @@
     position: relative;
     background-color: transparent;
     border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-    border-top-left-radius: 0.25rem;
-    border-top-right-radius: 0.25rem;
+    border-top-left-radius: 1.25rem;
+    border-top-right-radius: 1.25rem;
   }
   
   .collapsed-card .card-header {

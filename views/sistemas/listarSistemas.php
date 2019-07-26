@@ -1,40 +1,40 @@
-<!-- <div class="row">
-    <div class="col-12 col-md-12">
-        <div class="small-box bg-info" style="text-align: right;">
-            <div class="inner">
-                <div><h5 style="text-align: left;">Listado de sistemas</h5></div>
+<div class="content">
+      <div class="container-fluid">
+          <div class="row justify-content-center mt-4 mb-4">
+              <div class="col-md-11">
+                  <div class="card">
+                    <div class="card-header px-3 py-4" style="background-color: #142f5a !important;">
+                        <h3 style="text-align: center; color: white;"><strong>LISTADO DE SISTEMAS</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
+                            <table class="table table-striped table-bordered dt-responsive nowrap" id="tableSistemas" width="100%"
+                                   cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Id Sistema</th>
+                                    <th>Nombre Sistema</th>
+                                    <th>Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div> -->
-<div class="card-header" style="background-color: #142f5a !important">
-    <h5 class="card-title" style="text-align: center; color: white;">Listado de sistemas</h5>
-</div>
-
-<div class="card-body card-block">
-    <div class="form-group">
-        <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
-        <table class="table table-striped table-bordered dt-responsive nowrap" id="tableSistemas" width="100%"
-               cellspacing="0">
-            <thead>
-            <tr>
-                <th>Acciones</th>
-                <th></th>
-                <th>Sistemas registrados</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            </tbody>
-            <tfoot>
-            </tfoot>
-        </table>
-    </div>
-</div>
+          </div>
+      </div>
+  </div>
 
 <!-- MODAL AGREGAR XML -->
 <div class="modal fade" id="modalEditarSistema" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -72,7 +72,7 @@
                     <input type="hidden" id="idSystemUpdate" name="idSystemUpdate">
 
                     <div class="modal-footer">
-                        <button id="btnUpdateSystem" name="btnUpdateSystem" class="btn btn-primary azul">
+                        <button id="btnUpdateSystem" name="btnUpdateSystem" class="btn btn-primary azul mr-2">
                             <i class="fas fa-save"></i> Actualizar datos
                         </button>
                         <button type="button" style="" id="" name="" data-dismiss="modal" class="btn btn-danger">

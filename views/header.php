@@ -4,10 +4,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Administrador de Sistemas</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="<?php echo constant('URL'); ?>public/template/adminlte3.2/plugins/font-awesome/css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" href="<?php echo constant('URL'); ?>public/template/adminlte3.2/plugins/font-awesome/css/font-awesome.min.css"> -->
     <link rel="stylesheet" href="<?php echo constant('URL'); ?>public/template/adminlte3.2/dist/css/adminlte.min.css">
     <!--------------------- font-awesome-5 -------------------------->
-    <link rel="stylesheet" href="<?php echo constant('URL'); ?>public/template/font-awesome-5/css/all.css">
+    <link rel="stylesheet" href="<?php echo constant('URL'); ?>public/template/font-awesome-5.9.0/css/all.css">
     <!----------------------- end font-awesome ---------------------->
     <!--------------------- bootstrap-4.1 -------------------------->
     <link rel="stylesheet" href="<?php echo constant('URL'); ?>public/template/bootstrap-4.1/bootstrap.min.js">

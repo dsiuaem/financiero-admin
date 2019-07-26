@@ -41,9 +41,6 @@ $(document).on('change', '#systemName', function () {
 
         tableUsuarios = $('#tableUsuarios').DataTable({
             destroy: true,
-            responsive: {
-                details: false
-            },
             ajax: {
                 url: 'ListarUsuarios/usersListTable',
                 type: 'POST',

@@ -103,9 +103,6 @@ $(document).on('change', '#systemName', function () {
 
         tableListadoAsignacionPerfiles = $('#tableListadoAsignacionPerfiles').DataTable({
             destroy: true,
-            responsive: {
-                details: false
-            },
             ajax: {
                 url: 'AsignarPerfiles/usuariosListTable',
                 type: 'POST',

@@ -111,14 +111,17 @@ function systemsTable() {
 
     tableSistemas = $('#tableSistemas').DataTable({
         destroy: true,
-        responsive: {
-            details: false
-        },
         ajax: {
             url: 'Sistemas/sistemasListTable',
             dataSrc: "",
         },
         columns: [
+            {
+                data: "idSystem",
+            },
+            {
+                data: "name"
+            },
             {
                 data: null,
                 render: function (data, type, row) {
@@ -133,24 +136,18 @@ function systemsTable() {
 
                     }
 
-                    return '<button id="btnUpdateSystem" data-toggle="modal" data-target="#modalEditarSistema" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1"><i class="fas fa-edit"></i></button> ' +
+                    return '<button id="btnUpdateSystem" data-toggle="modal" data-target="#modalEditarSistema" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-3"><i class="fas fa-edit"></i></button> ' +
                         '' +
-                        '<label class="switch switch-text switch-success switch-pill mr-1">' +
+                        '<label class="switch switch-text switch-success switch-pill mr-3">' +
                         '<input id="btnEnableSystem" type="' + estado + '" class="switch-input" checked="true">' +
                         '<span data-on="On" data-off="Off" class="switch-label"></span>' +
                         '<span class="switch-handle"></span>\n' +
                         '</label> ' +
-                        '' +
-                        '<button id="btnDeleteSystem" title="Eliminar concepto" class="btn btn-outline-danger btn-sm btn-rounded btn-custom"><i class="fas fa-trash-alt"></i></i></button>';
+                        '';
+                         // + '<button id="btnDeleteSystem" title="Eliminar concepto" class="btn btn-outline-danger btn-sm btn-rounded btn-custom"><i class="fas fa-trash-alt"></i></i></button>';
 
                 }
-            },
-            {
-                data: "idSystem",
-                visible: false,
-                searchable: false
-            },
-            {data: "name"}
+            }
         ],
         fixedColumns: true,
         language: {

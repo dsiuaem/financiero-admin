@@ -17,14 +17,12 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card">
                             <div id="registrar" style="display:none">
                                 <?php include_once 'views/sistemas/registrar.php' ?>
                             </div>
                             <div id="listarSistemas" style="display:none">
                                 <?php include_once 'views/sistemas/listarSistemas.php' ?>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
