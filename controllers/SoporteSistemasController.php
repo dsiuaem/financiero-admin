@@ -181,11 +181,6 @@ class SoporteSistemasController extends Controller{
     $soporteSistemasDTO->idSystem = $_POST['datos']['systemName'];
     $soporteSistemasDTO->pregunta = $_POST['datos']['pregunta'];
     $soporteSistemasDTO->respuesta = $_POST['datos']['respuesta'];
-    if(isset($_POST['datos']['mostrarPregunta'])){
-      $soporteSistemasDTO->activo = 1;
-    }else{
-      $soporteSistemasDTO->activo = 0;
-    }
     $this->model->soporteSistemasDTO = $soporteSistemasDTO;
     //Recupera los datos del servicio web
     $this->model->actualizarPreguntaFrecuente();
@@ -213,6 +208,17 @@ class SoporteSistemasController extends Controller{
     $this->model->soporteSistemasDTO = $soporteSistemasDTO;
     //Recupera los datos del servicio web
     $this->model->actualizarOrdenPreguntaFrecuente();
+    //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+    echo json_encode($this->model);
+  }
+
+  function activarPregunta(){
+    $soporteSistemasDTO = new SoporteSistemasDTO;
+    $soporteSistemasDTO->idUser = $_SESSION['idUsuarioADMIN'];
+    $soporteSistemasDTO->idPregunta = $_POST['idPregunta'];
+    $this->model->soporteSistemasDTO = $soporteSistemasDTO;
+    //Recupera los datos del servicio web
+    $this->model->activarPregunta();
     //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
     echo json_encode($this->model);
   }

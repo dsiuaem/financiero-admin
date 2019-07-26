@@ -56,7 +56,7 @@
       </div>
       <div align="center">
         <a id="btnSaveAviso" name="btnSaveAviso" class="btn btn-primary btnSaveAviso" href="#" onclick="nuevoAviso()">Guardar</a>
-        <a id="btnUpdateAviso" name="btnUpdateAviso" class="btn btn-primary btnUpdateAviso" href="#" onclick="actualizarAviso()" style="display:none;">Actualizar</a>
+        <a id="btnUpdateAviso" name="btnUpdateAviso" class="btn btn-primary btnUpdateAviso" href="#" onclick="confirmarActualizarAviso()" style="display:none;">Actualizar</a>
         <a id="btnRegresar" name="btnRegresar" class="btn btn-primary btnRegresar" href="#" onclick="regresar()" >Regresar</a>
         <!-- <button type="submit" name="btn-btnSaveAviso" class="btn btn-lg btn-outline btn-btnSaveAviso">Guardar</button> -->
       </div>
