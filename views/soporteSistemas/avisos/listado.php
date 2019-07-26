@@ -12,7 +12,7 @@
                   <tr>
                       <th>Acciones</th>
                       <th>Título del aviso</th>
-                      <th>Aviso</th>
+                      <th>Fecha expiración</th>
                       <th>Sistema</th>
                       <th>Estatus</th>
                       <th>idSistemas</th>

@@ -17,14 +17,12 @@ $(document).ready(function () {
      rules: {
        tituloAviso: "required",
        aviso: "required",
-       systemName: "required",
        selectEmpleado: "required",
        fecha: "required"
      },
       messages: {
        tituloAviso: "El campo Título del aviso es requerido",
        aviso: "El campo Aviso es requerido",
-       systemName: "El campo Sistema es requerido",
        selectEmpleado: "El campo Empleado solicitante es requerido",
        fecha: "El campo fecha es requerido"
       }
@@ -85,12 +83,19 @@ $(document).ready(function () {
     var list = data["orden"].split(',');
     var result = [];
     $.each(list, function(i, e) {
+      if (parseInt(e)>list.length){
+        alertify.warning("Verifica el número de orden");
+        ordenar = 0;
+        return false;
+      }else{
         if ($.inArray(e, result)===-1) {
           result.push(e);
         }else{
           alertify.warning("Verifica el número de orden");
           ordenar = 0;
+          return false;
         }
+      }
     });
     if(ordenar==1){
       ordenarPreguntas(data);
@@ -132,6 +137,15 @@ function redireccionarVista(optionMenu) {
 var listaAvisos;
 var dataInfo;
 function tablaAvisos(id){
+  // $.ajax({
+  //   url: "SoporteSistemas/obtenerAvisos",
+  //   type: 'POST',
+  //   success: function (response) {
+  //     var obj = jQuery.parseJSON(response);
+  //     console.log(obj);
+  //   }
+  // });
+
     listaAvisos = $('#tablaAvisos').DataTable({
     destroy: true,
     ajax: {
@@ -155,24 +169,46 @@ function tablaAvisos(id){
       {
         data: null,
         render: function ( data, type, row, meta ) {
+          var boton = "";
           if(data.activo == 1){
-            var estado = "checkbox"
+            var estado = "checked";
           }else{
             var estado = "";
           }
-          return '' +
-          '<label class="switch switch-text switch-success switch-pill mr-1">' +
-          '<input type="'+estado+'" class="switch-input btnEnableSystem" checked="true">' +
-          '<span data-on="On" data-off="Off" class="switch-label"></span>' +
-          '<span class="switch-handle"></span>\n' +
-          '</label> ' +
-          '' +
-          '<button title="Editar" class="btn btn-outline-success btn-sm btn-rounded btn-custom ml-3 btn-edit-aviso"><i class="fas fa-edit"></i></button>';
-          },
+          boton += '<label class="switch switch-text switch-success switch-pill mr-1">';
+          boton += '<input type="checkbox" class="switch-input btnEnableSystem" '+estado+'>';
+          boton += '<span data-on="On" data-off="Off" class="switch-label"></span>';
+          boton += '<span class="switch-handle"></span>';
+          boton += '</label>';
+
+          if(data.idSistemas != null){
+            if(!validarFechaAviso(data.fechaTermino)){
+              boton = '<button title="Editar" class="btn btn-outline-success btn-sm btn-rounded btn-custom ml-3 btn-edit-aviso"><i class="fas fa-edit"></i></button>';
+            }else{
+              boton += '<button title="Editar" class="btn btn-outline-success btn-sm btn-rounded btn-custom ml-3 btn-edit-aviso"><i class="fas fa-edit"></i></button>';
+            }
+          }else{
+            boton = '<button title="Editar" class="btn btn-outline-success btn-sm btn-rounded btn-custom ml-3 btn-edit-aviso"><i class="fas fa-edit"></i></button>';
+          }
+          return boton;
+        },
           className: "text-center"
      },
      {data: "tituloAviso"},
-     {data: "aviso"},
+     {
+       data: null,
+       render: function ( data, type, row, meta ) {
+         if(data.activo == 0){
+           if(!validarFechaAviso(data.fechaTermino)){
+             return data.fechaTermino+" (Terminada)";
+           }else{
+             return data.fechaTermino;
+           }
+         }else{
+           return data.fechaTermino;
+         }
+       }
+     },
      {data: "sistemas"},
      {data: null,
       render: function ( data, type, row, meta ) {
@@ -238,6 +274,7 @@ function vistaAvisos(vista,data){
       $('.lastSystem').val(data.idSystem);
       $('.tituloAviso').val(data.tituloAviso);
       $('.aviso').val(data.aviso);
+      $('.fecha').val(data.fechaTermino);
       $("select[name$='systemName']").prop('multiple',true);
 
       empleadoSeleccionado = data.idEmpleado;
@@ -267,6 +304,12 @@ function vistaAvisos(vista,data){
 
 function nuevoAviso(){
   if($('form[id="registroAviso"]').valid()){
+    $("select[name$='systemName']").prop('disabled',false);
+    var sistema = $('.systemName').val();
+    if(sistema.length==0){
+      alertify.warning("El campo sistema es requerido");
+      return false;
+    }
     var texto = $('#registroAviso').serializeArray();
     var data = {};
     $(texto ).each(function(index, obj){
@@ -299,8 +342,26 @@ function nuevoAviso(){
   }
 }
 
+function validarFechaAviso(fecha){
+  var strDate = new Date();
+  var fechaLocal = strDate.getFullYear() + "-" + (strDate.getMonth()+1) + "-" + strDate.getDate();
+  var dateParts = fechaLocal.split("-");
+  fechaLocal = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+  var dateString = fecha;
+  var dateParts = dateString.split("-");
+  var fecha = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+  if(fecha<fechaLocal){
+    return false;
+  }
+  return true;
+}
+
 function actualizarAviso(){
   if($('form[id="registroAviso"]').valid()){
+    if(!validarFechaAviso($('.fecha').val())){
+      alertify.warning("La fecha no puede ser anterior a la actual");
+      return false;
+    }
     var texto = $('#registroAviso').serializeArray();
     var data = {};
     $(texto ).each(function(index, obj){
@@ -310,6 +371,9 @@ function actualizarAviso(){
           data[obj.name] = obj.value;
       }
     });
+    if(limpiarSistemas == 1){
+      data["systemName"] = "0";
+    }
     console.log(data);
     //return false;
     $.ajax({
@@ -329,6 +393,23 @@ function actualizarAviso(){
             alertify.error("Error al obtener el servicio para actualizar el sistema");
         }
     });
+  }
+}
+
+var limpiarSistemas = 0;
+function confirmarActualizarAviso(){
+  var sistema = $('.systemName').val();
+  if(sistema.length==0){
+    alertify.confirm("No hay sistemas seleccionados, el aviso será deshabilitado, deseas continuar",
+    function(){
+      limpiarSistemas = 1;
+  		actualizarAviso();
+    },
+    function(){
+      //alertify.warning('Cancelado');
+    });
+  }else{
+    actualizarAviso();
   }
 }
 
@@ -393,7 +474,6 @@ function regresar(){
 }
 // ------------------------------- END AVISO -----------------------------------
 
-
 // ------------------------------- PREGUNTAS FRECUENTES ------------------------
 var listaSistemas;
 function tablaSistemas(option){
@@ -418,14 +498,14 @@ function tablaSistemas(option){
           "<'row'<'col-sm-12'tr>>" +
           "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
     buttons: [
-        {
-            text: 'Agregar pregunta',
-            className:'btn btn-custom btn-rounded btn-outline-primary mb-4 buttonDt ml-4',
-            action: function () {
-                dataInfo = 0;
-                vistaPreguntas(0,0);
-            }
-        }
+      {
+          text: 'Nueva pregunta',
+          className:'btn btn-custom btn-rounded btn-outline-info mb-4 buttonDt ml-4',
+          action: function () {
+            dataInfo = 0;
+            vistaPreguntas(0,0);
+          }
+      },
     ],
     columns: [
       {
@@ -445,18 +525,24 @@ function tablaSistemas(option){
   $('#tablaSistemas tbody').off('click', 'button.btn-ver-sistema').on( 'click', 'button.btn-ver-sistema', function () {
       var data = listaSistemas.row( this.closest('tr') ).data();
       vistaPreguntas(1,data);
+      sis = data.name;
+      idSis = data.idSystem;
+      $('.titulo').html('Listado de preguntas frecuentes '+sis);
       dataInfo = data;
   });
 }
 
 var listaPreguntas;
+var sis;
+var idSis;
 function tablaPreguntas(id){
     // $.ajax({
     //   url: "SoporteSistemas/obtenerPreguntasFrecuentes",
     //   type: 'POST',
     //   data: {idSystem:id},
     //   success: function (response) {
-    //     console.log(response);
+    //     var obj = jQuery.parseJSON(response);
+    //     console.log(obj);
     //   }
     // });
 
@@ -468,43 +554,44 @@ function tablaPreguntas(id){
       data: {idSystem:id},
       dataSrc: "",
     },
-    select :{
-      style: 'multi',
-    },
     dom: "<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
           "<'row'<'col-sm-12'tr>>" +
           "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
     buttons: [
-        // {
-        //     text: 'Restablecer',
-        //     className:'btn btn-custom btn-rounded btn-outline-warning mb-4 buttonDt',
-        //     action: function () {
-        //         listaPreguntas.rows().deselect();
-        //     }
-        // },
         {
             text: 'Cambiar orden',
             className:'btn btn-custom btn-rounded btn-outline-success mb-4 buttonDt ml-4',
             action: function () {
                 listarPreguntas();
-                $('#modalOrdenPreguntas').modal('show');
             }
         },
         {
             text: 'Agregar Pregunta',
             className:'btn btn-custom btn-rounded btn-outline-primary mb-4 buttonDt ml-4',
             action: function () {
-                vistaPreguntas(0,0);
+              $('.titulo').html('Registro de preguntas frecuentes '+sis);
+              vistaPreguntas(0,0);
             }
         }
     ],
     columns: [
       {
-        data: "idPregunta",
+        data: null,
         render: function ( data, type, row, meta ) {
-          return '<button title="Eliminar" class="btn btn-outline-danger btn-sm btn-rounded btn-custom ml-3 btn-eliminar-pregunta"><i class="fas fa-trash"></i></button>'+
-                 '<button title="Ver" class="btn btn-outline-info btn-sm btn-rounded btn-custom ml-3 btn-edit-pregunta"><i class="fas fa-eye"></i></button>';
-          },
+          var boton = "";
+          if(data.activo == 1){
+            var estado = "checked";
+          }else{
+            var estado = "";
+          }
+          boton += '<label class="switch switch-text switch-success switch-pill mr-1">';
+          boton += '<input type="checkbox" class="switch-input btn_cambiar_estatus" '+estado+'>';
+          boton += '<span data-on="On" data-off="Off" class="switch-label"></span>';
+          boton += '<span class="switch-handle"></span>';
+          boton += '</label>';
+          boton += '<button title="Ver" class="btn btn-outline-info btn-sm btn-rounded btn-custom ml-3 btn-edit-pregunta"><i class="fas fa-edit"></i></button>';
+          return boton;
+        },
           className: "text-center"
      },
      {data: "idPregunta",
@@ -529,37 +616,40 @@ function tablaPreguntas(id){
 	});
   $('#tablaPreguntas tbody').off('click', 'button.btn-edit-pregunta').on( 'click', 'button.btn-edit-pregunta', function () {
       var data = listaPreguntas.row( this.closest('tr') ).data();
+      $('.titulo').html('Editar preguntas frecuentes '+sis);
       vistaPreguntas(2,data);
+      sis = data.name;
+      idSis = data.idSystem;
       dataInfo = data;
   });
-  $('#tablaPreguntas tbody').off('click', 'button.btn-eliminar-pregunta').on( 'click', 'button.btn-eliminar-pregunta', function () {
+  $('#tablaPreguntas tbody').off('click', 'input.btn_cambiar_estatus').on( 'click', 'input.btn_cambiar_estatus', function () {
       var data = listaPreguntas.row( this.closest('tr') ).data();
-      confirmarEliminarPregunta(data.idPregunta);
+      if(data.activo==1){
+        confirmarDeshabilitarPregunta(data.idPregunta);
+      }else{
+        confirmarHabilitarPregunta(data.idPregunta);
+      }
   });
-  // $('#tablaPreguntas tbody').off('click', 'button.btn-cambiar-orden').on( 'click', 'button.btn-cambiar-orden', function () {
-  //     var data = listaPreguntas.row( this.closest('tr') ).data();
-  //     $('.noOrden1').val(data.orden);
-  //     $('.pregunta').val(data.pregunta);
-  //     $('.idPregunta1').val(data.idPregunta);
-  //     $('#modalOrdenPreguntas').modal('show');
-  //     dataInfo = data;
-  //     listarPreguntas();
-  // });
 }
 
 function vistaPreguntas(vista,data){
   resetForm();
   switch(vista){
     case 0:
-      showSystems();
       $('#listadoPreguntas').hide();
       $('#listadoSistemas').hide();
       $('#preguntasFrecuentes').show();
       $('#preguntasFrecuentesForm').show();
-      $('#estatusPregunta').hide();
       $('.btnUpdatePregunta').hide();
       $('.btnSavePregunta').show();
       $("select[name$='systemName']").prop('multiple',false);
+      if(dataInfo == 0 ){
+        showSystems();
+      }else{
+        $("select[name$='systemName']").prop('disabled',true);
+        var option = new Option(sis, idSis, true, true);
+        $("select[name$='systemName']").append(option).trigger('change');
+      }
     break;
     case 1:
       $('#preguntasFrecuentes').show();
@@ -572,27 +662,23 @@ function vistaPreguntas(vista,data){
       showSystems();
       $('#idTablaPreguntas').hide();
       $('#preguntasFrecuentesForm').show();
-      $('#estatusPregunta').show();
       $('.btnUpdatePregunta').show();
       $('.btnSavePregunta').hide();
       $('.btnPreguntaCancel').show();
       $("select[name$='systemName']").prop('multiple',false);
+      $("select[name$='systemName']").prop('disabled',false);
       $('.idPregunta').val(data.idPregunta);
       $('.pregunta').val(data.pregunta);
       $('.respuesta').val(data.respuesta);
       var option = new Option(data.name, data.idSystem, true, true);
       $("select[name$='systemName']").append(option).trigger('change');
-      $('#estatusPregunta').show();
-      if(data.activo == 1){
-				$('input[class$="mostrarPregunta"]').attr('checked', true);
-				$('input[type="checkbox"].flat-red.mostrarPregunta').iCheck('check');
-			}
     break;
   }
 }
 
 function nuevaPregunta(){
   if($('form[id="registroPreguntas"]').valid()){
+    $("select[name$='systemName']").prop('disabled',false);
     var texto = $('#registroPreguntas').serializeArray();
     var data = {};
     $(texto ).each(function(index, obj){
@@ -612,6 +698,8 @@ function nuevaPregunta(){
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
                 alertify.success("Registro exitoso");
+                $('.titulo').html('Listado de preguntas frecuentes '+sis);
+                vistaPreguntas(1,dataInfo);
             } else {
                 alertify.error("Error al registrar aviso");
             }
@@ -644,6 +732,7 @@ function actualizarPregunta(){
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
                 alertify.success("Registro actualizado");
+                cancelarPregunta();
             } else {
                 alertify.error("Error al actualizar pregunta");
             }
@@ -653,16 +742,6 @@ function actualizarPregunta(){
         }
     });
   }
-}
-
-function confirmarEliminarPregunta(idPregunta){
-  alertify.confirm("¿Deseas eliminar el registro seleccionado?",
-  function(){
-		eliminarPregunta(idPregunta);
-  },
-  function(){
-    //alertify.warning('Cancelado');
-  });
 }
 
 function eliminarPregunta(idPregunta){
@@ -682,6 +761,7 @@ function cancelarPregunta(){
   if(dataInfo == 0){
     redireccionarVista(2);
   }else{
+    $('.titulo').html('Listado de preguntas frecuentes '+sis);
     vistaPreguntas(1,dataInfo);
   }
 }
@@ -693,11 +773,15 @@ function listarPreguntas() {
     data: {idSystem:dataInfo.idSystem},
     success: function (response) {
       var obtener = jQuery.parseJSON(response);
-      var html="";
+      $('.ordenLista').empty();
+      var html = "";
+      if(obtener.length>0){
+        $('#modalOrdenPreguntas').modal('show');
+      }
       for (var i = 0; i < obtener.length; i++) {
         html += "<div class='form-group'>";
-        html += "<div class='col-md-8 offset-md-2'>";
-        html += "<div class='form-row mb-5'>"
+        html += "<div class='col-md-12 offset-md-0'>";
+        html += "<div class='form-row mb-5'>";
         html += "<div class='col-md-10 mt-1'>";
         html += "<label class='form-control-label'>Pregunta</label>";
         html += "<input type='text' class='form-control' name='pregunta' value='"+obtener[i].pregunta+"' disabled>";
@@ -738,6 +822,56 @@ function ordenarPreguntas(data){
   });
 }
 
+function confirmarDeshabilitarPregunta(idPregunta){
+  alertify.confirm("¿Deseas deshabilitar la pregunta?",
+  function(){
+		eliminarPregunta(idPregunta);
+  },
+  function(){
+    listaPreguntas.ajax.reload();
+    //alertify.warning('Cancelado');
+  });
+}
+
+function confirmarProcesoPregunta(){
+  if($('.systemName:visible').val()!=idSis){
+    alertify.confirm("¿Deseas cambiar la pregunta de sistema?",
+    function(){
+      actualizarPregunta();
+      listarPreguntas();
+    },
+    function(){
+      //
+    });
+  }else{
+    actualizarPregunta();
+  }
+
+}
+
+function confirmarHabilitarPregunta(idPregunta){
+  alertify.confirm("¿Deseas habilitar la pregunta?",
+  function(){
+		activarPregunta(idPregunta);
+  },
+  function(){
+    listaPreguntas.ajax.reload();
+    //alertify.warning('Cancelado');
+  });
+}
+
+function activarPregunta(idPregunta){
+	$.ajax({
+		url: 'SoporteSistemas/activarPregunta',
+		type: 'POST',
+		data: {idPregunta: idPregunta},
+		success: function (response) {
+			alertify.success("Pregunta habilitada");
+			listaPreguntas.ajax.reload();
+		}
+  });
+}
+
 // ------------------------------- END PREGUNTAS -------------------------------
 
 function showSystems() {
@@ -770,6 +904,13 @@ function resetForm() {
     $('select[name$="selectEmpleado"]').val(null).trigger('change');
     $("select[name$='selectEmpleado']").empty();
     $( ".fecha" ).datepicker({dateFormat:"yy/mm/dd"}).datepicker("setDate",new Date());
+    resetValidate();
+    $("#registroAviso").validate().resetForm();
+    resetValidate();
+    resetValidateFrecuentes();
+    $("#registroPreguntas").validate().resetForm();
+    resetValidateFrecuentes();
+    limpiarSistemas = 0;
     ocultarElementos();
 }
 
@@ -817,4 +958,36 @@ function cargarNiveles(nivel, idEmpleado){
 	}else{
 		//alertify.warning("El usuario no esta asociado a una unidad administrativa o académica. Consulte con el administrador del sistema");
 	}
+}
+
+function resetValidate(){
+  $('#registroAviso').validate({
+     rules: {
+       tituloAviso: "required",
+       aviso: "required",
+       selectEmpleado: "required",
+       fecha: "required"
+     },
+      messages: {
+       tituloAviso: "El campo Título del aviso es requerido",
+       aviso: "El campo Aviso es requerido",
+       selectEmpleado: "El campo Empleado solicitante es requerido",
+       fecha: "El campo fecha es requerido"
+      }
+   });
+}
+
+function resetValidateFrecuentes(){
+  $('#registroPreguntas').validate({
+    rules: {
+      pregunta: "required",
+      respuesta: "required",
+      systemName: "required"
+    },
+     messages: {
+      pregunta: "El campo Pregunta del aviso es requerido",
+      respuesta: "El campo Respuesta es requerido",
+      systemName: "El campo Sistema es requerido"
+     }
+  });
 }
