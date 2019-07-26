@@ -107,16 +107,21 @@ $(document).ready(function () {
                 $('.tableSubModulosSystem').show();
                 tableSubmodulos = $('#tableSubmodulos').DataTable({
                     destroy: true,
-                    responsive: {
-                        details: false
-                    },
                     ajax: {
                         url: 'Submodulos/submoduleListTable',
                         type: 'POST',
                         data: ({id: id_modulo}),
                         dataSrc: "",
                     },
-                    columns: [{
+                    columns: [
+                    {
+                        data: "idSubModule",
+                        visible: false,
+                        searchable: false
+                    },
+                    {data: "name"},
+                    {data: "controller"},
+                    {
                         data: null,
                         render: function (data, type, row) {
                             if (data.enable == 1) {
@@ -133,14 +138,7 @@ $(document).ready(function () {
                                 '</label>';
                                 //'<button id="btnDeleteSubModule" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';
                          }
-                    },
-                    {
-                        data: "idSubModule",
-                        visible: false,
-                        searchable: false
-                    },
-                    {data: "name"},
-                    {data: "controller"}],
+                    }],
                     fixedColumns: true,
                     language: {
                         "url": "public/plugins/DataTables/Spanish.json",

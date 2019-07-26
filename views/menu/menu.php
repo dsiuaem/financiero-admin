@@ -41,7 +41,7 @@
                                                                            <?php if(count($Option['tipoOption'])==0){?>
                                                                                 <li class="nav-item" onclick="redireccionarVista(<?php echo $Option['action']?>)">
                                                                                      <a href="#" class="nav-link level2">
-                                                                                          <i class="nav-icon <?php if( $Option['nombre']  == 'Nuevo oficio' || $Option['nombre']  == 'Nueva circular' ) echo "fa fa-plus"; elseif( $Option['nombre']  == 'Recibidos' ) echo "fa fa-inbox"; elseif( $Option['nombre']  == 'Listado de etiquetas' ) echo "fa fa-list"; else echo "fa fa-angle-double-right"; ?>"></i>
+                                                                                          <i class="nav-icon <?php if( $Option['nombre']  == 'Nuevo oficio' || $Option['nombre']  == 'Nueva circular' ) echo "fa fa-plus"; elseif( $Option['nombre']  == 'Recibidos' ) echo "fa fa-inbox"; elseif( $Option['nombre']  == 'Listado de etiquetas' ) echo "fa fa-list"; else echo "fas fa-chevron-circle-right"; ?>"></i>
                                                                                           <p><?php echo $Option['nombre']?></p>
                                                                                      </a>
                                                                                 </li>

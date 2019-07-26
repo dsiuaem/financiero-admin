@@ -32,9 +32,6 @@ $(document).ready(function () {
             $('.listarPerfiles').show();
             tableListadoPerfiles = $('#tableListadoPerfiles').DataTable({
                 destroy: true,
-                responsive: {
-                    details: false
-                },
                 ajax: {
                     url: 'Perfiles/perfilesListTable',
                     type: 'POST',

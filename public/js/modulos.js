@@ -63,9 +63,6 @@ $(document).ready(function () {
           $('.listModulosSystem').show();
           tableModulos = $('#tableModulos').DataTable({
               destroy: true,
-              responsive: {
-                  details: false
-              },
               ajax: {
                   url: 'Modulos/moduleListTable',
                   type: 'POST',
@@ -74,9 +71,17 @@ $(document).ready(function () {
               },
               columns: [
                   {
+                      data: "idModule",
+                      visible: false,
+                      searchable: false
+                  },
+                  {data: "name"},
+                  {data: "description"},
+                  {data: "moduleMenu"},
+                  {
                       data: null,
                       render: function (data, type, row) {
-                          console.log(data);
+
                           if (data.enable == 1) {
 
                               var estado = "checkbox";
@@ -87,7 +92,7 @@ $(document).ready(function () {
 
                           }
 
-                          return '<button id="btnUpdateModule" data-toggle="modal" data-target="#modalEditarModulo" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1"><i class="fas fa-edit"></i></button> ' +
+                          return '<button id="btnUpdateModule" data-toggle="modal" data-target="#modalEditarModulo" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-3"><i class="fas fa-edit"></i></button> ' +
                               '' +
                               '<label class="switch switch-text switch-success switch-pill">' +
                               '<input id="btnEnableModule" type="' + estado + '" class="switch-input" checked="true">' +
@@ -96,18 +101,8 @@ $(document).ready(function () {
                               '</label> ';
                               /*'' +
                               '<button id="btnDeleteModule" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';*/
-
                       }
-                  },
-                  {
-                      data: "idModule",
-                      visible: false,
-                      searchable: false
-                  },
-                  {data: "name"},
-                  {data: "description"},
-                  {data: "moduleMenu"}
-
+                  }
               ],
               fixedColumns: true,
               language: {

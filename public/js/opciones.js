@@ -139,9 +139,6 @@ $(document).ready(function () {
             $('.listTableOption').show();
             tableOpciones = $('#tableOpciones').DataTable({
                 destroy: true,
-                responsive: {
-                    details: false
-                },
                 ajax: {
                     url: 'Opciones/opcionesListTable',
                     type: 'POST',

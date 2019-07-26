@@ -1,6 +1,6 @@
 <div id="idTablaSistemas" class="card-body card-block" style="display:none;">
     <div class="card-header" style="background-color: #142f5a !important">
-        <h5 class="card-title" style="text-align: center; color: white;">Listado de sistemas</h5>
+        <h5 class="card-title" style="text-align: center; color: white;"><strong>Listado de sistemas</strong></h5>
     </div>
     <div class="form-group">
         <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
@@ -19,13 +19,6 @@
                     <td></td>
                 </tr>
             </tbody>
-            <tfoot>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </tfoot>
         </table>
     </div>
 </div>
