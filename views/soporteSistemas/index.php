@@ -17,7 +17,6 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card">
                           <div id="avisos" style="display:none;">
                               <div class="form-group contenedor" id="listadoAviso">
                                   <?php include_once 'views/soporteSistemas/avisos/listado.php'?>
@@ -39,7 +38,6 @@
                                 <?php include_once 'views/soporteSistemas/listado.php'?>
                             </div>
                           </div>
-                        </div>
                     </div>
                 </div>
             </div>

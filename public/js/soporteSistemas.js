@@ -500,7 +500,7 @@ function tablaSistemas(option){
     buttons: [
       {
           text: 'Nueva pregunta',
-          className:'btn btn-custom btn-rounded btn-outline-info mb-4 buttonDt ml-4',
+          className:'btn btn-custom btn-rounded btn-outline-primary mb-4 ml-4 mt-3',
           action: function () {
             dataInfo = 0;
             vistaPreguntas(0,0);
@@ -508,15 +508,15 @@ function tablaSistemas(option){
       },
     ],
     columns: [
-      {
+     {data: "name"},
+     {data: "total"},
+     {
         data: "idSystem",
         render: function ( data, type, row, meta ) {
-          return '<button title="Ver" class="btn btn-outline-info btn-sm btn-rounded btn-custom ml-3 btn-ver-sistema"><i class="fas fa-eye"></i></button>';
+          return '<button title="Ver" class="btn btn-outline-primary btn-sm btn-rounded btn-custom ml-3"><i class="fas fa-eye"></i></button>';
           },
           className: "text-center"
-     },
-     {data: "name"},
-     {data: "total"}
+     }
     ],
     language: {
         "url":     "public/plugins/DataTables/Spanish.json",

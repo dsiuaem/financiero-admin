@@ -1,49 +1,50 @@
-<!-- <div class="row">
-    <div class="col-12 col-md-12">
-        <div class="small-box bg-info" style="text-align: right;">
-            <div class="inner">
-                <div><h5 style="text-align: left;">Listado de perfiles</h5></div>
+<div class="content">
+      <div class="container-fluid">
+          <div class="row justify-content-center mt-5">
+              <div class="col-md-11">
+                  <div class="card">
+                    <div class="card-header px-3 py-4" style="background-color: #142f5a !important;">
+                        <h3 style="text-align: center; color: white;"><strong>LISTADO DE PERFILES</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row form-group">
+                          <div class="col col-md-2"></div>
+                          <div class="col-12 col-md-8">
+                              <label for="systemNameTable" class="form-control-label">Seleccionar sistema: </label>
+                              <select name="systemNameTable" id="systemNameTable" class="form-control">
+                                  <option value="0">- Seleccionar -</option>
+                              </select>
+                          </div>
+                          <div class="col col-md-2"></div>
+                      </div>
+
+                      <div class="listarPerfiles">
+                          <div class="form-group">
+                              <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
+                              <table class="table table-striped table-bordered dt-responsive nowrap" id="tableListadoPerfiles" width="100%"
+                                     cellspacing="0">
+                                  <thead>
+                                          <tr>
+                                              <th></th>
+                                              <th>Perfiles registrados</th>
+                                              <th>Acciones</th>
+                                          </tr>
+                                  </thead>
+                                  <tbody>
+
+                                  </tbody>
+                                  <tfoot>
+
+                                  </tfoot>
+                              </table>
+                          </div>
+                      </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div> -->
-<div class="card-header" style="background-color: #142f5a !important">
-    <h5 class="card-title" style="text-align: center; color: white;">Listado de perfiles</h5>
-</div>
-<div class="card-body">
-<div class="row form-group">
-    <div class="col col-md-2"></div>
-    <div class="col-12 col-md-8">
-        <label for="systemNameTable" class="form-control-label">Seleccionar sistema: </label>
-        <select name="systemNameTable" id="systemNameTable" class="form-control">
-            <option value="0">- Seleccionar -</option>
-        </select>
-    </div>
-    <div class="col col-md-2"></div>
-</div>
-
-<div class="listarPerfiles">
-    <div class="form-group">
-        <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
-        <table class="table table-striped table-bordered dt-responsive nowrap" id="tableListadoPerfiles" width="100%"
-               cellspacing="0">
-            <thead>
-                    <tr>
-                        <th>Acciones</th>
-                        <th></th>
-                        <th>Perfiles registrados</th>
-                    </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-            <tfoot>
-
-            </tfoot>
-        </table>
-    </div>
-</div>
-
+          </div>
+      </div>
+  </div>
 <!-- MODAL AGREGAR XML -->
 <div class="modal fade" id="modalEditarPerfil" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      style="z-index: 1300;" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -80,6 +81,5 @@
             </form>
         </div>
     </div>
-</div>
 </div>
 <!-- FIN MODAL AGREGAR XML -->

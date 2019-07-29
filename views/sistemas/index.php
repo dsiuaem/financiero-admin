@@ -10,8 +10,6 @@
     <!-- Main Sidebar Container -->
     <?php require 'views/menu/menu.php' ?>
     <div class="content-wrapper">
-        <div class="content-header">
-        </div>
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">

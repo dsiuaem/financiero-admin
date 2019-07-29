@@ -1,54 +1,49 @@
-<!-- <div class="row">
-    <div class="col-12 col-md-12">
-        <div class="small-box bg-info" style="text-align: right;">
-            <div class="inner">
-                <div><h5 style="text-align: left;">Listado de usuarios</h5></div>
+<div class="content">
+      <div class="container-fluid">
+          <div class="row justify-content-center mt-5">
+              <div class="col-md-11">
+                  <div class="card">
+                    <div class="card-header px-3 py-4" style="background-color: #142f5a !important;">
+                        <h3 style="text-align: center; color: white;"><strong>LISTADO DE USUARIOS</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="listadoUsuarios" name="listadoUsuarios" method="POST" enctype="multipart/form-data">
+                            <div class="row form-group">
+                                <div class="col col-md-2"></div>
+                                <div class="col-12 col-md-8">
+                                    <label for="systemNameListarUsuarios" class="form-control-label">Listado de sistemas:</label>
+                                    <select name="systemNameListarUsuarios" id="systemNameListarUsuarios" class="form-control">
+                                        <option value="0">- Seleccionar -</option>
+                                    </select>
+                                </div>
+                                <div class="col col-md-2"></div>
+                            </div>
+                        </form>
+                        <div class="listaUsuarios" >
+                            <div class="form-group">
+                                <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
+                                <table class="table table-striped table-bordered dt-responsive nowrap" id="tableUsuarios"
+                                       width="100%"
+                                       cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Email</th>
+                                            <th>Nombre</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tBodyListarUsuarios">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div> -->
-<div class="card-header" style="background-color: #142f5a !important">
-    <h5 class="card-title" style="text-align: center; color: white;">Listado de usuarios</h5>
-</div>
-<div class="card-body">
-    <form id="listadoUsuarios" name="listadoUsuarios" method="POST" enctype="multipart/form-data">
-
-        <div class="row form-group">
-            <div class="col col-md-2"></div>
-            <div class="col-12 col-md-8">
-                <label for="systemNameListarUsuarios" class="form-control-label">Listado de sistemas:</label>
-                <select name="systemNameListarUsuarios" id="systemNameListarUsuarios" class="form-control">
-                    <option value="0">- Seleccionar -</option>
-                </select>
-            </div>
-            <div class="col col-md-2"></div>
-        </div>
-    </form>
-
-    <div class="listaUsuarios" >
-        <div class="form-group">
-            <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
-            <table class="table table-striped table-bordered dt-responsive nowrap" id="tableUsuarios"
-                   width="100%"
-                   cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Acciones</th>
-                        <th></th>
-                        <th>Email</th>
-                        <th>Nombre</th>
-                    </tr>
-                </thead>
-                <tbody class="tBodyListarUsuarios">
-                   
-                </tbody>
-                <tfoot>
-                
-                </tfoot>
-            </table>
-        </div>
-    </div>
-</div>
+          </div>
+      </div>
+  </div>
 
 <!-- MODAL AGREGAR XML -->
 <div class="modal fade" id="modalEditarUsuario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -57,9 +52,6 @@
         <div class="modal-content">
             <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
                 <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar usuario</h4>
-                <!-- <button style="color: white;" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button> -->
             </div>
             <div class="modal-body mx-3">
 
@@ -119,18 +111,15 @@
 
 <!-- FIN MODAL AGREGAR XML -->
 <div class="modal fade" id="modalAdminSystems" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-      aria-hidden="true">
+      aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
                 <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar usuario</h4>
-                <button style="color: white;" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body mx-3">
-                <h3 class="text-info text">Sistemas actuales </h3>
-                <table class="table enSistemaPerfil" border="1">
+                <br><h3 class="text-center">Sistemas actuales </h3><br>
+                <table class="table table-striped table-bordered dt-responsive nowrap enSistemaPerfil" border="1">
                     <thead>
                         <tr>
                             <th>Sistema</th>
@@ -142,8 +131,8 @@
                         
                     </tbody>
                 </table>
-                 <h3 class="text-info text">Sistemas por definir</h3>
-                <table class="table sinSistemaPerfil" border="1">
+                 <br><br><h3 class="text-center">Sistemas por definir</h3><br>
+                <table class="table table-striped table-bordered dt-responsive nowrap sinSistemaPerfil" border="1">
                     <thead>
                         <tr>
                             <th>Sistema</th>
@@ -154,20 +143,22 @@
                         
                     </tbody>
                 </table>
+                <div class="modal-footer">
+                    <button type="button" style="" id="" name="" data-dismiss="modal" class="btn btn-danger">
+                        <i class="fas fa-times-circle"></i> Cancelar
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <div class="modal fade" id="modalEditarPerfilUsuario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-      aria-hidden="true">
+      aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
                 <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar usuario</h4>
-                <button style="color: white;" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body mx-3">
 
@@ -193,7 +184,7 @@
                             <i class="fa fa-save"></i> Actualizar perfil
                         </a>
                         <button type="button" style="" id="" name="" data-dismiss="modal" onclick="limpiarForm()" class="btn btn-danger">
-                            <i class="fa fa-times"></i> Cancelar
+                            <i class="fas fa-times-circle"></i> Cancelar
                         </button>
                     </div>
                 </form>
@@ -203,14 +194,11 @@
 </div>
 
 <div class="modal fade" id="modalSelectPerfil" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-      aria-hidden="true">
+      aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
                 <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar usuario</h4>
-                <button style="color: white;" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body mx-3">
 
@@ -237,7 +225,7 @@
                             <i class="fa fa-save"></i> Agregar perfil
                         </a>
                         <button type="button" style="" id="" name="" data-dismiss="modal" onclick="limpiarForm()" class="btn btn-danger">
-                            <i class="fa fa-times"></i> Cancelar
+                            <i class="fas fa-times-circle"></i> Cancelar
                         </button>
                     </div>
                 </form>
@@ -247,18 +235,15 @@
 </div>
 <!-- FIN MODAL AGREGAR XML -->
 <div class="modal fade" id="modalAdminSystems" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-      aria-hidden="true">
+      aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
                 <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar usuario</h4>
-                <button style="color: white;" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body mx-3">
 
-                <table class="table enSistemaPerfil" border="1">
+                <table class="table table-striped table-bordered dt-responsive nowrap enSistemaPerfil" border="1">
                     <thead>
                         <tr>
                             <th>Sistema</th>
@@ -270,7 +255,7 @@
                         
                     </tbody>
                 </table>
-                <table class="table sinSistemaPerfil" border="1">
+                <table class="table table-striped table-bordered dt-responsive nowrap sinSistemaPerfil" border="1">
                     <thead>
                         <tr>
                             <th>Sistema</th>
@@ -281,20 +266,22 @@
                         
                     </tbody>
                 </table>
+                <div class="modal-footer">
+                    <button type="button" style="" id="" name="" data-dismiss="modal" class="btn btn-danger">
+                        <i class="fas fa-times-circle"></i> Cancelar
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <div class="modal fade" id="modalEditarPerfilUsuario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-      aria-hidden="true">
+      aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
                 <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar usuario</h4>
-                <button style="color: white;" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body mx-3">
 
@@ -320,7 +307,7 @@
                             <i class="fa fa-save"></i> Actualizar perfil
                         </a>
                         <button type="button" style="" id="" name="" data-dismiss="modal" onclick="limpiarForm()" class="btn btn-danger">
-                            <i class="fa fa-times"></i> Cancelar
+                            <i class="fas fa-times-circle"></i> Cancelar
                         </button>
                     </div>
                 </form>
@@ -330,14 +317,11 @@
 </div>
 
 <div class="modal fade" id="modalSelectPerfil" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-      aria-hidden="true">
+      aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
                 <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar usuario</h4>
-                <button style="color: white;" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body mx-3">
 
@@ -364,7 +348,7 @@
                             <i class="fa fa-save"></i> Agregar perfil
                         </a>
                         <button type="button" style="" id="" name="" data-dismiss="modal" onclick="limpiarForm()" class="btn btn-danger">
-                            <i class="fa fa-times"></i> Cancelar
+                            <i class="fas fa-times-cicle"></i> Cancelar
                         </button>
                     </div>
                 </form>

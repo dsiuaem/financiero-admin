@@ -10,21 +10,17 @@
     <!-- Main Sidebar Container -->
     <?php require 'views/menu/menu.php' ?>
     <div class="content-wrapper">
-        <div class="content-header">
-        </div>
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card">
                             <div id="registrar" style="display:none">
                                 <?php include_once 'views/tipoOpciones/registrar.php' ?>
                             </div>
                             <div id="listarTipoOpciones" style="display:none">
                                 <?php include_once 'views/tipoOpciones/listarTipoOpciones.php' ?>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
