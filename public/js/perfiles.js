@@ -453,7 +453,7 @@ function editarPerfilRealizar(){
         success: function (response) {
               var respuesta=jQuery.parseJSON(response);
               if(respuesta.respuesta==200){
-              	  tableListadoPerfiles.ajax.reload();
+              	  tableListadoPerfiles.ajax.reload(null,false);
                   alertify.success('Perfil modificado exitosamente');
               }else{
                   alertify.error('Error al actualizar el perfil');
