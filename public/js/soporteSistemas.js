@@ -84,7 +84,7 @@ $(document).ready(function () {
     var result = [];
     $.each(list, function(i, e) {
       if (parseInt(e)>list.length){
-        alertify.warning("Verifica el número de orden");
+        alertify.warning("Verifica el número de orden, no corresponde al número de preguntas");
         ordenar = 0;
         return false;
       }else{
@@ -99,6 +99,15 @@ $(document).ready(function () {
     });
     if(ordenar==1){
       ordenarPreguntas(data);
+    }
+  });
+
+  $("select[class$='systemName']").change(function(e){
+    if(this.value!=""){
+      var systemsList = $('.systemName:visible').val();
+      if(systemsList.includes("-1")){
+        putAllSystems();
+      }
     }
   });
 
@@ -151,6 +160,7 @@ function tablaAvisos(id){
     ajax: {
       url: "SoporteSistemas/obtenerAvisos",
       type: 'POST',
+      asyn:false,
       dataSrc: "",
     },
     dom: "<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
@@ -252,12 +262,14 @@ function vistaAvisos(vista,data){
   resetForm();
   switch(vista){
     case 0:
+      $("select[name$='systemName']").prop('multiple',true);
+      var $dropdown = $("select[name$='systemName']");
+      $dropdown.append($("<option />").val(-1).text("Todos"));
       showSystems();
       $('#listadoAviso').hide();
       $('#avisoForm').show();
       $('.btnUpdateAviso').hide();
       $('.btnSaveAviso').show();
-      $("select[name$='systemName']").prop('multiple',true);
     break;
     case 1:
       $('#avisos').show();
@@ -267,7 +279,9 @@ function vistaAvisos(vista,data){
       $('#avisoForm').hide();
     break;
     case 2:
-      showSystems();
+      $("select[name$='systemName']").prop('multiple',true);
+      var $dropdown = $("select[name$='systemName']");
+      $dropdown.append($("<option />").val(-1).text("Todos"));
       $('#listadoAviso').hide();
       $('#avisoForm').show();
       $('.idAviso').val(data.idAviso);
@@ -285,19 +299,17 @@ function vistaAvisos(vista,data){
       $('.btnSaveAviso').hide();
       $('.btnUpdateAviso').show();
       if(data.identificaSolicitante == 1){
-				$('input[class$="mostrarEmpleado"]').attr('checked', true);
-				$('input[type="checkbox"].flat-red.mostrarEmpleado').iCheck('check');
-			}
-      if(data.activo == 1){
-				$('input[class$="mostrarAviso"]').attr('checked', true);
-				$('input[type="checkbox"].flat-red.mostrarAviso').iCheck('check');
-			}
+        $('input[type="checkbox"]').iCheck('check');
+			}else{
+        $('input[type="checkbox"]').iCheck('uncheck');
+      }
       var sistemas = (data.sistemas).split(',');
       var idSistemas = (data.idSistemas).split(',');
       for (var i = 0; i < idSistemas.length; i++) {
         var option = new Option(sistemas[i], idSistemas[i], true, true);
         $("select[name$='systemName']").append(option).trigger('change');
       }
+      showSystems();
     break;
   }
 }
@@ -503,20 +515,21 @@ function tablaSistemas(option){
           className:'btn btn-custom btn-rounded btn-outline-primary mb-4 ml-4 mt-3',
           action: function () {
             dataInfo = 0;
+            $('.titulo').html('Nueva pregunta frecuente');
             vistaPreguntas(0,0);
           }
       },
     ],
     columns: [
-     {data: "name"},
-     {data: "total"},
-     {
+      {
         data: "idSystem",
         render: function ( data, type, row, meta ) {
           return '<button title="Ver" class="btn btn-outline-primary btn-sm btn-rounded btn-custom ml-3"><i class="fas fa-eye"></i></button>';
           },
           className: "text-center"
-     }
+     },
+     {data: "name"},
+     {data: "total"}
     ],
     language: {
         "url":     "public/plugins/DataTables/Spanish.json",
@@ -527,7 +540,7 @@ function tablaSistemas(option){
       vistaPreguntas(1,data);
       sis = data.name;
       idSis = data.idSystem;
-      $('.titulo').html('Listado de preguntas frecuentes '+sis);
+      $('.titulo').html('Listado de preguntas frecuentes: '+sis.toUpperCase());
       dataInfo = data;
   });
 }
@@ -562,14 +575,16 @@ function tablaPreguntas(id){
             text: 'Cambiar orden',
             className:'btn btn-custom btn-rounded btn-outline-success mb-4 buttonDt ml-4',
             action: function () {
+                $('.titulo').html('Cambiar orden preguntas frecuentes: '+sis.toUpperCase());
                 listarPreguntas();
+                $('.btn_cancel').show();
             }
         },
         {
             text: 'Agregar Pregunta',
             className:'btn btn-custom btn-rounded btn-outline-primary mb-4 buttonDt ml-4',
             action: function () {
-              $('.titulo').html('Registro de preguntas frecuentes '+sis);
+              $('.titulo').html('Registro de preguntas frecuentes: '+sis.toUpperCase());
               vistaPreguntas(0,0);
             }
         }
@@ -616,7 +631,7 @@ function tablaPreguntas(id){
 	});
   $('#tablaPreguntas tbody').off('click', 'button.btn-edit-pregunta').on( 'click', 'button.btn-edit-pregunta', function () {
       var data = listaPreguntas.row( this.closest('tr') ).data();
-      $('.titulo').html('Editar preguntas frecuentes '+sis);
+      $('.titulo').html('Editar preguntas frecuentes: '+sis.toUpperCase());
       vistaPreguntas(2,data);
       sis = data.name;
       idSis = data.idSystem;
@@ -644,6 +659,7 @@ function vistaPreguntas(vista,data){
       $('.btnSavePregunta').show();
       $("select[name$='systemName']").prop('multiple',false);
       if(dataInfo == 0 ){
+        $("select[name$='systemName']").prop('disabled',false);
         showSystems();
       }else{
         $("select[name$='systemName']").prop('disabled',true);
@@ -659,7 +675,6 @@ function vistaPreguntas(vista,data){
       $('#preguntasFrecuentesForm').hide();
     break;
     case 2:
-      showSystems();
       $('#idTablaPreguntas').hide();
       $('#preguntasFrecuentesForm').show();
       $('.btnUpdatePregunta').show();
@@ -672,6 +687,7 @@ function vistaPreguntas(vista,data){
       $('.respuesta').val(data.respuesta);
       var option = new Option(data.name, data.idSystem, true, true);
       $("select[name$='systemName']").append(option).trigger('change');
+      showSystems();
     break;
   }
 }
@@ -698,7 +714,7 @@ function nuevaPregunta(){
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
                 alertify.success("Registro exitoso");
-                $('.titulo').html('Listado de preguntas frecuentes '+sis);
+                $('.titulo').html('Listado de preguntas frecuentes: '+sis.toUpperCase());
                 vistaPreguntas(1,dataInfo);
             } else {
                 alertify.error("Error al registrar aviso");
@@ -750,7 +766,7 @@ function eliminarPregunta(idPregunta){
 			type: 'POST',
 			data: {idPregunta: idPregunta},
 			success: function (response) {
-				alertify.success("Registro borrado");
+				alertify.success("Registro deshabilitado");
 				listaPreguntas.ajax.reload();
 			}
 		});
@@ -761,7 +777,7 @@ function cancelarPregunta(){
   if(dataInfo == 0){
     redireccionarVista(2);
   }else{
-    $('.titulo').html('Listado de preguntas frecuentes '+sis);
+    $('.titulo').html('Listado de preguntas frecuentes: '+sis.toUpperCase());
     vistaPreguntas(1,dataInfo);
   }
 }
@@ -838,7 +854,9 @@ function confirmarProcesoPregunta(){
     alertify.confirm("¿Deseas cambiar la pregunta de sistema?",
     function(){
       actualizarPregunta();
+      $('.titulo').html('Cambiar orden preguntas frecuentes: '+sis.toUpperCase());
       listarPreguntas();
+      $('.btn_cancel').hide();
     },
     function(){
       //
@@ -873,18 +891,23 @@ function activarPregunta(idPregunta){
 }
 
 // ------------------------------- END PREGUNTAS -------------------------------
-
 function showSystems() {
+  var systemsList = $('.systemName:visible').val();
     $.ajax({
         url: 'SoporteSistemas/systemListSelect',
         type: 'POST',
+        async: false,
         dataType: 'JSON',
         success: function (response) {
             var systems = jQuery.parseJSON(response.soporteSistemasDTO);
             var $dropdown = $("select[name$='systemName']");
             for (var i = systems.length - 1; i >= 0; i--) {
-              if($("select[name$='systemName']").val()!=systems[i].idSystem){
+              if(systemsList==undefined){
                 $dropdown.append($("<option />").val(systems[i].idSystem).text(systems[i].name));
+              }else{
+                if(!systemsList.includes(systems[i].idSystem)){
+                  $dropdown.append($("<option />").val(systems[i].idSystem).text(systems[i].name));
+                }
               }
             }
             $dropdown.select2();
@@ -896,8 +919,32 @@ function showSystems() {
     return false;
 }
 
+function putAllSystems() {
+  $("select[name$='systemName']").empty();
+  var $dropdown = $("select[name$='systemName']");
+  $dropdown.append($("<option />").val(-1).text("Todos"));
+  $.ajax({
+      url: 'SoporteSistemas/systemListSelect',
+      type: 'POST',
+      async: false,
+      dataType: 'JSON',
+      success: function (response) {
+          var systems = jQuery.parseJSON(response.soporteSistemasDTO);
+          for (var i = systems.length - 1; i >= 0; i--) {
+            var option = new Option(systems[i].name, systems[i].idSystem, true, true);
+            $("select[name$='systemName']").append(option).trigger('change');
+          }
+      },
+      error: function () {
+          alertify.error("Error al obtener el servicio para cargar lista de sistemas");
+      }
+  });
+
+}
+
 //Función para vaciar formularios depués de cada acción
 function resetForm() {
+    $('input[type="checkbox"]').iCheck('uncheck');
     $('#registroAviso')[0].reset();
     $('#registroPreguntas')[0].reset();
     $("select[name$='systemName']").empty();
