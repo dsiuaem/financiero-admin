@@ -524,7 +524,7 @@ function tablaSistemas(option){
       {
         data: "idSystem",
         render: function ( data, type, row, meta ) {
-          return '<button title="Ver" class="btn btn-outline-primary btn-sm btn-rounded btn-custom ml-3"><i class="fas fa-eye"></i></button>';
+          return '<button title="Ver" class="btn btn-outline-primary btn-sm btn-rounded btn-custom ml-3 btn-ver-sistema"><i class="fas fa-eye"></i></button>';
           },
           className: "text-center"
      },
@@ -604,7 +604,7 @@ function tablaPreguntas(id){
           boton += '<span data-on="On" data-off="Off" class="switch-label"></span>';
           boton += '<span class="switch-handle"></span>';
           boton += '</label>';
-          boton += '<button title="Ver" class="btn btn-outline-info btn-sm btn-rounded btn-custom ml-3 btn-edit-pregunta"><i class="fas fa-edit"></i></button>';
+          boton += '<button title="Ver" class="btn btn-outline-primary btn-sm btn-rounded btn-custom ml-3 btn-edit-pregunta"><i class="fas fa-edit"></i></button>';
           return boton;
         },
           className: "text-center"
