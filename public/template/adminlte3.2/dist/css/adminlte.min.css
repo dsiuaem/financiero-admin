@@ -3025,7 +3025,7 @@
   .btn-group,
   .btn-group-vertical {
     position: relative;
-    display: inline-flex;
+    display: middle;
     vertical-align: middle;
   }
   

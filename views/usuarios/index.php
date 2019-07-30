@@ -10,14 +10,11 @@
     <!-- Main Sidebar Container -->
     <?php require 'views/menu/menu.php' ?>
     <div class="content-wrapper">
-        <div class="content-header">
-        </div>
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card">
                             <div id="nuevoUsuario" style="display:none">
                                 <?php include_once 'views/usuarios/nuevoUsuario.php' ?>
                             </div>
@@ -27,7 +24,6 @@
                             <div id="listarUsuarios" style="display:none">
                                 <?php include_once 'views/usuarios/listarUsuarios.php' ?>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>

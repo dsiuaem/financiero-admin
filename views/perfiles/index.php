@@ -14,21 +14,17 @@
     <!-- Main Sidebar Container -->
     <?php require 'views/menu/menu.php' ?>
     <div class="content-wrapper">
-        <div class="content-header">
-        </div>
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card">
                             <div id="nuevoPerfil" style="display:none">
                                 <?php include_once 'views/perfiles/nuevoPerfil.php' ?>
                             </div>
                             <div id="listarPerfiles" style="display:none">
                                 <?php include_once 'views/perfiles/listarPerfiles.php' ?>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>

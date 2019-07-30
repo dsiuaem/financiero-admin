@@ -146,7 +146,14 @@ $(document).ready(function () {
                     dataSrc: "",
                 },
                 columns: [
+                    {
+                        data: "idModuleOption",
+                        visible: false,
+                        searchable: false
+                    },
 
+                    {data: "name"},
+                    {data: "description"},
                     {
                         data: null,
                         render: function (data, type, row) {
@@ -163,15 +170,7 @@ $(document).ready(function () {
                                 '<span class="switch-handle"></span>' +
                                 '</label> ';
                         }
-                    },
-                    {
-                        data: "idModuleOption",
-                        visible: false,
-                        searchable: false
-                    },
-
-                    {data: "name"},
-                    {data: "description"}
+                    }
 
                 ],
                 fixedColumns: true,

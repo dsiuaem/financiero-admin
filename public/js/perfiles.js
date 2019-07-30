@@ -40,19 +40,18 @@ $(document).ready(function () {
                 },
                 columns: [
                     {
+                        data: "idPerfil",
+                        visible: false,
+                        searchable: false
+                    },
+                    {data: "perfil"},
+                    {
                         data: null,
                         render: function (data, type, row) {
                             return '<button id="btnUpdatePerfil" data-toggle="modal" onclick="editarPerfil('+data.idPerfil+',\''+data.perfil+'\')" data-target="#modalEditarPerfil" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1 buttonDt"><i class="fas fa-edit"></i></button>'+
                              ' <button id="btnDeletePerfil" class="btn btn-outline-danger btn-sm btn-rounded btn-custom"><i class="fas fa-trash-alt"></i></button>';
                         }
-                    },
-                    {
-                        data: "idPerfil",
-                        visible: false,
-                        searchable: false
-                    },
-                    {data: "perfil"}
-
+                    }
                 ],
                 fixedColumns: true,
                 language: {

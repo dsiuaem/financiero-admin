@@ -1,6 +1,6 @@
 <div class="content">
       <div class="container-fluid">
-          <div class="row justify-content-center mt-4 mb-4">
+          <div class="row justify-content-center mt-5">
               <div class="col-md-11">
                   <div class="card">
                     <div class="card-header px-3 py-4" style="background-color: #142f5a !important;">
@@ -33,8 +33,6 @@
                                     </thead>
                                     <tbody>
                                     </tbody>
-                                    <tfoot>
-                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -44,7 +42,6 @@
             </div>
           </div>
       </div>
-  </div>
 
 
 <!-- MODAL AGREGAR XML -->
@@ -107,6 +104,5 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 <!-- FIN MODAL AGREGAR XML -->

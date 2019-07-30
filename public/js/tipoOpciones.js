@@ -171,7 +171,12 @@ $(document).ready(function () {
                     dataSrc: "",
                 },
                 columns: [
+                    {
+                        data: "idTipoOption"
+                    },
 
+                    {data: "name"},
+                    {data: "tipo"},
                     {
                         data: null,
                         render: function (data, type, row) {
@@ -186,7 +191,7 @@ $(document).ready(function () {
 
                             }
 
-                            return '<button id="btnUpdateTipoOption" data-toggle="modal" data-target="#modalEditarTipoOpciones" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1"><i class="fas fa-edit"></i></button> ' +
+                            return '<button id="btnUpdateTipoOption" data-toggle="modal" data-target="#modalEditarTipoOpciones" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-2"><i class="fas fa-edit"></i></button> ' +
                                 '' +
                                 '<label class="switch switch-text switch-success switch-pill">' +
                                 '<input id="btnEnableTipoOption" type="' + estado + '" class="switch-input" checked="true">' +
@@ -195,15 +200,7 @@ $(document).ready(function () {
                                 '</label> ';
 
                         }
-                    },
-                    {
-                        data: "idTipoOption",
-                        visible: false,
-                        searchable: false
-                    },
-
-                    {data: "name"},
-                    {data: "tipo"}
+                    }
 
                 ],
                 fixedColumns: true,
