@@ -17,7 +17,7 @@
                             <div class="col col-md-2"></div>
                         </div>
 
-                        <div class="row form-group">
+                        <div class="row form-group divmoduleNameTable" style="display:none;">
                             <div class="col col-md-2"></div>
                             <div class="col-12 col-md-8">
                                 <label for="moduleNameTable" class="form-control-label">Seleccionar módulo: </label>
@@ -26,16 +26,16 @@
                             </div>
                             <div class="col col-md-2"></div><br>
                         </div>
-                        <div class="form-group tableSubModulosSystem">
+                        <div class="form-group tableSubModulosSystem" style="display:none;">
                             <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
                             <table class="table table-striped table-bordered dt-responsive nowrap" id="tableSubmodulos" width="100%"
                                    cellspacing="0">
                                 <thead>
                                   <tr>
-                                      <th></th>
+                                      <th>Acciones</th>
+                                      <th>Editar</th>
                                       <th>Submódulos registrados</th>
                                       <th>Controlador</th>
-                                      <th>Editar</th>
                                   </tr>
                                 </thead>
                                 <tbody>

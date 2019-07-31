@@ -1,44 +1,31 @@
 $(document).ready(function () {
-
     //Establecer la posició de la alerta
     alertify.set('notifier', 'position', 'top-right');
-    // oculta las vistas del usuario hasta que el cambie la vista
-    $('#registrar').hide();
-    $('#listarSistemas').hide();
-
-    //Despliegue de información en DATATABLE
-    systemsTable();
+    redireccionarVista(2)
 
     //Variable y función para validar datos del icono
     var iconoSistema = document.getElementById("iconoSistema");
-
-    iconoSistema.onchange = function () {
-
-        var fileName = this.files[0].name;
-
-        if (this.files[0].size > 2000000) {
-            alertify.error("La imagen que intentas subir es demasiado grande, favor de subir una menor a 2 MB");
-            this.value = "";
-        } else {
-            var ext = fileName.split('.').pop();
-
-            // console.log(ext);
-            switch (ext) {
-                case 'jpg':
-                case 'jpeg':
-                case 'png':
-                case 'JPG':
-                case 'JPEG':
-                case 'PNG':
-                    break;
-                default:
-                    alertify.error("El archivo no tiene la extensión adecuada solo se aceptan jpg, jpeg, png");
-                    this.value = ''; // reset del valor
-            }
-        }
-
+      iconoSistema.onchange = function () {
+      var fileName = this.files[0].name;
+      if (this.files[0].size > 2000000) {
+          alertify.error("La imagen que intentas subir es demasiado grande, favor de subir una menor a 2 MB");
+          this.value = "";
+      } else {
+          var ext = fileName.split('.').pop();
+          switch (ext) {
+              case 'jpg':
+              case 'jpeg':
+              case 'png':
+              case 'JPG':
+              case 'JPEG':
+              case 'PNG':
+                  break;
+              default:
+                  alertify.error("El archivo no tiene la extensión adecuada solo se aceptan jpg, jpeg, png");
+                  this.value = ''; // reset del valor
+          }
+      }
     };
-
 
     //jquery validator donde se corroboran que los datos esten introducidos y ningun campo se vaya en vacio
     $('form[id="registroSistemas"]').validate({
@@ -48,7 +35,6 @@ $(document).ready(function () {
                 minlength: 6,
                 //pattern: '^[a-zA-Z\ \á\é\í\ó\ú\Á\É\Í\Ó\Ú]+$'
             }
-
         },
         messages: {
             nombreSistema:{
@@ -81,17 +67,15 @@ function saveRegistroSistema(){
         $(texto).each(function (index, obj) {
             data[obj.name] = obj.value;
         });
-
-        //console.log(data)
+        console.log(data)
         $.ajax({
             url: 'Sistemas/registerSystem',
             type: 'POST',
             data: ({datos: data}),
             success: function (response) {
-                console.log(response);
                 var obj = jQuery.parseJSON(response);
                 if (obj.respuesta == 200) {
-                    cleanNewSystem();
+                    $('#nombreSistema').val("");
                     alertify.success("Registro exitoso");
                 } else {
                     //alert("Error al insertar los datos");
@@ -108,7 +92,6 @@ function saveRegistroSistema(){
 var tableSistemas;
 var estado;
 function systemsTable() {
-
     tableSistemas = $('#tableSistemas').DataTable({
         destroy: true,
         ajax: {
@@ -118,6 +101,7 @@ function systemsTable() {
         columns: [
             {
                 data: "idSystem",
+                visible: false
             },
             {
                 data: "name"
@@ -125,17 +109,11 @@ function systemsTable() {
             {
                 data: null,
                 render: function (data, type, row) {
-
                     if (data.enable == 1) {
-
                          estado = "checkbox";
-
                     } else if (data.enable == 0) {
-
                          estado = "";
-
                     }
-
                     return '<button id="btnUpdateSystem" data-toggle="modal" data-target="#modalEditarSistema" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-3"><i class="fas fa-edit"></i></button> ' +
                         '' +
                         '<label class="switch switch-text switch-success switch-pill mr-3">' +
@@ -144,10 +122,8 @@ function systemsTable() {
                         '<span class="switch-handle"></span>\n' +
                         '</label> ' +
                         '';
-                         // + '<button id="btnDeleteSystem" title="Eliminar concepto" class="btn btn-outline-danger btn-sm btn-rounded btn-custom"><i class="fas fa-trash-alt"></i></i></button>';
-
                 }
-            }
+            },
         ],
         fixedColumns: true,
         language: {
@@ -156,51 +132,42 @@ function systemsTable() {
     });
     $('#tableSistemas tbody').off('click', '#btnUpdateSystem').on('click', '#btnUpdateSystem', function () {
         var data = tableSistemas.row(this.closest('tr')).data();
-        //console.log(data);
-
-        document.getElementById('updateNombreSistema').value = data.name;
-        document.getElementById('idSystemUpdate').value = data.idSystem;
-
-        //confirmEliminar(data["idConcepto"], (data["descripcion"]));
+        if(data==undefined){
+          data = tableSistemas.row( this ).data();
+        }
+        $('#updateNombreSistema').val(data.name);
+        $('#idSystemUpdate').val(data.idSystem);
     });
 
     $('#tableSistemas tbody').off('click', '#btnEnableSystem').on('click', '#btnEnableSystem', function () {
         var data = tableSistemas.row(this.closest('tr')).data();
-        var id = data.idSystem;
-        var estadoBase = data.enable;
-
-        if (estadoBase == 1) {
-
-            var texto = "Desactivar";
-
-        } else if (estadoBase == 0) {
-
-            var texto = "Activar";
-
+        if(data==undefined){
+          data = tableSistemas.row( this ).data();
         }
-
+        if (data.enable == 1) {
+            var texto = "Desactivar";
+        } else if (data.enable == 0) {
+            var texto = "Activar";
+        }
         alertify.confirm(texto + ' el sistema seleccionado ', function () {
-                estadoSwitch(id, estadoBase);
-            }
-            , function () {
-            
-               tableSistemas.ajax.reload();
-                alertify.error('Acción cancelada')
-            });
+            estadoSwitch(data.idSystem, data.enable);
+        },function () {
+           tableSistemas.ajax.reload(null,false);
+            //alertify.error('Acción cancelada');
+        });
 
     });
 
     $('#tableSistemas tbody').off('click', '#btnDeleteSystem').on('click', '#btnDeleteSystem', function () {
         var data = tableSistemas.row(this.closest('tr')).data();
-        var id = data.idSystem;
-
+        if(data==undefined){
+          data = tableSistemas.row( this ).data();
+        }
         alertify.confirm('Eliminar el sistema seleccionado ', function () {
-                deleteSistema(id);
-            }
-            , function () {
-                alertify.error('Acción cancelada')
-            });
-
+            deleteSistema(data.idSystem);
+        },function () {
+            //alertify.error('Acción cancelada');
+        });
     });
 }
 
@@ -221,18 +188,16 @@ function redireccionarEstatus(optionMenu) {
 
 //CONSERVAR EL NOMBRE DE ESTA FUNCIÓN Y EL PARAMETRO
 function redireccionarVista(optionMenu) {
-    // alert(optionMenu);
     switch (optionMenu) {
         case 1://Captura
-            cleanNewSystem();
+            $('#nombreSistema').val("");
             $('#registrar').show();
             $('#listarSistemas').hide();
             break;
-        case 2:
-            cleanShowSystemsR();
+        case 2://Lista
+            systemsTable();
             $('#registrar').hide();
             $('#listarSistemas').show();
-            //redireccionarEstatus(1);
             break;
         default:
             //alert("default");
@@ -241,33 +206,15 @@ function redireccionarVista(optionMenu) {
     return false;
 }
 
-function cleanShowSystemsR(){
-  tableSistemas.ajax.reload();
-}
-
-function cleanNewSystem(){
-     $('#nombreSistema').val("");
-}
-
-
-
-
-//Función para vaciar formularios depués de cada acción
-function resetForm() {
-    $('#registroSistemas')[0].reset();
-}
 
 //Funcion para llevar a cabo el registro de un sistema
 function updateSistema() {
-
     var texto = $('#actualizacionSistemas').serializeArray();
     var data = {};
     $(texto).each(function (index, obj) {
         data[obj.name] = obj.value;
     });
-
-    //console.log(data);
-
+    console.log(data);
     $.ajax({
         url: 'Sistemas/updateSystem',
         type: 'POST',
@@ -275,11 +222,9 @@ function updateSistema() {
         success: function (response) {
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
-
                 $("#modalEditarSistema").modal('hide');
-
                 //Función para recargar tabla
-                tableSistemas.ajax.reload();
+                tableSistemas.ajax.reload(null,false);
                 alertify.success("Actualización exitosa");
                 return false;
             } else {
@@ -291,13 +236,9 @@ function updateSistema() {
         }
     });
     return false;
-
 }
 
 function deleteSistema(id_system) {
-
-    //console.log(id_system);
-
     $.ajax({
         url: 'Sistemas/deleteSystem',
         type: 'POST',
@@ -306,11 +247,10 @@ function deleteSistema(id_system) {
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
                 //Función para recargar tabla
-                tableSistemas.ajax.reload();
+                tableSistemas.ajax.reload(null,false);
                 alertify.success("Sistema eliminado de manera exitosa");
                 return false;
             } else {
-                //alert("Error al insertar los datos");
                 alertify.error("Error al eliminar el sistema");
             }
         },
@@ -319,11 +259,9 @@ function deleteSistema(id_system) {
         }
     });
     return false;
-
 }
 
 function estadoSwitch(id_system, estado) {
-
     $.ajax({
         url: 'Sistemas/enableSystem',
         type: 'POST',
@@ -331,11 +269,10 @@ function estadoSwitch(id_system, estado) {
         success: function (response) {
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
-                //Función para recargar tabla
-                tableSistemas.ajax.reload();
+                tableSistemas.ajax.reload(null,false);
                 return false;
             } else {
-                alertify.error("Error en la acción");
+                //alertify.error("Error en la acción");
             }
         },
         error: function () {
@@ -343,25 +280,4 @@ function estadoSwitch(id_system, estado) {
         }
     });
     return false;
-
 }
-
-
-
-/*
-function resetForm(){
-    $('input[class$="checkGrupo"]').prop("checked", false);
-    $('input[class$="checkGrupoCopia"]').prop("checked", false);
-    $('input[class$="checkPersona"]').prop("checked", false);
-    $('input[class$="checkPersonaCopia"]').prop("checked", false);
-    $('#registroOficioForm')[0].reset();
-    $('#updateOficioForm')[0].reset();
-    $(".selectRemitente").val(null);
-    $(".selectRemitente").select2("val","");
-    $(".selectDestinatario").val(null);
-    $(".selectGrupoDestinatario").val(null);
-    $(".selectDestinatarioCopia").val(null);
-    $(".selectGrupoDestinatarioCopia").val(null);
-    ocultarSeccionFormulario();
-}
- */

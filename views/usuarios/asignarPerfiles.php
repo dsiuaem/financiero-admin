@@ -18,7 +18,7 @@
                                 </div>
                                 <div class="col col-md-2"></div>
                             </div>
-                            <div class="row form-group">
+                            <div class="row form-group divperfilUser" style="display:none;">
                                 <div class="col col-md-2"></div>
                                 <div class="col-12 col-md-8">
                                     <label for="perfilUser" class="form-control-label">Selecciona un perfil para el / los
@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="col col-md-2"></div>
                             </div>
-                            <div class="infoUsers">
+                            <div class="infoUsers" style="display:none;">
                                 <div class="card-body card-block">
                                     <div class="form-group text-center">
                                         <h2>Usuarios sin el perfil seleccionado asignado</h2><br><br><br>
@@ -64,10 +64,10 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            
+
                                             </tbody>
                                             <tfoot>
-                                            
+
                                             </tfoot>
                                         </table>
                                     </div>

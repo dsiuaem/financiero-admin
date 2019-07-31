@@ -1,13 +1,7 @@
 var tableModulos;
 $(document).ready(function () {
     alertify.set('notifier', 'position', 'top-right');
-    // oculta las vistas del usuario hasta que el cambie la vista
-    $('#registrar').hide();
-    $('#listarModulos').hide();
-
-    //Mostrar información en el select
-    showSystems();
-    showSystemsTable();
+    redireccionarVista(2);
 
     //jquery validator donde se corroboran que los datos esten introducidos y ningun campo se vaya en vacio
     $('form[id="registroModulos"]').validate({
@@ -26,14 +20,6 @@ $(document).ready(function () {
         submitHandler: function () {
             //Se registran los datos del módulo
             saveRegistroModulos();
-
-            /*
-            $(function () {
-                $("#btnSaveModule").click(saveRegistroModulos());
-            });
-
-             */
-
         }
     });
 
@@ -52,13 +38,11 @@ $(document).ready(function () {
         submitHandler: function () {
             //Se registran los datos del módulo
             updateModulos();
-
         }
     });
 
     $('#systemNameTable').change(function(){
-      var id_sistema = $('select[name=systemNameTable]').val();
-      $('.listModulosSystem').hide();
+      var id_sistema = this.value;
       if (id_sistema != "") {
           $('.listModulosSystem').show();
           tableModulos = $('#tableModulos').DataTable({
@@ -81,17 +65,11 @@ $(document).ready(function () {
                   {
                       data: null,
                       render: function (data, type, row) {
-
                           if (data.enable == 1) {
-
                               var estado = "checkbox";
-
                           } else if (data.enable == 0) {
-
                               var estado = "";
-
                           }
-
                           return '<button id="btnUpdateModule" data-toggle="modal" data-target="#modalEditarModulo" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-3"><i class="fas fa-edit"></i></button> ' +
                               '' +
                               '<label class="switch switch-text switch-success switch-pill">' +
@@ -99,8 +77,6 @@ $(document).ready(function () {
                               '<span data-on="On" data-off="Off" class="switch-label"></span>' +
                               '<span class="switch-handle"></span>' +
                               '</label> ';
-                              /*'' +
-                              '<button id="btnDeleteModule" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';*/
                       }
                   }
               ],
@@ -112,58 +88,48 @@ $(document).ready(function () {
 
           $('#tableModulos tbody').off('click', '#btnUpdateModule').on('click', '#btnUpdateModule', function () {
               var data = tableModulos.row(this.closest('tr')).data();
-              //console.log(data);
-
-              document.getElementById('updateNameModule').value = data.name;
-              document.getElementById('updateDescription').value = data.description;
-              document.getElementById('updateNameModuleMenu').value = data.moduleMenu;
-              document.getElementById('idModuleUpdate').value = data.idModule;
-
-              //confirmEliminar(data["idConcepto"], (data["descripcion"]));
+              if(data==undefined){
+                data = tableModulos.row( this ).data();
+              }
+              $('#updateNameModule').val(data.name);
+              $('#updateDescription').val(data.description);
+              $('#updateNameModuleMenu').val(data.moduleMenu);
+              $('#idModuleUpdate').val(data.idModule);
           });
 
           $('#tableModulos tbody').off('click', '#btnEnableModule').on('click', '#btnEnableModule', function () {
               var data = tableModulos.row(this.closest('tr')).data();
-
-              var id = data.idModule;
-              var estado = data.enable;
-
-              if (estado == 1) {
-
-                  var texto = "Desactivar";
-
-              } else if (estado == 0) {
-
-                  var texto = "Activar";
-
+              if(data==undefined){
+                data = tableModulos.row( this ).data();
               }
-
+              if (data.enable == 1) {
+                  var texto = "Desactivar";
+              } else if (data.enable == 0) {
+                  var texto = "Activar";
+              }
               alertify.confirm(texto + ' el módulo seleccionado ', function () {
-                      estadoSwitch(id, estado);
-                  }
-                  , function () {
-                      tableModulos.ajax.reload();
-                      alertify.error('Acción cancelada')
-                  });
-
+                  estadoSwitch(data.idModule, data.enable);
+              },function () {
+                  tableModulos.ajax.reload(null,false);
+                  //alertify.error('Acción cancelada')
+              });
           });
 
           $('#tableModulos tbody').off('click', '#btnDeleteModule').on('click', '#btnDeleteModule', function () {
               var data = tableModulos.row(this.closest('tr')).data();
-              var id = data.idModule;
-
+              if(data==undefined){
+                data = tableModulos.row( this ).data();
+              }
               alertify.confirm('Eliminar el módulo seleccionado ', function () {
-                      deleteModulo(id);
-                  }
-                  , function () {
-                      alertify.error('Acción cancelada')
-                  });
-
+                  deleteModulo(data.idModule);
+              },function () {
+                  //alertify.error('Acción cancelada')
+              });
           });
-
+      }else{
+        $('.listModulosSystem').hide();
       }
     });
-
 });
 
 //CONSERVAR EL NOMBRE DE ESTA FUNCIÓN Y EL PARAMETRO
@@ -186,8 +152,8 @@ function redireccionarVista(optionMenu) {
     switch (optionMenu) {
         case 1:
             cleanAddModulo();
-            $('#registrar').show();
             $('#listarModulos').hide();
+            $('#registrar').show();
             break;
         case 2:
             cleanListModulos();
@@ -231,21 +197,15 @@ function saveRegistroModulos() {
     $(texto).each(function (index, obj) {
         data[obj.name] = obj.value;
     });
-
     if (data.systemName != '') {
-
         $.ajax({
             url: 'Modulos/registrarModulo',
             type: 'POST',
             data: ({datos: data}),
             success: function (response) {
-
-                console.log(response);
-
                 var obj = jQuery.parseJSON(response);
                 if (obj.respuesta == 200) {
                     cleanAddModulo();
-                    //tableModulos.ajax.reload();
                     alertify.success("Módulo registrado exitosamente");
                 } else {
                     //alert("Error al insertar los datos");
@@ -259,11 +219,9 @@ function saveRegistroModulos() {
         return false;
 
     } else {
-
         alertify.warning("No has seleccionado un sistema");
 
     }
-
 }
 
 //Funcion para llevar a cabo el registro de un sistema
@@ -273,22 +231,17 @@ function updateModulos() {
     $(texto).each(function (index, obj) {
         data[obj.name] = obj.value;
     });
-
     console.log(data);
-
     $.ajax({
         url: 'Modulos/updateModulo',
         type: 'POST',
         data: ({datos: data}),
         success: function (response) {
-
-            console.log(response);
-
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
                 $("#modalEditarModulo").modal('hide');
                 //Recargar tabla
-                tableModulos.ajax.reload();
+                tableModulos.ajax.reload(null,false);
                 alertify.success("Módulo actualizado exitosamente");
                 return false;
             } else {
@@ -301,22 +254,19 @@ function updateModulos() {
         }
     });
     return false;
-
 }
 
 //Funcion para llevar a cabo el registro de un sistema
 function deleteModulo(id_module) {
-
     $.ajax({
         url: 'Modulos/deleteModulo',
         type: 'POST',
         data: ({datos: id_module}),
         success: function (response) {
-
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
                 //Recargar tabla
-                tableModulos.ajax.reload();
+                tableModulos.ajax.reload(null,false);
                 alertify.success("Módulo eliminado exitosamente");
             } else {
                 alertify.error("Error al eliminar el módulo");
@@ -327,11 +277,9 @@ function deleteModulo(id_module) {
         }
     });
     return false;
-
 }
 
 function estadoSwitch(id_module, estado) {
-
     $.ajax({
         url: 'Modulos/enableModulo',
         type: 'POST',
@@ -340,7 +288,7 @@ function estadoSwitch(id_module, estado) {
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
                 //Función para recargar tabla
-                tableModulos.ajax.reload();
+                tableModulos.ajax.reload(null,false);
                 if(estado==1){
                     alertify.success('Módulo desactivado');
                 }else{
@@ -355,174 +303,46 @@ function estadoSwitch(id_module, estado) {
         }
     });
     return false;
-
-}
-
-//Función para vaciar formularios depués de cada acción
-function resetForm() {
-    $('#registroModulos')[0].reset();
 }
 
 function showSystems() {
-
     $.ajax({
         url: 'Sistemas/systemListSelect',
+        async: false,
         type: 'POST',
         dataType: 'JSON',
         success: function (response) {
-
             var systems = jQuery.parseJSON(response.sistemasDTO);
             var $dropdown = $("select[name$='systemName']");
             for (var i = systems.length - 1; i >= 0; i--) {
                 $dropdown.append($("<option />").val(systems[i].idSystem).text(systems[i].name));
             }
             $dropdown.select2();
-
         },
         error: function () {
             alertify.error("Error al obtener el servicio para cargar lista de sistemas");
         }
     });
     return false;
-
 }
 
 function showSystemsTable() {
-
     $.ajax({
         url: 'Sistemas/systemListSelect',
+        async: false,
         type: 'POST',
         dataType: 'JSON',
         success: function (response) {
-
             var systems = jQuery.parseJSON(response.sistemasDTO);
             var $dropdown = $("select[name$='systemNameTable']");
             for (var i = systems.length - 1; i >= 0; i--) {
                 $dropdown.append($("<option />").val(systems[i].idSystem).text(systems[i].name));
             }
             $dropdown.select2();
-
         },
         error: function () {
             alertify.error("Error al obtener el servicio para cargar lista de sistemas");
         }
     });
     return false;
-
 }
-
-//Para DataTable
-//Funciones para obtener información de los select
-/*$(document).on('change', '#systemNameTable', function () {
-
-    var id_sistema = $('select[name=systemNameTable]').val();
-    $('.listModulosSystem').hide();
-    if (id_sistema != "") {
-        $('.listModulosSystem').show();
-        tableModulos = $('#tableModulos').DataTable({
-            destroy: true,
-            responsive: {
-                details: false
-            },
-            ajax: {
-                url: 'Modulos/moduleListTable',
-                type: 'POST',
-                data: ({id: id_sistema}),
-                dataSrc: "",
-            },
-            columns: [
-                {
-                    data: null,
-                    render: function (data, type, row) {
-
-                        if (data.enable == 1) {
-
-                            var estado = "checkbox";
-
-                        } else if (data.enable == 0) {
-
-                            var estado = "";
-
-                        }
-
-                        return '<button id="btnUpdateModule" data-toggle="modal" data-target="#modalEditarModulo" class="btn btn-primary btn-sm buttonDt btn-ver"><i class="fa fa-search"></i></button> ' +
-                            '' +
-                            '<label class="switch switch-text switch-success switch-pill">\n' +
-                            '<input id="btnEnableModule" type="' + estado + '" class="switch-input" checked="true">\n' +
-                            '<span data-on="On" data-off="Off" class="switch-label"></span>\n' +
-                            '<span class="switch-handle"></span>\n' +
-                            '</label> ' +
-                            '' +
-                            '<button id="btnDeleteModule" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';
-
-                    }
-                },
-                {
-                    data: "idModule",
-                    visible: false,
-                    searchable: false
-                },
-                {data: "name"},
-                {data: "description"},
-                {data: "moduleMenu"}
-
-            ],
-            fixedColumns: true,
-            language: {
-                "url": "public/plugins/DataTables/Spanish.json",
-            }
-        });
-
-        $('#tableModulos tbody').off('click', '#btnUpdateModule').on('click', '#btnUpdateModule', function () {
-            var data = tableModulos.row(this.closest('tr')).data();
-            //console.log(data);
-
-            document.getElementById('updateNameModule').value = data.name;
-            document.getElementById('updateDescription').value = data.description;
-            document.getElementById('updateNameModuleMenu').value = data.moduleMenu;
-            document.getElementById('idModuleUpdate').value = data.idModule;
-
-            //confirmEliminar(data["idConcepto"], (data["descripcion"]));
-        });
-
-        $('#tableModulos tbody').off('click', '#btnEnableModule').on('click', '#btnEnableModule', function () {
-            var data = tableModulos.row(this.closest('tr')).data();
-
-            var id = data.idModule;
-            var estado = data.enable;
-
-            if (estado == 1) {
-
-                var texto = "Desactivar";
-
-            } else if (estado == 0) {
-
-                var texto = "Activar";
-
-            }
-
-            alertify.confirm(texto + ' el módulo seleccionado ', function () {
-                    estadoSwitch(id, estado);
-                }
-                , function () {
-                    alertify.error('Acción cancelada')
-                });
-
-        });
-
-        $('#tableModulos tbody').off('click', '#btnDeleteModule').on('click', '#btnDeleteModule', function () {
-            var data = tableModulos.row(this.closest('tr')).data();
-            var id = data.idModule;
-
-            alertify.confirm('Eliminar el módulo seleccionado ', function () {
-                    deleteModulo(id);
-                }
-                , function () {
-                    alertify.error('Acción cancelada')
-                });
-
-        });
-
-    }
-
-});*/

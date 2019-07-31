@@ -1,18 +1,7 @@
 var tableSubmodulos;
 $(document).ready(function () {
     alertify.set('notifier', 'position', 'top-right');
-    // oculta las vistas del usuario hasta que el cambie la vista
-    $('#registrar').hide();
-    $('#listarSubmodulos').hide();
-
-    //Apartado para obtener los resultados en los select
-
-    $('#moduleName').prop('disabled', 'disabled');
-    $('#moduleNameTable').prop('disabled', 'disabled');
-
-    //Mostrar información en el select
-    showSystems();
-    showSystemsTable();
+    redireccionarVista(2);
 
     //jquery validator donde se corroboran que los datos esten introducidos y ningun campo se vaya en vacio
     $('form[id="registroSubmodulos"]').validate({
@@ -33,14 +22,6 @@ $(document).ready(function () {
         submitHandler: function () {
             //Se registran los datos del módulo
             saveRegistroSubModulos();
-
-            /*
-            $(function () {
-                $("#btnSaveModule").click(saveRegistroSubModulos());
-            });
-
-             */
-
         }
     });
 
@@ -57,7 +38,6 @@ $(document).ready(function () {
         submitHandler: function () {
             //Se registran los datos del módulo
             updateSubModulos();
-
         }
     });
 
@@ -66,182 +46,157 @@ $(document).ready(function () {
       $('.tableSubModulosSystem').hide();
        resetearSelect($('#moduleNameTable'));
       if (id_sistema != "") {
-          //$('.tableSubModulosSystem').hide();
-          $('#moduleNameTable').prop('disabled', false);
-
+          $('.divmoduleNameTable').hide();
+          resetearSelect($('#moduleNameTable'));
           $.ajax({
               url: 'Modulos/moduleListSelect',
               type: 'POST',
               data: ({data: id_sistema}),
               success: function (response) {
-
-                  resetearSelect($('#moduleNameTable'));
                   var modules = jQuery.parseJSON(response);
-                  //console.log(modules);
                   var arreglo = modules.modulosDTO;
-                  //console.log(typeof (arreglo));
                   arreglo = jQuery.parseJSON(arreglo);
-                  //console.log(typeof (arreglo));
                   var $dropdown = $("select[name$='moduleNameTable']");
                   for (var i = arreglo.length - 1; i >= 0; i--) {
                       $dropdown.append($("<option />").val(arreglo[i].idModule).text(arreglo[i].name));
                   }
-
+                  $dropdown.select2();
+                  $('.divmoduleNameTable').show();
               },
               error: function () {
                   alert("Error al obtener el servicio para cargar lista de módulos");
               }
           });
-
       } else {
-          $('#moduleNameTable').prop('disabled', 'disabled');
+          $('.divmoduleNameTable').hide();
       }
-
     });
 
 
      $('#moduleNameTable').change(function(){
-            var id_modulo = $('select[name=moduleNameTable]').val();
-            $('.tableSubModulosSystem').hide();
-            if (id_modulo != "") {
-                $('.tableSubModulosSystem').show();
-                tableSubmodulos = $('#tableSubmodulos').DataTable({
-                    destroy: true,
-                    ajax: {
-                        url: 'Submodulos/submoduleListTable',
-                        type: 'POST',
-                        data: ({id: id_modulo}),
-                        dataSrc: "",
-                    },
-                    columns: [
-                    {
-                        data: "idSubModule",
-                        visible: false,
-                        searchable: false
-                    },
-                    {data: "name"},
-                    {data: "controller"},
-                    {
-                        data: null,
-                        render: function (data, type, row) {
-                            if (data.enable == 1) {
-                                var estado = "checkbox";
-                            } else if (data.enable == 0) {
-                                var estado = "";
-                            }
-                            return '<button id="btnUpdateSubModule" data-toggle="modal" data-target="#modalEditarSubModulo" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1"><i class="fas fa-edit"></i></button> ' +
-                                '' +
-                                '<label class="switch switch-text switch-success switch-pill">' +
-                                '<input id="btnEnableSubModule" type="' + estado + '" class="switch-input" checked="true">' +
-                                '<span data-on="On" data-off="Off" class="switch-label"></span>' +
-                                '<span class="switch-handle"></span>' +
-                                '</label>';
-                                //'<button id="btnDeleteSubModule" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';
-                         }
-                    }],
-                    fixedColumns: true,
-                    language: {
-                        "url": "public/plugins/DataTables/Spanish.json",
-                    }
-            });
-
-            $('#tableSubmodulos tbody').off('click', '#btnUpdateSubModule').on('click', '#btnUpdateSubModule', function () {
-                var data = tableSubmodulos.row(this.closest('tr')).data();
-                //console.log(data);
-                document.getElementById('updateNameSubmodule').value = data.name;
-                document.getElementById('updateNameController').value = data.controller;
-                document.getElementById('idSubModuleUpdate').value = data.idSubModule;
-
-            });
-
-            $('#tableSubmodulos tbody').off('click', '#btnEnableSubModule').on('click', '#btnEnableSubModule', function () {
-                var data = tableSubmodulos.row(this.closest('tr')).data();
-                var id = data.idSubModule;
-                var estado = data.enable;
-
-                if (estado == 1) {
-
-                    var texto = "Desactivar";
-
-                } else if (estado == 0) {
-
-                    var texto = "Activar";
-
+        var id_modulo = $('select[name=moduleNameTable]').val();
+        if (id_modulo != "") {
+          $('.tableSubModulosSystem').show();
+          tableSubmodulos = $('#tableSubmodulos').DataTable({
+            destroy: true,
+            ajax: {
+                url: 'Submodulos/submoduleListTable',
+                type: 'POST',
+                data: ({id: id_modulo}),
+                dataSrc: "",
+            },
+            columns: [
+            {
+                data: "idSubModule",
+                visible: false,
+                searchable: false
+            },
+            {data: "name"},
+            {data: "controller"},
+            {
+              data: null,
+              render: function (data, type, row) {
+                if (data.enable == 1) {
+                  var estado = "checkbox";
+                } else if (data.enable == 0) {
+                  var estado = "";
                 }
+                return '<button id="btnUpdateSubModule" data-toggle="modal" data-target="#modalEditarSubModulo" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1"><i class="fas fa-edit"></i></button> ' +
+                '' +
+                '<label class="switch switch-text switch-success switch-pill">' +
+                '<input id="btnEnableSubModule" type="' + estado + '" class="switch-input" checked="true">' +
+                '<span data-on="On" data-off="Off" class="switch-label"></span>' +
+                '<span class="switch-handle"></span>' +
+                '</label>';
+                //'<button id="btnDeleteSubModule" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></button>';
+              }
+            }
+            ],
+            fixedColumns: true,
+            language: {
+                "url": "public/plugins/DataTables/Spanish.json",
+            }
+        });
 
-                alertify.confirm(texto + ' el submódulo seleccionado ', function () {
-                        estadoSwitch(id, estado);
-                    }
-                    , function () {
-                        tableSubmodulos.ajax.reload();
-                        alertify.error('Acción cancelada')
-                    });
+        $('#tableSubmodulos tbody').off('click', '#btnUpdateSubModule').on('click', '#btnUpdateSubModule', function () {
+            var data = tableSubmodulos.row(this.closest('tr')).data();
+            if(data==undefined){
+              data = tableSubmodulos.row( this ).data();
+            }
+            $('#updateNameSubmodule').val(data.name);
+            $('#updateNameController').val(data.controller);
+            $('#idSubModuleUpdate').val(data.idSubModule);
 
+        });
+
+        $('#tableSubmodulos tbody').off('click', '#btnEnableSubModule').on('click', '#btnEnableSubModule', function () {
+            var data = tableSubmodulos.row(this.closest('tr')).data();
+            if(data==undefined){
+              data = tableSubmodulos.row( this ).data();
+            }
+            if (data.enable == 1){
+                var texto = "Desactivar";
+            }else if(data.enable == 0){
+                var texto = "Activar";
+            }
+            alertify.confirm(texto + ' el submódulo seleccionado ', function () {
+                estadoSwitch(data.idSubModule, data.enable);
+            },function () {
+                tableSubmodulos.ajax.reload(null,false);
+                //alertify.error('Acción cancelada')
             });
+        });
 
-            $('#tableSubmodulos tbody').off('click', '#btnDeleteSubModule').on('click', '#btnDeleteSubModule', function () {
-                var data = tableSubmodulos.row(this.closest('tr')).data();
-                var id = data.idSubModule;
-
-                alertify.confirm('Eliminar el submódulo seleccionado ', function () {
-                        deleteSubModulo(id);
-                    }
-                    , function () {
-                        alertify.error('Acción cancelada')
-                    });
-
+        $('#tableSubmodulos tbody').off('click', '#btnDeleteSubModule').on('click', '#btnDeleteSubModule', function () {
+            var data = tableSubmodulos.row(this.closest('tr')).data();
+            if(data==undefined){
+              data = tableSubmodulos.row( this ).data();
+            }
+            alertify.confirm('Eliminar el submódulo seleccionado ', function () {
+                deleteSubModulo(data.idSubModule);
+            },function () {
+                //alertify.error('Acción cancelada')
             });
-
-        }
-
+        });
+      }else{
+        $('.tableSubModulosSystem').hide();
+      }
     });
 
     $('#systemName').change(function(){
         var id_sistema = $('select[name=systemName]').val();
         resetearSelect($('#moduleName'));
         if (id_sistema != "") {
-            $('#moduleName').prop('disabled', false);
             $.ajax({
                 url: 'Modulos/moduleListSelect',
+                async: false,
                 type: 'POST',
                 data: ({data: id_sistema}),
                 success: function (response) {
-
-                    $('#moduleName').empty();
-
                     var modules = jQuery.parseJSON(response);
-                    //console.log(modules);
                     var arreglo = modules.modulosDTO;
-                    //console.log(typeof (arreglo));
                     arreglo = jQuery.parseJSON(arreglo);
-                    //console.log(typeof (arreglo));
                     var $dropdown = $("select[name$='moduleName']");
                     for (var i = arreglo.length - 1; i >= 0; i--) {
                         $dropdown.append($("<option />").val(arreglo[i].idModule).text(arreglo[i].name));
                     }
-
-                    /*
-                    var modules = jQuery.parseJSON(response.modulosDTO);
-                    var $dropdown = $("select[name$='moduleName']");
-                    for (var i = modules.length - 1; i >= 0; i--) {
-                        $dropdown.append($("<option />").val(modules[i].idModule).text(modules[i].name));
-                    }
-
-                     */
-
+                    $dropdown.select2();
+                    $('.btn-registra').prop('disabled', false);
+                    $('.divmoduleName').show();
+                    $('.divnameSubmodule').show();
+                    $('.divnameController').show();
                 },
                 error: function () {
                     alert("Error al obtener el servicio para cargar lista de módulos");
                 }
             });
-
         } else {
-            $('#moduleName').prop('disabled', 'disabled');
+          $('.btn-registra').prop('disabled', true);
+          $('.divmoduleName').hide();
+          $('.divnameSubmodule').hide();
+          $('.divnameController').hide();
         }
-
-
     });
-
 });
 
 //CONSERVAR EL NOMBRE DE ESTA FUNCIÓN Y EL PARAMETRO
@@ -263,13 +218,18 @@ function redireccionarVista(optionMenu) {
     // alert(optionMenu);
     switch (optionMenu) {
         case 1:
+            $('.btn-registra').prop('disabled', true);
+            $('#listarSubmodulos').hide();
+            $('.divmoduleName').hide();
+            $('.divnameSubmodule').hide();
+            $('.divnameController').hide();
             cleanNewSubModule();
             $('#registrar').show();
-            $('#listarSubmodulos').hide();
             break;
         case 2:
-            cleanListSubModules();
+            $('.divmoduleNameTable').hide();
             $('#registrar').hide();
+            cleanListSubModules();
             $('#listarSubmodulos').show();
             //redireccionarEstatus(1);
             break;
@@ -323,7 +283,9 @@ function saveRegistroSubModulos() {
                     var obj = jQuery.parseJSON(response);
                     console.log(obj);
                     if (obj.respuesta == 200) {
-                        cleanNewSubModule();
+                        //cleanNewSubModule();
+                        $('#nameSubmodule').val('');
+                        $('#nameController').val('');
                         alertify.success("Submódulo registrado exitosamente");
                     } else {
                         //alert("Error al insertar los datos");
@@ -360,9 +322,7 @@ function updateSubModulos() {
     $(texto).each(function (index, obj) {
         data[obj.name] = obj.value;
     });
-
     console.log(data);
-
     $.ajax({
         url: 'Submodulos/updateSubmodulo',
         type: 'POST',
@@ -372,7 +332,7 @@ function updateSubModulos() {
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
                 $("#modalEditarSubModulo").modal('hide');
-                tableSubmodulos.ajax.reload();
+                tableSubmodulos.ajax.reload(null,false);
                 alertify.success("Submódulo actualizado exitosamente");
                 return false;
             } else {
@@ -385,23 +345,19 @@ function updateSubModulos() {
         }
     });
     return false;
-
 }
 
 //Funcion para llevar a cabo el registro de un sistema
 function deleteSubModulo(id_submodule) {
-
     $.ajax({
         url: 'Submodulos/deleteSubmodulo',
         type: 'POST',
         data: ({datos: id_submodule}),
         success: function (response) {
-
             console.log(response);
-
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
-                tableSubmodulos.ajax.reload();
+                tableSubmodulos.ajax.reload(null,false);
                 alertify.success("Submódulo eliminado exitosamente");
                 return false;
             } else {
@@ -414,11 +370,9 @@ function deleteSubModulo(id_submodule) {
         }
     });
     return false;
-
 }
 
 function estadoSwitch(id_submodule, estado) {
-
     $.ajax({
         url: 'Submodulos/enableSubmodulo',
         type: 'POST',
@@ -427,11 +381,11 @@ function estadoSwitch(id_submodule, estado) {
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
                 //Función para recargar tabla
-                tableSubmodulos.ajax.reload();
+                tableSubmodulos.ajax.reload(null,false);
                 alertify.success("Cambio de estado realizado");
                 return false;
             } else {
-                alertify.error("Error en la acción");
+                //alertify.error("Error en la acción");
             }
         },
         error: function () {
@@ -439,51 +393,46 @@ function estadoSwitch(id_submodule, estado) {
         }
     });
     return false;
-
 }
 
 function showSystems() {
-
     $.ajax({
         url: 'Sistemas/systemListSelect',
+        async: false,
         type: 'POST',
         dataType: 'JSON',
         success: function (response) {
-
             var systems = jQuery.parseJSON(response.sistemasDTO);
             var $dropdown = $("select[name$='systemName']");
             for (var i = systems.length - 1; i >= 0; i--) {
                 $dropdown.append($("<option />").val(systems[i].idSystem).text(systems[i].name));
             }
-
+            $dropdown.select2();
         },
         error: function () {
             alertify.error("Error al obtener el servicio para cargar lista de sistemas");
         }
     });
     return false;
-
 }
 
 function showSystemsTable() {
-
     $.ajax({
         url: 'Sistemas/systemListSelect',
+        async: false,
         type: 'POST',
         dataType: 'JSON',
         success: function (response) {
-
             var systems = jQuery.parseJSON(response.sistemasDTO);
             var $dropdown = $("select[name$='systemNameTable']");
             for (var i = systems.length - 1; i >= 0; i--) {
                 $dropdown.append($("<option />").val(systems[i].idSystem).text(systems[i].name));
             }
-
+            $dropdown.select2();
         },
         error: function () {
             alertify.error("Error al obtener el servicio para cargar lista de sistemas");
         }
     });
     return false;
-
 }

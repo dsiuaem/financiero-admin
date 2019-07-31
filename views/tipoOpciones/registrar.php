@@ -18,7 +18,7 @@
                                 </div>
                                 <div class="col col-md-2"></div>
                             </div>
-                            <div class="row form-group">
+                            <div class="row form-group divmoduleName" style="display:none;">
                                 <div class="col col-md-2"></div>
                                 <div class="col-12 col-md-8">
                                     <label for="moduleName" class="form-control-label">Listado de módulos:</label>
@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="col col-md-2"></div>
                             </div>
-                            <div class="row form-group">
+                            <div class="row form-group divsubmoduleName" style="display:none;">
                                 <div class="col col-md-2"></div>
                                 <div class="col-12 col-md-8">
                                     <label for="submoduleName" class="form-control-label">Listado de submódulos:</label>
@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="col col-md-2"></div>
                             </div>
-                            <div class="row form-group">
+                            <div class="row form-group divoptionName" style="display:none;">
                                 <div class="col col-md-2"></div>
                                 <div class="col-12 col-md-8">
                                     <label for="optionName" class="form-control-label">Listado de opciones:</label>
@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="col col-md-2"></div>
                             </div>
-                            <div class="row form-group">
+                            <div class="row form-group divnameTypeOption" style="display:none;">
                                 <div class="col col-md-2"></div>
                                 <div class="col-12 col-md-8">
                                     <label for="nameTypeOption" class="form-control-label">Agregar nombre de tipo opción: </label>
@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="col col-md-2"></div>
                             </div>
-                            <div class="row form-group">
+                            <div class="row form-group divcheck" style="display:none;">
                                 <div class="col col-md-2"></div>
                                 <div class="col-12 col-md-8">
                                     <label for="description" class="form-control-label">Tipo: </label>
@@ -73,7 +73,7 @@
                                 <div class="col col-md-2"></div>
                             </div>
                             <div align="center">
-                                <button id="btnSaveTypeOption" name="btnSaveTypeOption" class="btn btn-lg btn-outline btn-registra mt-2 mb-3">Guardar</button>
+                                <button id="btnSaveTypeOption" name="btnSaveTypeOption" class="btn btn-lg btn-outline btn-registra mt-2 mb-3" disabled>Guardar</button>
                             </div>
                         </form>
                     </div>

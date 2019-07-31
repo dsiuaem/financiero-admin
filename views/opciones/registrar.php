@@ -17,7 +17,7 @@
                                 </div>
                                 <div class="col col-md-2"></div>
                             </div>
-                            <div class="row form-group">
+                            <div class="row form-group divmoduleName" style="display:none;">
                                 <div class="col col-md-2"></div>
                                 <div class="col-12 col-md-8">
                                     <label for="moduleName" class="form-control-label">Listado de módulos:</label>
@@ -26,7 +26,7 @@
                                 </div>
                                 <div class="col col-md-2"></div>
                             </div>
-                            <div class="row form-group">
+                            <div class="row form-group divsubmoduleName" style="display:none;">
                                 <div class="col col-md-2"></div>
                                 <div class="col-12 col-md-8">
                                     <label for="submoduleName" class="form-control-label">Listado de submódulos:</label>
@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="col col-md-2"></div>
                             </div>
-                            <div class="row form-group">
+                            <div class="row form-group divnameOption" style="display:none;">
                                 <div class="col col-md-2"></div>
                                 <div class="col-12 col-md-8">
                                     <label for="nameOption" class="form-control-label">Agregar nombre de la opción: </label>
@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="col col-md-2"></div>
                             </div>
-                            <div class="row form-group">
+                            <div class="row form-group divdescription" style="display:none;">
                                 <div class="col col-md-2"></div>
                                 <div class="col-12 col-md-8">
                                     <label for="description" class="form-control-label">Descripción: </label>
@@ -52,7 +52,7 @@
                                 <div class="col col-md-2"></div>
                             </div>
                             <div align="center">
-                                <button id="btnSaveOption" name="btnSaveOption" class="btn btn-lg btn-outline btn-registra mt-2 mb-3">Guardar</button>
+                                <button id="btnSaveOption" name="btnSaveOption" class="btn btn-lg btn-outline btn-registra mt-2 mb-3" disabled>Guardar</button>
                             </div>
                         </form>
                     </div>

@@ -17,18 +17,18 @@
                             </div>
                             <div class="col col-md-2"></div>
                         </div>
-                        <div class="listModulosSystem">
+                        <div class="listModulosSystem" style="display:none;">
                             <div class="form-group">
                                 <!-- Ejemplo de implementacion de datatable con procesamiento del lado del servidor -->
                                 <table class="table table-striped table-bordered dt-responsive nowrap" id="tableModulos" width="100%"
                                        cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th></th>
-                                            <th>Módulo del menú</th>
-                                            <th>Módulos registrados</th>
-                                            <th>Descripción</th>
-                                            <th>Acciones</th>
+                                          <th></th>
+                                          <th>Módulos registrados</th>
+                                          <th>Descripción</th>
+                                          <th>Módulo del menú</th>
+                                          <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -63,7 +63,7 @@
                     <div class="row form-group">
                         <div class="col col-md-2"></div>
                         <div class="col-12 col-md-8">
-                            <label for="updateNameModule" class="form-control-label">Agregar nombre del módulo: </label>
+                            <label for="updateNameModule" class="form-control-label">Nuevo nombre del módulo: </label>
                             <input type="text" id="updateNameModule" name="updateNameModule" class="form-control">
                         </div>
                         <div class="col col-md-2"></div>
@@ -82,7 +82,7 @@
                     <div class="row form-group">
                         <div class="col col-md-2"></div>
                         <div class="col-12 col-md-8">
-                            <label for="updateNameModuleMenu" class="form-control-label">Nombre del módulo del
+                            <label for="updateNameModuleMenu" class="form-control-label" align="justify">Nombre del módulo del
                                 menú (Se utiliza en el menú del sistema para mantener el módulo abierto, este nombre debe ser igual al valor de la variable definida en el controlador): </label>
                             <input id="updateNameModuleMenu" name="updateNameModuleMenu" type="text"
                                    class="form-control">

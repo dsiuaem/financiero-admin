@@ -17,7 +17,7 @@
                                 </div>
                                 <div class="col col-md-2"></div>
                             </div>
-                            <div class="row form-group">
+                            <div class="row form-group divmoduleName" style="display:none;">
                                 <div class="col col-md-2"></div>
                                 <div class="col-12 col-md-8">
                                     <label for="moduleName" class="form-control-label">Listado de módulos:</label>
@@ -26,7 +26,7 @@
                                 </div>
                                 <div class="col col-md-2"></div>
                             </div>
-                            <div class="row form-group">
+                            <div class="row form-group divnameSubmodule" style="display:none;">
                                 <div class="col col-md-2"></div>
                                 <div class="col-12 col-md-8">
                                     <label for="nameSubmodule" class="form-control-label">Agregar nombre del submódulo: </label>
@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="col col-md-2"></div>
                             </div>
-                            <div class="row form-group">
+                            <div class="row form-group divnameController" style="display:none;">
                                 <div class="col col-md-2"></div>
                                 <div class="col-12 col-md-8">
                                     <label for="nameController" class="form-control-label">Nombre del controlador: </label>
@@ -43,7 +43,7 @@
                                 <div class="col col-md-2"></div>
                             </div>
                             <div align="center">
-                                <button id="btnSaveSubmodule" name="btnSaveSubmodule" class="btn btn-lg btn-outline btn-registra mt-2 mb-3" role="button">Guardar</button>
+                                <button id="btnSaveSubmodule" name="btnSaveSubmodule" class="btn btn-lg btn-outline btn-registra mt-2 mb-3" role="button" disabled>Guardar</button>
                             </div>
                         </form>
                     </div>

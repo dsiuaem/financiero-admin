@@ -37,7 +37,7 @@
                             <div class="row form-group">
                                 <div class="col col-md-2"></div>
                                 <div class="col-12 col-md-8">
-                                    <label for="nameModuleMenu" class="form-control-label">Nombre del módulo del
+                                    <label for="nameModuleMenu" class="form-control-label" align="justify">Nombre del módulo del
                                                     menú (Se utiliza en el menú del sistema para mantener el módulo abierto, este nombre debe ser igual al valor de la variable definida en el controlador): </label>
                                     <input id="nameModuleMenu" name="nameModuleMenu" type="text" class="form-control">
                                 </div>

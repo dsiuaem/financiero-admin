@@ -18,7 +18,7 @@
                             <div class="col col-md-2"></div>
                         </div>
 
-                        <div class="row form-group">
+                        <div class="row form-group divmoduleListTable" style="display:none;">
                             <div class="col col-md-2"></div>
                             <div class="col-12 col-md-8">
                                 <label for="moduleListTable" class="form-control-label">Listado de módulos:</label>
@@ -28,7 +28,7 @@
                             <div class="col col-md-2"></div>
                         </div>
 
-                        <div class="row form-group">
+                        <div class="row form-group divsubmoduleListTable" style="display:none;">
                             <div class="col col-md-2"></div>
                             <div class="col-12 col-md-8">
                                 <label for="submoduleListTable" class="form-control-label">Listado de submódulos:</label>
@@ -38,7 +38,7 @@
                             <div class="col col-md-2"></div>
                         </div>
 
-                        <div class="row form-group">
+                        <div class="row form-group divoptionNameTable" style="display:none;">
                             <div class="col col-md-2"></div>
                             <div class="col-12 col-md-8">
                                 <label for="optionNameTable" class="form-control-label">Listado de opciones:</label>
@@ -55,10 +55,10 @@
                                        cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Tipo opciones registradas</th>
-                                            <th>Tipo</th>
-                                            <th>Acciones</th>
+                                          <th>ID</th>
+                                          <th>Tipo opciones registradas</th>
+                                          <th>Tipo</th>
+                                          <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -105,12 +105,12 @@
                         <div class="col-12 col-md-8">
                             <label for="description" class="form-control-label">Tipo: </label>
                             <label class="container">1
-                              <input type="checkbox" id="typeOne" name="typeOne" value="1" onclick="checkOneUpate()">
+                              <input type="checkbox" id="updateTypeOne" name="updateTypeOne" value="1" onclick="checkOneUpate()">
                               <span class="checkmark"></span>
                             </label>
 
                             <label class="container">2
-                              <input type="checkbox" id="typeTwo" name="typeTwo" value="2" onclick="checkTwoUpate()">
+                              <input type="checkbox" id="updateTypeTwo" name="updateTypeTwo" value="2" onclick="checkTwoUpate()">
                               <span class="checkmark"></span>
                             </label>
                         </div>
@@ -133,5 +133,3 @@
     </div>
 </div>
 <!-- FIN MODAL AGREGAR XML -->
-
-

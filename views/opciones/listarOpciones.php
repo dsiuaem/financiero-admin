@@ -17,7 +17,7 @@
                             <div class="col col-md-2"></div>
                         </div>
 
-                        <div class="row form-group">
+                        <div class="row form-group divmoduleListTable" style="display:none;">
                             <div class="col col-md-2"></div>
                             <div class="col-12 col-md-8">
                                 <label for="moduleListTable" class="form-control-label">Seleccionar módulo: </label>
@@ -27,7 +27,7 @@
                             <div class="col col-md-2"></div>
                         </div>
 
-                        <div class="row form-group">
+                        <div class="row form-group divsubmoduleListTable" style="display:none;">
                             <div class="col col-md-2"></div>
                             <div class="col-12 col-md-8">
                                 <label for="submoduleListTable" class="form-control-label">Seleccionar submódulo: </label>
@@ -114,4 +114,3 @@
     </div>
 </div>
 <!-- FIN MODAL AGREGAR XML -->
-
