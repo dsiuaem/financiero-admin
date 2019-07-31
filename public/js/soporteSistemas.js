@@ -5,13 +5,11 @@ $(document).ready(function () {
     checkboxClass: 'icheckbox_flat-blue',
     radioClass   : 'iradio_flat-blue'
   });
-
   $('.datepicker').datepicker({
       language: 'es',
       autoclose: true
   });
   $( ".fecha" ).datepicker({dateFormat:"yy/mm/dd"}).datepicker("setDate",new Date());
-
   //jquery validator donde se corroboran que los datos esten introducidos y ningun campo se vaya en vacio
   $('#registroAviso').validate({
      rules: {
@@ -27,7 +25,6 @@ $(document).ready(function () {
        fecha: "El campo fecha es requerido"
       }
    });
-
   $('#registroPreguntas').validate({
     rules: {
       pregunta: "required",
@@ -40,7 +37,6 @@ $(document).ready(function () {
       systemName: "El campo Sistema es requerido"
      }
   });
-
   $('.selectEmpleado').change(function(){
 		if(this.value != null){
 			if(this.value != ""){
@@ -51,7 +47,6 @@ $(document).ready(function () {
 			}
 		}
   });
-
   $("select[class$='selectEmpleado']").select2({
 		placeholder: 'Selecciona empleado',
 		width: '100%',
@@ -68,7 +63,6 @@ $(document).ready(function () {
 			}
 		}
 	});
-
   $(".btn_cambiar_orden").click(function(e) {
     var ordenar = 1;
     var texto = $('#ordenListaPreguntas').serializeArray();
@@ -113,12 +107,9 @@ $(document).ready(function () {
 
 });
 
-
-
 var empleadoSeleccionado = 0;
 //CONSERVAR EL NOMBRE DE ESTA FUNCIÓN Y EL PARAMETRO
 function redireccionarVista(optionMenu) {
-    // alert(optionMenu);
     resetForm();
     $('.contenedor').hide();
     switch (optionMenu) {
@@ -136,7 +127,6 @@ function redireccionarVista(optionMenu) {
             tablaSistemas(optionMenu);
             break;
         default:
-            //alert("default");
             break;
     }
     return false;
@@ -146,15 +136,6 @@ function redireccionarVista(optionMenu) {
 var listaAvisos;
 var dataInfo;
 function tablaAvisos(id){
-  // $.ajax({
-  //   url: "SoporteSistemas/obtenerAvisos",
-  //   type: 'POST',
-  //   success: function (response) {
-  //     var obj = jQuery.parseJSON(response);
-  //     console.log(obj);
-  //   }
-  // });
-
     listaAvisos = $('#tablaAvisos').DataTable({
     destroy: true,
     ajax: {
@@ -169,41 +150,13 @@ function tablaAvisos(id){
     buttons: [
         {
             text: 'Agregar aviso',
-            className:'btn btn-custom btn-rounded btn-outline-primary mb-4 buttonDt ml-4',
+            className:'btn btn-custom btn-rounded btn-outline-primary mb-4 buttonDt ml-4 mt-3',
             action: function () {
                 vistaAvisos(0,0);
             }
         }
     ],
     columns: [
-      {
-        data: null,
-        render: function ( data, type, row, meta ) {
-          var boton = "";
-          if(data.activo == 1){
-            var estado = "checked";
-          }else{
-            var estado = "";
-          }
-          boton += '<label class="switch switch-text switch-success switch-pill mr-1">';
-          boton += '<input type="checkbox" class="switch-input btnEnableSystem" '+estado+'>';
-          boton += '<span data-on="On" data-off="Off" class="switch-label"></span>';
-          boton += '<span class="switch-handle"></span>';
-          boton += '</label>';
-
-          if(data.idSistemas != null){
-            if(!validarFechaAviso(data.fechaTermino)){
-              boton = '<button title="Editar" class="btn btn-outline-success btn-sm btn-rounded btn-custom ml-3 btn-edit-aviso"><i class="fas fa-edit"></i></button>';
-            }else{
-              boton += '<button title="Editar" class="btn btn-outline-success btn-sm btn-rounded btn-custom ml-3 btn-edit-aviso"><i class="fas fa-edit"></i></button>';
-            }
-          }else{
-            boton = '<button title="Editar" class="btn btn-outline-success btn-sm btn-rounded btn-custom ml-3 btn-edit-aviso"><i class="fas fa-edit"></i></button>';
-          }
-          return boton;
-        },
-          className: "text-center"
-     },
      {data: "tituloAviso"},
      {
        data: null,
@@ -234,6 +187,34 @@ function tablaAvisos(id){
        data: "idSistemas",
        visible: false,
      },
+     {
+        data: null,
+        render: function ( data, type, row, meta ) {
+          var boton = "";
+          if(data.activo == 1){
+            var estado = "checked";
+          }else{
+            var estado = "";
+          }
+          boton += '<label class="switch switch-text switch-success switch-pill mr-1">';
+          boton += '<input type="checkbox" class="switch-input btnEnableSystem" '+estado+'>';
+          boton += '<span data-on="On" data-off="Off" class="switch-label"></span>';
+          boton += '<span class="switch-handle"></span>';
+          boton += '</label>';
+
+          if(data.idSistemas != null){
+            if(!validarFechaAviso(data.fechaTermino)){
+              boton = '<button title="Editar" class="btn btn-outline-primary btn-sm btn-rounded btn-custom btn-edit-aviso mt-2"><i class="fas fa-edit"></i></button>';
+            }else{
+              boton += '<button title="Editar" class="btn btn-outline-primary btn-sm btn-rounded btn-custom btn-edit-aviso mt-2"><i class="fas fa-edit"></i></button>';
+            }
+          }else{
+            boton = '<button title="Editar" class="btn btn-outline-primary btn-sm btn-rounded btn-custom btn-edit-aviso mt-2"><i class="fas fa-edit"></i></button>';
+          }
+          return boton;
+        },
+          className: "text-center"
+     }
     ],
     language: {
         "url":     "public/plugins/DataTables/Spanish.json",
@@ -242,14 +223,23 @@ function tablaAvisos(id){
 
   $('#tablaAvisos tbody').off('click', 'button.btn-edit-aviso').on( 'click', 'button.btn-edit-aviso', function () {
       var data = listaAvisos.row( this.closest('tr') ).data();
+      if(data==undefined){
+        data = listaAvisos.row( this ).data();
+      }
       vistaAvisos(2,data);
   });
   $('#tablaAvisos tbody').off('click', 'button.btn-eliminar-aviso').on( 'click', 'button.btn-eliminar-aviso', function () {
       var data = listaAvisos.row( this.closest('tr') ).data();
+      if(data==undefined){
+        data = listaAvisos.row( this ).data();
+      }
       confirmarEliminarAviso(data.idAviso);
   });
   $('#tablaAvisos tbody').off('click', 'input.btnEnableSystem').on( 'click', 'input.btnEnableSystem', function () {
       var data = listaAvisos.row( this.closest('tr') ).data();
+      if(data==undefined){
+        data = listaAvisos.row( this ).data();
+      }
       if(data.activo==1){
         confirmarDeshabilitarAviso(data.idAviso);
       }else{
@@ -489,15 +479,6 @@ function regresar(){
 // ------------------------------- PREGUNTAS FRECUENTES ------------------------
 var listaSistemas;
 function tablaSistemas(option){
-    // $.ajax({
-    //   url: "SoporteSistemas/obtenerPreguntasFrecuentes",
-    //   type: 'POST',
-    //   data: {idSystem: 0},
-    //   success: function (response) {
-    //     console.log(response);
-    //   }
-    // });
-
     listaSistemas = $('#tablaSistemas').DataTable({
     destroy: true,
     ajax: {
@@ -515,21 +496,21 @@ function tablaSistemas(option){
           className:'btn btn-custom btn-rounded btn-outline-primary mb-4 ml-4 mt-3',
           action: function () {
             dataInfo = 0;
-            $('.titulo').html('Nueva pregunta frecuente');
+            $('.titulo').html('NUEVA PREGUNTA FRECUENTE');
             vistaPreguntas(0,0);
           }
       },
     ],
     columns: [
-      {
+     {data: "name"},
+     {data: "total"},
+     {
         data: "idSystem",
         render: function ( data, type, row, meta ) {
           return '<button title="Ver" class="btn btn-outline-primary btn-sm btn-rounded btn-custom ml-3 btn-ver-sistema"><i class="fas fa-eye"></i></button>';
           },
           className: "text-center"
-     },
-     {data: "name"},
-     {data: "total"}
+     }
     ],
     language: {
         "url":     "public/plugins/DataTables/Spanish.json",
@@ -537,10 +518,14 @@ function tablaSistemas(option){
 	});
   $('#tablaSistemas tbody').off('click', 'button.btn-ver-sistema').on( 'click', 'button.btn-ver-sistema', function () {
       var data = listaSistemas.row( this.closest('tr') ).data();
+      if(data==undefined){
+        data = listaSistemas.row( this ).data();
+      }
+      console.log(data);
       vistaPreguntas(1,data);
       sis = data.name;
       idSis = data.idSystem;
-      $('.titulo').html('Listado de preguntas frecuentes: '+sis.toUpperCase());
+      $('.titulo').html('LISTADO DE PREGUNTAS FRECUENTES: '+sis.toUpperCase());
       dataInfo = data;
   });
 }
@@ -549,16 +534,6 @@ var listaPreguntas;
 var sis;
 var idSis;
 function tablaPreguntas(id){
-    // $.ajax({
-    //   url: "SoporteSistemas/obtenerPreguntasFrecuentes",
-    //   type: 'POST',
-    //   data: {idSystem:id},
-    //   success: function (response) {
-    //     var obj = jQuery.parseJSON(response);
-    //     console.log(obj);
-    //   }
-    // });
-
     listaPreguntas = $('#tablaPreguntas').DataTable({
     destroy: true,
     ajax: {
@@ -573,23 +548,38 @@ function tablaPreguntas(id){
     buttons: [
         {
             text: 'Cambiar orden',
-            className:'btn btn-custom btn-rounded btn-outline-success mb-4 buttonDt ml-4',
+            className:'btn btn-custom btn-rounded btn-outline-cambiar mb-4 buttonDt ml-4 mt-3',
             action: function () {
-                $('.titulo').html('Cambiar orden preguntas frecuentes: '+sis.toUpperCase());
+                $('.titulo').html('CAMBIAR ORDEN PREGUNTAS FRECUENTES: '+sis.toUpperCase());
                 listarPreguntas();
                 $('.btn_cancel').show();
             }
         },
         {
             text: 'Agregar Pregunta',
-            className:'btn btn-custom btn-rounded btn-outline-primary mb-4 buttonDt ml-4',
+            className:'btn btn-custom btn-rounded btn-outline-primary mb-4 buttonDt ml-4 mt-3',
             action: function () {
-              $('.titulo').html('Registro de preguntas frecuentes: '+sis.toUpperCase());
+              $('.titulo').html('REGISTRO DE PREGUNTAS FRECUENTES: '+sis.toUpperCase());
               vistaPreguntas(0,0);
             }
         }
     ],
     columns: [
+     {data: "idPregunta",
+      visible: false,
+     },
+     {data: "pregunta"},
+     {data: "orden"},
+     {data: null,
+      render: function ( data, type, row, meta ) {
+        if (data.activo==1) {
+          return "Habilitada";
+        }else {
+          return 'Deshabilitada';
+        }
+       },
+       className: "text-center"
+      },
       {
         data: null,
         render: function ( data, type, row, meta ) {
@@ -608,22 +598,7 @@ function tablaPreguntas(id){
           return boton;
         },
           className: "text-center"
-     },
-     {data: "idPregunta",
-      visible: false,
-     },
-     {data: "pregunta"},
-     {data: "orden"},
-     {data: null,
-      render: function ( data, type, row, meta ) {
-        if (data.activo==1) {
-          return "Habilitada";
-        }else {
-          return 'Deshabilitada';
-        }
-       },
-       className: "text-center"
-      }
+     }
     ],
     language: {
         "url":     "public/plugins/DataTables/Spanish.json",
@@ -631,7 +606,10 @@ function tablaPreguntas(id){
 	});
   $('#tablaPreguntas tbody').off('click', 'button.btn-edit-pregunta').on( 'click', 'button.btn-edit-pregunta', function () {
       var data = listaPreguntas.row( this.closest('tr') ).data();
-      $('.titulo').html('Editar preguntas frecuentes: '+sis.toUpperCase());
+      if(data==undefined){
+        data = listaPreguntas.row( this ).data();
+      }
+      $('.titulo').html('EDITAR PREGUNTAS FRECUENTES: '+sis.toUpperCase());
       vistaPreguntas(2,data);
       sis = data.name;
       idSis = data.idSystem;
@@ -639,6 +617,9 @@ function tablaPreguntas(id){
   });
   $('#tablaPreguntas tbody').off('click', 'input.btn_cambiar_estatus').on( 'click', 'input.btn_cambiar_estatus', function () {
       var data = listaPreguntas.row( this.closest('tr') ).data();
+      if(data==undefined){
+        data = listaPreguntas.row( this ).data();
+      }
       if(data.activo==1){
         confirmarDeshabilitarPregunta(data.idPregunta);
       }else{
@@ -671,6 +652,7 @@ function vistaPreguntas(vista,data){
       $('#preguntasFrecuentes').show();
       tablaPreguntas(data.idSystem);
       $('#idTablaPreguntas').show();
+      $('#listadoSistemas').hide();
       $('#listadoPreguntas').show();
       $('#preguntasFrecuentesForm').hide();
     break;
@@ -714,7 +696,7 @@ function nuevaPregunta(){
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
                 alertify.success("Registro exitoso");
-                $('.titulo').html('Listado de preguntas frecuentes: '+sis.toUpperCase());
+                $('.titulo').html('LISTADO DE PREGUNTAS FRECUENTES: '+sis.toUpperCase());
                 vistaPreguntas(1,dataInfo);
             } else {
                 alertify.error("Error al registrar aviso");
@@ -777,7 +759,7 @@ function cancelarPregunta(){
   if(dataInfo == 0){
     redireccionarVista(2);
   }else{
-    $('.titulo').html('Listado de preguntas frecuentes: '+sis.toUpperCase());
+    $('.titulo').html('LISTADO DE PREGUNTAS FRECUENTES: '+sis.toUpperCase());
     vistaPreguntas(1,dataInfo);
   }
 }
@@ -854,7 +836,7 @@ function confirmarProcesoPregunta(){
     alertify.confirm("¿Deseas cambiar la pregunta de sistema?",
     function(){
       actualizarPregunta();
-      $('.titulo').html('Cambiar orden preguntas frecuentes: '+sis.toUpperCase());
+      $('.titulo').html('CAMBIAR ORDEN PREGUNTAS FRECUENTES: '+sis.toUpperCase());
       listarPreguntas();
       $('.btn_cancel').hide();
     },
