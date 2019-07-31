@@ -2541,6 +2541,19 @@
     background-color: #28a745;
     border-color: #28a745;
   }
+
+  .btn-outline-cambiar {
+    color: #fff;
+    background-color: #28a745;
+    background-image: none;
+    border-color: #28a745;
+  }
+  
+  .btn-outline-cambiar:hover {
+    color: #ffffff;
+    background-color: #218638;
+    border-color: #218638;
+  }
   
   .btn-outline-success:focus, .btn-outline-success.focus {
     box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
