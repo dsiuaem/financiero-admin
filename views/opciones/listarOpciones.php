@@ -47,6 +47,7 @@
                                         <th></th>
                                         <th>Opciones registradas</th>
                                         <th>Descripción</th>
+                                        <th>Orden</th>
                                         <th>Acciones</th>
                                     </tr>
                                     </thead>

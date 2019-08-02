@@ -63,9 +63,10 @@ $(document).ready(function () {
 			}
 		}
 	});
+
   $(".btn_cambiar_orden").click(function(e) {
     var ordenar = 1;
-    var texto = $('#ordenListaPreguntas').serializeArray();
+    var texto = $('#modalCambiarOrden').serializeArray();
     var data = {};
     $(texto ).each(function(index, obj){
       if (data[obj.name]!=undefined) {
@@ -74,26 +75,9 @@ $(document).ready(function () {
           data[obj.name] = obj.value;
       }
     });
-    var list = data["orden"].split(',');
-    var result = [];
-    $.each(list, function(i, e) {
-      if (parseInt(e)>list.length){
-        alertify.warning("Verifica el número de orden, no corresponde al número de preguntas");
-        ordenar = 0;
-        return false;
-      }else{
-        if ($.inArray(e, result)===-1) {
-          result.push(e);
-        }else{
-          alertify.warning("Verifica el número de orden");
-          ordenar = 0;
-          return false;
-        }
-      }
-    });
-    if(ordenar==1){
-      ordenarPreguntas(data);
-    }
+    console.log(data);
+    //return false;
+    ordenarLista(data);
   });
 
   $("select[class$='systemName']").change(function(e){
@@ -105,12 +89,16 @@ $(document).ready(function () {
     }
   });
 
+  $(".btn_cancel").click(function(e) {
+    $('.titulo').html('LISTADO DE PREGUNTAS FRECUENTES: '+sis.toUpperCase());
+  });
+
 });
 
 var empleadoSeleccionado = 0;
 //CONSERVAR EL NOMBRE DE ESTA FUNCIÓN Y EL PARAMETRO
 function redireccionarVista(optionMenu) {
-    resetForm();
+    //resetForm();
     $('.contenedor').hide();
     switch (optionMenu) {
         case 1:
@@ -250,6 +238,10 @@ function tablaAvisos(id){
 
 function vistaAvisos(vista,data){
   resetForm();
+  $('#registroAviso')[0].reset();
+  resetValidate();
+  $("#registroAviso").validate().resetForm();
+  resetValidate();
   switch(vista){
     case 0:
       $("select[name$='systemName']").prop('multiple',true);
@@ -348,10 +340,10 @@ function validarFechaAviso(fecha){
   var strDate = new Date();
   var fechaLocal = strDate.getFullYear() + "-" + (strDate.getMonth()+1) + "-" + strDate.getDate();
   var dateParts = fechaLocal.split("-");
-  fechaLocal = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+  fechaLocal = new Date(+dateParts[0], dateParts[1] - 1, +dateParts[2]);
   var dateString = fecha;
   var dateParts = dateString.split("-");
-  var fecha = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+  var fecha = new Date(+dateParts[0], dateParts[1] - 1, +dateParts[2]);
   if(fecha<fechaLocal){
     return false;
   }
@@ -534,6 +526,16 @@ var listaPreguntas;
 var sis;
 var idSis;
 function tablaPreguntas(id){
+    // $.ajax({
+    //   url: "SoporteSistemas/obtenerPreguntasFrecuentes",
+    //   type: 'POST',
+    //   data: {idSystem:id},
+    //   success: function (response) {
+    //     var obtener = jQuery.parseJSON(response);
+    //     console.log(obtener);
+    //   }
+    // });
+
     listaPreguntas = $('#tablaPreguntas').DataTable({
     destroy: true,
     ajax: {
@@ -551,7 +553,7 @@ function tablaPreguntas(id){
             className:'btn btn-custom btn-rounded btn-outline-cambiar mb-4 buttonDt ml-4 mt-3',
             action: function () {
                 $('.titulo').html('CAMBIAR ORDEN PREGUNTAS FRECUENTES: '+sis.toUpperCase());
-                listarPreguntas();
+                listarOrden();
                 $('.btn_cancel').show();
             }
         },
@@ -600,6 +602,7 @@ function tablaPreguntas(id){
           className: "text-center"
      }
     ],
+    order: [[2, "asc"]],
     language: {
         "url":     "public/plugins/DataTables/Spanish.json",
     }
@@ -630,6 +633,10 @@ function tablaPreguntas(id){
 
 function vistaPreguntas(vista,data){
   resetForm();
+  $('#registroPreguntas')[0].reset();
+  resetValidateFrecuentes();
+  $("#registroPreguntas").validate().resetForm();
+  resetValidateFrecuentes();
   switch(vista){
     case 0:
       $('#listadoPreguntas').hide();
@@ -764,52 +771,17 @@ function cancelarPregunta(){
   }
 }
 
-function listarPreguntas() {
+function ordenarLista(data){
   $.ajax({
-    url: "SoporteSistemas/obtenerPreguntasFrecuentes",
-    type: 'POST',
-    data: {idSystem:dataInfo.idSystem},
-    success: function (response) {
-      var obtener = jQuery.parseJSON(response);
-      $('.ordenLista').empty();
-      var html = "";
-      if(obtener.length>0){
-        $('#modalOrdenPreguntas').modal('show');
-      }
-      for (var i = 0; i < obtener.length; i++) {
-        html += "<div class='form-group'>";
-        html += "<div class='col-md-12 offset-md-0'>";
-        html += "<div class='form-row mb-5'>";
-        html += "<div class='col-md-10 mt-1'>";
-        html += "<label class='form-control-label'>Pregunta</label>";
-        html += "<input type='text' class='form-control' name='pregunta' value='"+obtener[i].pregunta+"' disabled>";
-        html += "<input type='hidden' class='form-control' name='idPregunta' value='"+obtener[i].idPregunta+"'>";
-        html += "</div>";
-        html += "<div class='col-md-2 col-sm-12 align-self-end mt-1'>";
-        html += "<label for='text-input' class='form-control-label'>Orden</label>";
-        html += "<input type='number' max='"+obtener.length+"' name='orden' min='1' class='form-control' value='"+obtener[i].orden+"'>";
-        html += "</div>";
-        html += "</div>";
-        html += "</div>";
-        html += "</div>";
-      }
-      $('.ordenLista').append(html);
-    }
-  });
-  return false;
-}
-
-function ordenarPreguntas(data){
-  $.ajax({
-      url: 'SoporteSistemas/actualizarOrdenPreguntaFrecuente',
+      url: 'SoporteSistemas/actualizarOrden',
       type: 'POST',
       data: ({datos: data}),
       success: function (response) {
           var obj = jQuery.parseJSON(response);
           if (obj.respuesta == 200) {
-            $('#modalOrdenPreguntas').modal('hide');
+            $('#modalOrden').modal('hide');
               alertify.success("orden actualizado");
-              listaPreguntas.ajax.reload();
+              listaPreguntas.ajax.reload(null,false);
           } else {
               alertify.error("Error al actualizar el orden");
           }
@@ -818,6 +790,35 @@ function ordenarPreguntas(data){
           alertify.error("Error al obtener el servicio para actualizar el orden");
       }
   });
+}
+
+function listarOrden() {
+  $( function() {
+    $( "#sortable" ).sortable();
+    $( "#sortable" ).disableSelection();
+  } );
+  $.ajax({
+    url: "SoporteSistemas/obtenerPreguntasFrecuentes",
+    type: 'POST',
+    data: {idSystem:dataInfo.idSystem},
+    success: function (response) {
+      var obtener = jQuery.parseJSON(response);
+      console.log(obtener);
+      $('.ordenLista').empty();
+      var html = "";
+      if(obtener.length>0){
+        $('#modalOrden').modal('show');
+      }
+      for (var i = 0; i < obtener.length; i++) {
+        html += "<li class='ui-state-highlight'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>"+obtener[i].pregunta;
+        html += "<input type='hidden' class='form-control' name='idTemp' value='"+obtener[i].idPregunta+"'>";
+        html += "</li>";
+        html += "<input type='hidden' name='orden' class='form-control' value='"+obtener[i].orden+"'>";
+      }
+      $('.ordenLista').append(html);
+    }
+  });
+  return false;
 }
 
 function confirmarDeshabilitarPregunta(idPregunta){
@@ -837,7 +838,7 @@ function confirmarProcesoPregunta(){
     function(){
       actualizarPregunta();
       $('.titulo').html('CAMBIAR ORDEN PREGUNTAS FRECUENTES: '+sis.toUpperCase());
-      listarPreguntas();
+      listarOrden();
       $('.btn_cancel').hide();
     },
     function(){
@@ -927,18 +928,10 @@ function putAllSystems() {
 //Función para vaciar formularios depués de cada acción
 function resetForm() {
     $('input[type="checkbox"]').iCheck('uncheck');
-    $('#registroAviso')[0].reset();
-    $('#registroPreguntas')[0].reset();
     $("select[name$='systemName']").empty();
     $('select[name$="selectEmpleado"]').val(null).trigger('change');
     $("select[name$='selectEmpleado']").empty();
     $( ".fecha" ).datepicker({dateFormat:"yy/mm/dd"}).datepicker("setDate",new Date());
-    resetValidate();
-    $("#registroAviso").validate().resetForm();
-    resetValidate();
-    resetValidateFrecuentes();
-    $("#registroPreguntas").validate().resetForm();
-    resetValidateFrecuentes();
     limpiarSistemas = 0;
     ocultarElementos();
 }

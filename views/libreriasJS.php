@@ -22,3 +22,4 @@
 <script src="<?php echo constant('URL'); ?>public/plugins/DataTables/datatables.min.js"></script>
 <script src="<?php echo constant('URL'); ?>public/template/adminlte3.2/plugins/iCheck/icheck.min.js"></script>
 <script src="<?php echo constant('URL'); ?>public/plugins/alertifyjs/alertify.js"></script>
+<script src="<?php echo constant('URL'); ?>public/plugins/jquery-ui/jquery-ui.js"></script>

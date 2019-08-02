@@ -58,6 +58,7 @@
                                           <th>ID</th>
                                           <th>Tipo opciones registradas</th>
                                           <th>Tipo</th>
+                                          <th>Orden</th>
                                           <th>Acciones</th>
                                         </tr>
                                     </thead>

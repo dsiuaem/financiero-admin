@@ -32,10 +32,11 @@
                                    cellspacing="0">
                                 <thead>
                                   <tr>
-                                      <th>Acciones</th>
                                       <th>Editar</th>
                                       <th>Submódulos registrados</th>
                                       <th>Controlador</th>
+                                      <th>Orden</th>
+                                      <th>Acciones</th>
                                   </tr>
                                 </thead>
                                 <tbody>

@@ -143,6 +143,17 @@ $(document).ready(function () {
         var id_opcion = $('select[name=optionNameTable]').val();
         if (id_opcion != "") {
           $('.listTableTipoOptions').show();
+
+            $.ajax({
+              url: "TipoOpciones/tipoOpcionesListTable",
+              type: 'POST',
+              data: ({id: id_opcion}),
+              success: function (response) {
+                var obj = jQuery.parseJSON(response);
+                console.log(obj);
+              }
+            });
+
             tableTipoOpciones = $('#tableTipoOpciones').DataTable({
                 destroy: true,
                 ajax: {
@@ -151,6 +162,20 @@ $(document).ready(function () {
                     data: ({id: id_opcion}),
                     dataSrc: "",
                 },
+                dom: "<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
+                      "<'row'<'col-sm-12'tr>>" +
+                      "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                buttons: [
+                    {
+                        text: 'Cambiar orden',
+                        className:'btn btn-custom btn-rounded btn-outline-cambiar mb-4 buttonDt ml-4 mt-3',
+                        action: function () {
+                            $('.titulo').html('CAMBIAR ORDEN TIPO OPCIONES');
+                            listarOrden(id_opcion);
+                            $('.btn_cancel').show();
+                        }
+                    }
+                ],
                 columns: [
                   {
                       data: "idTipoOption",
@@ -158,6 +183,7 @@ $(document).ready(function () {
                   },
                   {data: "name"},
                   {data: "tipo"},
+                  {data: "order"},
                   {
                     data: null,
                     render: function (data, type, row) {
@@ -176,6 +202,7 @@ $(document).ready(function () {
                     }
                   }
                 ],
+                order: [[3, "asc"]],
                 fixedColumns: true,
                 language: {
                     "url": "public/plugins/DataTables/Spanish.json",
@@ -345,6 +372,22 @@ $(document).ready(function () {
             $('.divcheck').hide();
             $('.btn-registra').prop('disabled',true);
         }
+    });
+
+    $(".btn_cambiar_orden").click(function(e) {
+      var ordenar = 1;
+      var texto = $('#modalCambiarOrden').serializeArray();
+      var data = {};
+      $(texto ).each(function(index, obj){
+        if (data[obj.name]!=undefined) {
+            data[obj.name] += ","+obj.value;
+        }else{
+            data[obj.name] = obj.value;
+        }
+      });
+      console.log(data);
+      //return false;
+      ordenarLista(data);
     });
 
 });
@@ -645,4 +688,53 @@ function showSystemsTable() {
         }
     });
     return false;
+}
+
+function ordenarLista(data){
+  $.ajax({
+      url: 'TipoOpciones/actualizarOrden',
+      type: 'POST',
+      data: ({datos: data}),
+      success: function (response) {
+          var obj = jQuery.parseJSON(response);
+          if (obj.respuesta == 200) {
+            $('#modalOrden').modal('hide');
+              alertify.success("orden actualizado");
+              tableTipoOpciones.ajax.reload(null,false);
+          } else {
+              alertify.error("Error al actualizar el orden");
+          }
+      },
+      error: function () {
+          alertify.error("Error al obtener el servicio para actualizar el orden");
+      }
+  });
+}
+
+function listarOrden(id_opcion) {
+  $( function() {
+    $( "#sortable" ).sortable();
+    $( "#sortable" ).disableSelection();
+  } );
+  $.ajax({
+    url: "TipoOpciones/tipoOpcionesListTable",
+    type: 'POST',
+    data: {id:id_opcion},
+    success: function (response) {
+      var obtener = jQuery.parseJSON(response);
+      $('.ordenLista').empty();
+      var html = "";
+      if(obtener.length>0){
+        $('#modalOrden').modal('show');
+      }
+      for (var i = 0; i < obtener.length; i++) {
+        html += "<li class='ui-state-highlight' id='"+i+"'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>"+obtener[i].name;
+        html += "<input type='hidden' class='form-control' name='idTemp' value='"+obtener[i].idTipoOption+"'>";
+        html += "</li>";
+        html += "<input type='hidden' name='orden' class='form-control' value='"+obtener[i].order+"'>";
+      }
+      $('.ordenLista').append(html);
+    }
+  });
+  return false;
 }

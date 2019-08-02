@@ -7,10 +7,8 @@ var sinSistemaPerfil;
 
 $(document).ready(function () {
 
-    redireccionarVista(3);
-
     $('#checkboxPassword').click(function() {
-        // this will contain a reference to the checkbox
+        // this will contain a reference to the checkbox   
         if (this.checked) {
             $('.editarPassword').show();
             $('#updatePassUsuario').prop('disabled',false);
@@ -44,7 +42,7 @@ $(document).ready(function () {
             success: function (response) {
                var respuesta= jQuery.parseJSON(response);
                if(respuesta.respuesta==200){
-                  tableUsuarios.ajax.reload(null,false);
+                  tableUsuarios.ajax.reload();
                   alertify.success('Usuario modificado');
                   $('#modalEditarUsuario').modal('hide');
                   //$('#actualizacionUsuario').reset();
@@ -53,7 +51,7 @@ $(document).ready(function () {
                   if($('#checkboxPassword').val()==1){
                      $('#checkboxPassword').click();
                   }
-
+                  
                }else{
                   alertify.error('Algo salio mal');
                }
@@ -66,27 +64,36 @@ $(document).ready(function () {
 
     alertify.set('notifier', 'position', 'top-right');
 
+    //Mostrar información en el select
+    //showSystemsNewUser();
+    //showUsersTypeNewUser();
+    //showSystemsAsignarPerfil();
+    //showSystemsListarUsuarios();
+
     //jquery validator donde se corroboran que los datos esten introducidos y ningun campo se vaya en vacio
     $('form[id="registroUsuarios"]').validate({
         rules: {
             systemNameNewUser: 'required',
             userTypeNewUser: 'required',
             userName: 'required',
-            userPass: 'required',
-            confirmarCorreo: 'required',
-            userNameR: 'required'
+            userPass: 'required'
         },
         messages: {
             systemNameNewUser: 'Falta seleccionar un sistema',
             userTypeNewUser: 'Falta seleccionar un tipo de usuario',
             userName: 'Falta ingresar un correo válido',
-            userPass: 'Falta ingresar contraseña al usuario',
-            confirmarCorreo: 'Falta confirmar correo electrónico al usuario',
-            userNameR: 'Falta ingresar correo electrónico'
+            userPass: 'Falta ingresar contraseña al usuario'
         },
         submitHandler: function () {
             //Se registran los datos del módulo
             saveRegistroUsuarios();
+            /*
+            $(function () {
+                $("#btnSaveModule").click(saveRegistroUsuarios());
+            });
+
+             */
+
         }
     });
 
@@ -102,6 +109,13 @@ $(document).ready(function () {
         submitHandler: function () {
             //Se registran los datos del módulo
             //updateUsuario();
+            /*
+            $(function () {
+                $("#btnSaveModule").click(saveRegistroUsuarios());
+            });
+
+             */
+
         }
     });
 
@@ -117,38 +131,48 @@ $(document).ready(function () {
         submitHandler: function () {
             //Se registran los datos del módulo
             saveAsignarperfil();
+            /*
+            $(function () {
+                $("#btnSaveModule").click(saveRegistroUsuarios());
+            });
+
+             */
+
         }
     });
 
     $('#systemNameAsignarPerfil').change(function(){
+        $('.infoUsers').hide();
         var id_sistema = $('select[name=systemNameAsignarPerfil]').val();
         resetearSelect($('#perfilUser'));
+    
         if (id_sistema != "") {
             $.ajax({
                 url: 'Perfiles/perfilesListSelect',
-                async: false,
                 type: 'POST',
                 data: ({data: id_sistema}),
                 success: function (response) {
                     var modules = jQuery.parseJSON(response);
+                    //console.log(modules);
                     var arreglo = modules.perfilesDTO;
+                    //console.log(typeof (arreglo));
                     arreglo = jQuery.parseJSON(arreglo);
+                    //console.log(typeof (arreglo));
                     var $dropdown = $("select[name$='perfilUser']");
                     for (var i = arreglo.length - 1; i >= 0; i--) {
                         $dropdown.append($("<option />").val(arreglo[i].idPerfil).text(arreglo[i].perfil));
                     }
+
                     $dropdown.select2();
-                    $('.divperfilUser').show();
-                    $('.infoUsers').hide();
+
                 },
                 error: function () {
                     alert("Error al obtener el servicio para cargar la lista");
                 }
             });
-        }else{
-          $('.divperfilUser').hide();
-          $('.infoUsers').hide();
+
         }
+        
     });
 
     $('#perfilUser').change(function(){
@@ -156,11 +180,29 @@ $(document).ready(function () {
         var id_perfil = $('select[name=perfilUser]').val();
         $('.infoUsers').hide();
         if (id_perfil != "") {
+            $('.infoUsers').show();
+
+            $.ajax({
+                url: 'Usuarios/usuariosListTableSinPerfil',
+                type: 'POST',
+                data: ({id_perfil: id_perfil, id_system: id_system}),
+                success: function (response) {
+
+                    console.log(response);
+
+                },
+                error: function () {
+                    alertify.error("Error al obtener el servicio para cargar lista de sistemas");
+                }
+            });
+            //return false;
             tableListadoAsignacionPerfiles = $('#tableListadoAsignacionPerfiles').DataTable({
                destroy: true,
+               responsive: {
+                 details: false
+               },
                ajax: {
                   url: 'Usuarios/usuariosListTableSinPerfil',
-                  async: false,
                   type: 'POST',
                   data: ({id_perfil: id_perfil, id_system: id_system}),
                   dataSrc: "",
@@ -191,9 +233,11 @@ $(document).ready(function () {
 
             tableListadoAsignacionPerfilesExistentes = $('#tableListadoAsignacionPerfilesExistentes').DataTable({
                 destroy: true,
+                responsive: {
+                       details: false
+                },
                 ajax: {
                     url: 'Usuarios/usuariosListTableConPerfil',
-                    async: false,
                     type: 'POST',
                     data: ({id_perfil: id_perfil, id_system: id_system}),
                     dataSrc: "",
@@ -210,50 +254,57 @@ $(document).ready(function () {
                     "url": "public/plugins/DataTables/Spanish.json",
                 }
             });
-            $('.infoUsers').show();
+
         }
+        
     });
 
     $('#systemNameListarUsuarios').change(function(){
-        var id_system = $('select[name=systemNameListarUsuarios]').val();
+         var id_system = $('select[name=systemNameListarUsuarios]').val();
         $('.listaUsuarios').hide();
         if (id_system != "") {
             $('.listaUsuarios').show();
+
+
+
+
             tableUsuarios = $('#tableUsuarios').DataTable({
                 destroy: true,
+                responsive: {
+                    details: false
+                },
                 ajax: {
                     url: 'Usuarios/usersListTable',
-                    async: false,
                     type: 'POST',
                     data: ({id: id_system}),
                     dataSrc: "",
                 },
                 columns: [
+
+                    {
+                        data: null,
+                        render: function (data, type, full, meta) {
+                            console.log(data);
+                            var checked;
+                            data.enable==1?checked='checkbox':checked='';
+
+                            return '<a id="btnUpdateUser" data-toggle="modal" data-target="#modalEditarUsuario" href="" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1"><i class="fas fa-edit"></i></a> ' +
+                                '<label class="switch switch-text switch-success switch-pill">' + '<input id="btnEnableUser" type="'+checked+'" class="switch-input" checked="true" >' +
+                                '<span data-on="On" data-off="Off" class="switch-label"></span>' +
+                                '<span class="switch-handle"></span>' +
+                                '</label> '+'<a class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1 fas fa-plus" href="#" onclick="verUserSystemsPefil('+data.idUser+')"data-toggle="modal" data-target="#modalAdminSystems"></a>';
+                                //'<a id="btnDeleteUser" title="Eliminar concepto" href="#" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></a>';
+
+                        },
+                    },
                     {
                         data: "idUser",
                         visible: false,
                         searchable: false
                     },
-                    {data: "user"},
-                    {data: null, render:function (data)
-                      {
-                         return data.nombre+" "+data.apPaterno+" "+data.apMaterno;
-                      }
-                    },{
-                        data: null,
-                        render: function (data, type, full, meta) {
-                            var checked;
-                            data.enable==1?checked='checkbox':checked='';
-                            var botones='<a id="btnUpdateUser" data-toggle="modal" data-target="#modalEditarUsuario" href="" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-2"><i class="fas fa-edit"></i></a> ';
-                                if(id_system!=0){
-                                    botones=botones+' <label class="switch switch-text switch-success switch-pill">' + '<input id="btnEnableUser" type="'+checked+'" class="switch-input" checked="true" >' +
-                                    '<span data-on="On" data-off="Off" class="switch-label"></span>' +
-                                    '<span class="switch-handle"></span>';
-                                }
-                                botones =botones+' </label> '+'<a class="btn btn-outline-primary btn-sm btn-rounded btn-custom ml-2 fas fa-plus" href="#" onclick="verUserSystemsPefil('+data.idUser+')"data-toggle="modal" data-target="#modalAdminSystems"></a>';
-                                return botones;
-                        },
-                    }
+
+                    {data: "user"}
+
                 ],
                 fixedColumns: true,
                 language: {
@@ -261,11 +312,10 @@ $(document).ready(function () {
                 }
             });
 
+
             $('#tableUsuarios tbody').off('click', '#btnUpdateUser').on('click', '#btnUpdateUser', function () {
                 var data = tableUsuarios.row(this.closest('tr')).data();
-                if(data==undefined){
-                  data = tableUsuarios.row( this ).data();
-                }
+                console.log(data);
                 $('#idUserUpdate').val(data.idUser);
                 $('#updateCorreoUsuario').val(data.user);
                 $('#updatePassUsuario').prop('disabled',true);
@@ -298,20 +348,20 @@ $(document).ready(function () {
                         alert("Error al obtener el servicio para cargar la lista");
                     }
                 });
+               
+
             });
 
             $('#tableUsuarios tbody').off('click', '#btnEnableUser').on('click', '#btnEnableUser', function () {
                 var data = tableUsuarios.row(this.closest('tr')).data();
-                if(data==undefined){
-                  data = tableUsuarios.row( this ).data();
-                }
+                var id = data.idUser;
+
                 alertify.confirm("¿Desea cambiar el estado ?",
                     function(){
-                      cabiarEstado(data.idUser,id_system,data.enable);
+                      cabiarEstado(id,id_system,data.enable);
                     },
                     function(){
-                     tableUsuarios.ajax.reload(null,false);
-                     //alertify.error('Acción cancelada');
+                     alertify.error('Acción cancelada');
                     }
                 );
 
@@ -322,58 +372,39 @@ $(document).ready(function () {
 
     $('#empleadoNewUser').change(function(){
         var idEmpleado=$('#empleadoNewUser').val();
-        if(idEmpleado != ""){
-          $('#userNameR').prop('disabled',true);
-          $('.divConfirmarCorreo').hide();
-          $.ajax({
-              url: 'Usuarios/getEmpleado',
-              async: false,
-              type: 'POST',
-              dataType: 'JSON',
-              data:{idEmpleado},
-              success: function (response) {
-                  //console.log(response);
-                  if(response.respuesta==200){
-                      var empleado=jQuery.parseJSON(response.empleadoList);
-                      $('#userNameR').val(empleado.email);
-                      $('#userName').val(empleado.email);
-                      if(empleado.email==null){
-                        $('#userNameR').prop('disabled',false);
-                        $('.divConfirmarCorreo').show();
-                      }
-                      $('.divName').show();
-                      $('.divPassword').show();
-                      $('.btn-registra').prop('disabled',false);
-                  }else{
-                      alertify.error("Error: getEmpleado");
-                  }
-              },
-              error: function () {
-                  alertify.error("Error al obtener el servicio para cargar lista de sistemas");
-              }
-          });
-        }else{
-          $('.divName').hide();
-          $('.divPassword').hide();
-          $('.btn-registra').prop('disabled',true);
-        }
+        $.ajax({
+            url: 'Usuarios/getEmpleado',
+            type: 'POST',
+            dataType: 'JSON',
+            data:{idEmpleado},
+            success: function (response) {
+                console.log(response);
+                if(response.respuesta==200){
+                    var empleado=jQuery.parseJSON(response.empleadoList);
+                    $('#userNameR').val(empleado.email);
+                    $('#userName').val(empleado.email);
+        
+                }else{
+                    alertify.error("Error: getEmpleado");
+                }
+            },
+            error: function () {
+                alertify.error("Error al obtener el servicio para cargar lista de sistemas");
+            }
+        });
     });
 
    $('#userTypeNewUser').change(function(){
         var valor=$('#userTypeNewUser').val();
-        if(valor != ""){
-          getEmpleados();
-          $('.divName').hide();
-          $('.divPassword').hide();
-          $('.divConfirmarCorreo').hide();
-          $('.btn-registra').prop('disabled',true);
-          $('.divempleadoNewUser').show();
-        }else{
-          $('.divName').hide();
-          $('.divPassword').hide();
-          $('.divConfirmarCorreo').hide();
-          $('.divempleadoNewUser').hide();
-         resetearSelect($('#empleadoNewUser'));
+        switch(valor){
+            case '1':
+                  getEmpleados();
+               break;
+            default:
+               alertify.error("Acción no disponible");
+               resetearSelect($('#empleadoNewUser'));
+
+
         }
     });
 
@@ -397,11 +428,11 @@ $(document).ready(function () {
                var respuesta= jQuery.parseJSON(response);
                if(respuesta.respuesta==200){
                   alertify.success("Perfil modificado");
-                  enSistemaPerfil.ajax.reload(null,false);
+                  enSistemaPerfil.ajax.reload();
                   resetearSelect($('.perfilEditSelect'));
                   $('#actualizacionPerfil')[0].reset();
                   $('#modalEditarPerfilUsuario').modal('hide');
-
+                  
                }else{
                   alertify.error('Algo salio mal');
                }
@@ -427,8 +458,8 @@ $(document).ready(function () {
                     console.log(response);
                     var obj = jQuery.parseJSON(response);
                     if (obj.respuesta == 200) {
-                        enSistemaPerfil.ajax.reload(null,false);
-                        sinSistemaPerfil.ajax.reload(null,false);
+                        enSistemaPerfil.ajax.reload();
+                        sinSistemaPerfil.ajax.reload();
                         $('#modalSelectPerfil').modal('hide');
                         alertify.success("Perfil asignado exitosamente");
                         return false;
@@ -451,6 +482,9 @@ $(document).ready(function () {
 function verUserSystemsPefil(idUser){
     enSistemaPerfil=$('.enSistemaPerfil').DataTable({
             destroy: true,
+            responsive: {
+                details: false
+            },
             ajax: {
                 url:'Usuarios/getSystemPerfil',
                 type:'POST',
@@ -462,7 +496,7 @@ function verUserSystemsPefil(idUser){
                 { data: "perfil"},
                 { data: null, render: function(data,type, full, meta)
                    {
-                     return "<a class='btn btn-outline-primary btn-sm btn-rounded btn-custom fas fa-edit' onclick='editarPerfilSystem("+data.idsystem+","+data.idPerfil+","+idUser+")' href='#'></a>";
+                     return "<a class='btn btn-primary fa fa-edit' onclick='editarPerfilSystem("+data.idsystem+","+data.idPerfil+","+idUser+")' href='#'></a>";
                    }
                 }
             ],
@@ -474,6 +508,9 @@ function verUserSystemsPefil(idUser){
 
     sinSistemaPerfil=$('.sinSistemaPerfil').DataTable({
             destroy: true,
+            responsive: {
+                details: false
+            },
             ajax: {
                 url:'Usuarios/getOutSystemPerfil',
                 type:'POST',
@@ -484,7 +521,8 @@ function verUserSystemsPefil(idUser){
                 { data: "name"},
                 { data: "idSystem", render: function(data)
                    {
-                     return "<a class='btn btn-outline-primary btn-sm btn-rounded btn-custom fas fa-edit' onclick='addPerfil("+data+","+idUser+")' href='#'></a>";
+                     console.log(data);
+                     return "<a class='btn btn-primary fa fa-edit' onclick='addPerfil("+data+","+idUser+")' href='#'></a>";
                    }
                 }
             ],
@@ -501,7 +539,7 @@ function addPerfil(id_system,idUser){
     $('#idUserP').val(idUser);
     $('#idSystemAdd').val(id_system);
     $('#modalSelectPerfil').modal('show');
-
+    
     $.ajax({
         url: 'Perfiles/perfilesListSelect',
         type: 'POST',
@@ -513,6 +551,7 @@ function addPerfil(id_system,idUser){
                 var perfiles=jQuery.parseJSON(respuesta.perfilesDTO);
                 var select=$('.perfilAddSelect');
                 $.each(perfiles,function(e,i){
+                    console.log(i);
                     select.append($('<option/>').val(i.idPerfil).text(i.perfil));
                 });
                 select.select2();
@@ -531,8 +570,8 @@ function editarPerfilSystem(id_system,idPerfil,idUser){
     $('#modalEditarPerfilUsuario').modal('show');
     $('#idUserPerfil').val(idUser);
     $('.actualIdPerfilEdit').val(idPerfil);
-    //idPerfilActual=getUserPerfil(idUser,id_system);
-    /*resetearSelect($('.perfilEditSelect'));
+    idPerfilActual=getUserPerfil(idUser,id_system);
+    resetearSelect($('.perfilEditSelect'));
     $.ajax({
         url: 'Perfiles/perfilesListSelect',
         type: 'POST',
@@ -558,7 +597,7 @@ function editarPerfilSystem(id_system,idPerfil,idUser){
         error: function () {
             alert("Error al obtener el servicio para cargar la lista");
         }
-    });*/
+    });
 
 }
 //CONSERVAR EL NOMBRE DE ESTA FUNCIÓN Y EL PARAMETRO
@@ -571,9 +610,9 @@ function redireccionarEstatus(optionMenu) {
             $('#listarUsuarios').hide();
             break;
         case 2:
-            // $('#nuevoUsuario').hide();
-            // $('#asignarPerfiles').show();
-            // $('#listarUsuarios').hide();
+            $('#nuevoUsuario').hide();
+            $('#asignarPerfiles').show();
+            $('#listarUsuarios').hide();
             break;
         case 3:
             $('#nuevoUsuario').hide();
@@ -590,21 +629,16 @@ function redireccionarVista(optionMenu) {
     // alert(optionMenu);
     switch (optionMenu) {
         case 1:
-            $('.divName').hide();
-            $('.divPassword').hide();
-            $('.divConfirmarCorreo').hide();
-            $('.divempleadoNewUser').hide();
-            $('.btn-registra').prop('disabled',true);
             cleanAgregarUser();
+            $('#nuevoUsuario').show();
             $('#asignarPerfiles').hide();
             $('#listarUsuarios').hide();
-            $('#nuevoUsuario').show();
             break;
         case 2:
             cleanAsignarPerfiles();
             $('#nuevoUsuario').hide();
-            $('#listarUsuarios').hide();
             $('#asignarPerfiles').show();
+            $('#listarUsuarios').hide();
             break;
         case 3:
             cleanListarUsuarios();
@@ -627,7 +661,7 @@ function cleanAgregarUser(){
     $('#registroUsuarios')[0].reset();
     //getEmpleados();
 }
-
+ 
 function cleanAsignarPerfiles(){
    resetearSelect($('select[name=systemNameAsignarPerfil]'));
    resetearSelect($('#perfilUser'));
@@ -637,7 +671,6 @@ function cleanAsignarPerfiles(){
 
 function cleanListarUsuarios(){
    resetearSelect($('select[name=systemNameListarUsuarios]'));
-   $('select[name=systemNameListarUsuarios]').append($("<option />").val(0).text("Todos los empleados"));
    $('.listaUsuarios').hide();
    showSystemsListarUsuarios();
    //$('select[name=systemNameListarUsuarios]').val('').trigger('change');
@@ -676,9 +709,9 @@ function showSystemsNewUser() {
 }
 
 function getEmpleados() {
+
     $.ajax({
         url: 'Usuarios/getEmpleados',
-        async: false,
         type: 'POST',
         dataType: 'JSON',
         success: function (response) {
@@ -688,16 +721,20 @@ function getEmpleados() {
                 $.each(empleados,function(e,emp){
                    dropdown.append($("<option />").val(emp.idEmpleado).text(emp.nombre+' '+emp.apPaterno+' '+emp.apMaterno));
                 });
+                
                 dropdown.select2();
             }else{
                 alertify.error('Error: getEmpleados');
             }
+
+
         },
         error: function () {
             alertify.error("Error al obtener el servicio para cargar lista de sistemas");
         }
     });
     return false;
+
 }
 
 //Funcion para llevar a cabo el registro de un sistema
@@ -707,17 +744,22 @@ function saveRegistroUsuarios() {
     $(texto).each(function (index, obj) {
         data[obj.name] = obj.value;
     });
+
     if (data.userTypeNewUser != 0) {
+
         $.ajax({
             url: 'Usuarios/registrarUsuarios',
             type: 'POST',
             data: ({datos: data}),
             success: function (response) {
+
                 console.log(response);
+
                 var obj = jQuery.parseJSON(response);
                 if (obj.respuesta == 200){
                     cleanAgregarUser();
                     alertify.success("Usuario registrado exitosamente");
+                   
                 } else {
                     obj.respuesta==404?alertify.error("El empleado ya tiene cuenta de usuario"):alertify.error("Error al registrar al usuario");
                 }
@@ -727,9 +769,14 @@ function saveRegistroUsuarios() {
             }
         });
         return false;
+
+
     } else {
+
         alertify.warning("No has seleccionado un tipo de usuario");
+
     }
+
 }
 
 //Función para vaciar formularios depués de cada acción
@@ -747,7 +794,7 @@ function estadoSwitch(id_user, estado) {
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
                 //Función para recargar tabla
-                tableUsuarios.ajax.reload(null,false);
+                tableUsuarios.ajax.reload();
                 return false;
             } else {
                 alertify.error("Error en la acción");
@@ -775,18 +822,22 @@ function showSystemsAsignarPerfil() {
         type: 'POST',
         dataType: 'JSON',
         success: function (response) {
+
             var systems = jQuery.parseJSON(response.sistemasDTO);
             var $dropdown = $("select[name$='systemNameAsignarPerfil']");
             for (var i = systems.length - 1; i >= 0; i--) {
                 $dropdown.append($("<option />").val(systems[i].idSystem).text(systems[i].name));
             }
+
             $dropdown.select2();
+
         },
         error: function () {
             alertify.error("Error al obtener el servicio para cargar lista de sistemas");
         }
     });
-    return false;
+    //return false;
+
 }
 
 
@@ -824,8 +875,8 @@ function saveAsignarperfil() {
 
                 var obj = jQuery.parseJSON(response);
                 if (obj.respuesta == 200) {
-                    tableListadoAsignacionPerfiles.ajax.reload(null,false);
-                    tableListadoAsignacionPerfilesExistentes.ajax.reload(null,false);
+                    tableListadoAsignacionPerfiles.ajax.reload();
+                    tableListadoAsignacionPerfilesExistentes.ajax.reload();
                     alertify.success("Perfiles asignados exitosamente");
                     return false;
                 } else {
@@ -854,24 +905,27 @@ function saveAsignarperfil() {
 //######################################################################################################
 
 function showSystemsListarUsuarios() {
+
     $.ajax({
         url: 'Sistemas/systemListSelect',
-        async: false,
         type: 'POST',
         dataType: 'JSON',
         success: function (response) {
+
             var systems = jQuery.parseJSON(response.sistemasDTO);
             var $dropdown = $("select[name$='systemNameListarUsuarios']");
             for (var i = systems.length - 1; i >= 0; i--) {
                 $dropdown.append($("<option />").val(systems[i].idSystem).text(systems[i].name));
             }
             $dropdown.select2();
+
         },
         error: function () {
             alertify.error("Error al obtener el servicio para cargar lista de sistemas");
         }
     });
     return false;
+
 }
 
 
@@ -908,7 +962,7 @@ function cabiarEstado(idUser,idSystem,estado){
             var respuesta=jQuery.parseJSON(response);
             if(respuesta.respuesta==200){
                 alertify.success('Usuario desactivado');
-                tableUsuarios.ajax.reload(null,false);
+                tableUsuarios.ajax.reload();
             }else{
                 alertify.error('Algo salio mal');
             }
@@ -928,22 +982,31 @@ function limpiarForm(){
 }
 
 function showUsersTypeNewUser() {
+
     $.ajax({
         url: 'Usuarios/userTypeList',
-        async: false,
         type: 'POST',
         dataType: 'JSON',
         success: function (response) {
+
             var userType = jQuery.parseJSON(response.usuariosDTO);
             var $dropdown = $("select[name$='userTypeNewUser']");
             for (var i = userType.length - 1; i >= 0; i--) {
                 $dropdown.append($("<option />").val(userType[i].idUserType).text(userType[i].type));
             }
+
             $dropdown.select2();
+
         },
         error: function () {
             alertify.error("Error al obtener el servicio para cargar lista de sistemas");
         }
     });
     return false;
+
 }
+
+
+
+
+

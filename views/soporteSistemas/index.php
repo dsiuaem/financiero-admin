@@ -42,7 +42,7 @@
         </section>
     </div> <!--  end content-wraper -->
     <?php require 'views/footer.php' ?>
-    <?php require 'views/soporteSistemas/preguntasFrecuentes/modalOrdenPreguntas.php'?>
+    <?php require 'views/modalCambiarOrden.php'?>
 </div>
 <?php include_once 'views/libreriasJS.php' ?>
 </body>

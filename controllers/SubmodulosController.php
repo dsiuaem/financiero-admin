@@ -114,6 +114,19 @@ class SubmodulosController extends Controller
         echo json_encode($this->model);
     }
 
+    function actualizarOrden(){
+      $orden = new SubmodulosDTO;
+      $orden->idUser = $_SESSION['idUsuarioADMIN'];
+      $orden->idSubModule = $_POST['datos']['idTemp'];
+      $orden->orden = $_POST['datos']['orden'];
+
+      $this->model->updateSubmoduleDTO = $orden;
+      //Recupera los datos del servicio web
+      $this->model->actualizarOrden();
+      //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+      echo json_encode($this->model);
+    }
+
 
 }
 

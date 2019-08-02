@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalOrdenPreguntas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div class="modal fade" id="modalOrden" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -6,8 +6,16 @@
                 <h4 class="modal-title w-100 font-weight-bold titulo" style="color: white;"></h4>
             </div>
             <div class="modal-body mx-3">
-              <form id="ordenListaPreguntas" action="#" method="POST" enctype="multipart/form-data">
-                <div class="ordenLista"></div>
+              <form id="modalCambiarOrden" action="#" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                  <div class="col-md-12 offset-md-0">
+                    <div class="form-row mb-5">
+                      <div class="col-md-12 mt-1">
+                        <ul id="sortable" class="connectedSortable ordenLista"></ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </form>
               <div class="modal-footer justify-content-center">
                 <button type="submit" class="btn btn-outline-primary btn-modal btn-rounded btn_cambiar_orden">Cambiar</button>

@@ -409,7 +409,7 @@ class SoporteSistemasModel extends Model{
       }
   }
 
-  public function actualizarOrdenPreguntaFrecuente()
+  public function actualizarOrden()
   {
       $ch = curl_init();
       //Encritar datos que llegan del formulario

@@ -199,15 +199,15 @@ class SoporteSistemasController extends Controller{
     echo json_encode($this->model);
   }
 
-  function actualizarOrdenPreguntaFrecuente(){
+  function actualizarOrden(){
     $soporteSistemasDTO = new SoporteSistemasDTO;
     $soporteSistemasDTO->idUser = $_SESSION['idUsuarioADMIN'];
-    $soporteSistemasDTO->idPregunta = $_POST['datos']['idPregunta'];
+    $soporteSistemasDTO->idPregunta = $_POST['datos']['idTemp'];
     $soporteSistemasDTO->orden = $_POST['datos']['orden'];
 
     $this->model->soporteSistemasDTO = $soporteSistemasDTO;
     //Recupera los datos del servicio web
-    $this->model->actualizarOrdenPreguntaFrecuente();
+    $this->model->actualizarOrden();
     //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
     echo json_encode($this->model);
   }

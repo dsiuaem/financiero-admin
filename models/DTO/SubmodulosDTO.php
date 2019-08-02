@@ -14,6 +14,10 @@ class SubmodulosDTO
 
     public $enable;
 
+    public $idUser;
+
+    public $orden;
+
 }
 
 ?>

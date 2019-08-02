@@ -13,6 +13,10 @@ class OpcionesDTO
 
     public $enable;
 
+    public $idUser;
+
+    public $orden;
+
 
 }
 

@@ -13,7 +13,7 @@ class TipoOpcionesController extends Controller
 
     // se renderiza la vista de solictud de pago
     function render()
-    {        
+    {
         $this->setTipoController("TipoOpciones");
         $this->setModuleMenu("Gestion de Sistemas");
         $this->view->render('tipoOpciones/index');
@@ -125,6 +125,19 @@ class TipoOpcionesController extends Controller
         $this->model->tipoOpcionesListSelect();
         //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
         echo json_encode($this->model);
+    }
+
+    function actualizarOrden(){
+      $orden = new TipoOpcionesDTO;
+      $orden->idUser = $_SESSION['idUsuarioADMIN'];
+      $orden->idTipoOption = $_POST['datos']['idTemp'];
+      $orden->orden = $_POST['datos']['orden'];
+
+      $this->model->updateTypeOptionDTO = $orden;
+      //Recupera los datos del servicio web
+      $this->model->actualizarOrden();
+      //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
+      echo json_encode($this->model);
     }
 
 

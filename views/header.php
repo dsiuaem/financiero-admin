@@ -39,4 +39,7 @@
     <!-- Estilos para usar el boton switch -->
     <link rel="stylesheet" href="<?php echo constant('URL'); ?>public/css/theme.css">
     <link rel="stylesheet" href="<?php echo constant('URL'); ?>public/css/font-face.css">
+
+    <!-- include sortable.css -->
+    <link rel="stylesheet" href="<?php echo constant('URL'); ?>public/plugins/jquery-ui/jquery-ui.css">
 </head>
