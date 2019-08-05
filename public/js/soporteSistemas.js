@@ -184,7 +184,7 @@ function tablaAvisos(id){
           }else{
             var estado = "";
           }
-          boton += '<label class="switch switch-text switch-success switch-pill mr-1">';
+          boton += '<label class="switch switch-text switch-success switch-pill mr-3 mt-2">';
           boton += '<input type="checkbox" class="switch-input btnEnableSystem" '+estado+'>';
           boton += '<span data-on="On" data-off="Off" class="switch-label"></span>';
           boton += '<span class="switch-handle"></span>';
