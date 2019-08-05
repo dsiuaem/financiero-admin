@@ -35,6 +35,8 @@ class UsuariosDTO
 
     public $contenidoPerfiles;
 
+    public $ip;
+
 }
 
 

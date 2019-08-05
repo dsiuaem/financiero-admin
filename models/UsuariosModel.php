@@ -484,12 +484,12 @@ class UsuariosModel extends Model
          if($responseCode==200){
             //El resultado se deserializa en la clase DTO devuelta
             $dataDescrypt = $jwt->Desencriptar($result);
- 
+
             //$this->empleadosList=$dataDescrypt->solicitudList;
             $this->respuesta = $dataDescrypt->respuesta;
 
         }else{
-            
+
            $this->respuesta = 500;
         }
     }*/
@@ -583,12 +583,12 @@ class UsuariosModel extends Model
          if($responseCode==200){
             //El resultado se deserializa en la clase DTO devuelta
             $dataDescrypt = $jwt->Desencriptar($result);
- 
+
             //$this->empleadosList=$dataDescrypt->solicitudList;
             $this->respuesta = $dataDescrypt->respuesta;
 
         }else{
-            
+
            $this->respuesta = 500;
         }
     }

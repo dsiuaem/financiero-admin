@@ -36,8 +36,11 @@ class UsuariosController extends Controller
         $registrarUsuariosDTO->idUser = $_SESSION['idUsuarioADMIN'];
         $registrarUsuariosDTO->idEmpleado = $_POST['datos']['empleadoNewUser'];
         $registrarUsuariosDTO->idUserType= $_POST['datos']['userTypeNewUser'];
-        $registrarUsuariosDTO->user = $_POST['datos']['userName'];
-        //$registrarUsuariosDTO->email = $_POST['datos']['userEmail'];
+        if($_POST['datos']['confirmarCorreo'] != ""){
+          $registrarUsuariosDTO->user = $_POST['datos']['userNameR'];
+          $registrarUsuariosDTO->email = $_POST['datos']['confirmarCorreo'];
+        }
+        $registrarUsuariosDTO->ip = $this->getIP();
         $registrarUsuariosDTO->password = $_POST['datos']['userPass'];
         $this->model->insertUserDTO = $registrarUsuariosDTO;
 
@@ -265,6 +268,23 @@ class UsuariosController extends Controller
         //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
         echo json_encode($this->model);
     }*/
+
+    function getIP(){
+        if (isset($_SERVER["HTTP_CLIENT_IP"])){
+            $var= $_SERVER["HTTP_CLIENT_IP"];
+        }elseif (isset($_SERVER["HTTP_X_FORWARDED_FOR"])){
+            $var= $_SERVER["HTTP_X_FORWARDED_FOR"];
+        }elseif (isset($_SERVER["HTTP_X_FORWARDED"])){
+            $var= $_SERVER["HTTP_X_FORWARDED"];
+        }elseif (isset($_SERVER["HTTP_FORWARDED_FOR"])){
+            $var= $_SERVER["HTTP_FORWARDED_FOR"];
+        }elseif (isset($_SERVER["HTTP_FORWARDED"])){
+            $var= $_SERVER["HTTP_FORWARDED"];
+        }else {
+            $var= $_SERVER["REMOTE_ADDR"];
+        }
+        return $var;
+    }
 
 
 }

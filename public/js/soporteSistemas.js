@@ -9,7 +9,10 @@ $(document).ready(function () {
       language: 'es',
       autoclose: true
   });
-  $( ".fecha" ).datepicker({dateFormat:"yy/mm/dd"}).datepicker("setDate",new Date());
+  $('input[name$=fecha]').datepicker({
+    dateFormat: 'yy-mm-dd'
+  });
+  // $( ".fecha" ).datepicker({dateFormat:"yy/mm/dd"}).datepicker("setDate",new Date());
   //jquery validator donde se corroboran que los datos esten introducidos y ningun campo se vaya en vacio
   $('#registroAviso').validate({
      rules: {
@@ -368,6 +371,8 @@ function actualizarAviso(){
     if(limpiarSistemas == 1){
       data["systemName"] = "0";
     }
+    $( ".fecha" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+    data["fecha"] = $( ".fecha" ).val();
     console.log(data);
     //return false;
     $.ajax({
@@ -931,7 +936,7 @@ function resetForm() {
     $("select[name$='systemName']").empty();
     $('select[name$="selectEmpleado"]').val(null).trigger('change');
     $("select[name$='selectEmpleado']").empty();
-    $( ".fecha" ).datepicker({dateFormat:"yy/mm/dd"}).datepicker("setDate",new Date());
+    //$( ".fecha" ).datepicker({dateFormat:"yy/mm/dd"}).datepicker("setDate",new Date());
     limpiarSistemas = 0;
     ocultarElementos();
 }
