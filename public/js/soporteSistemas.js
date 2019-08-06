@@ -187,7 +187,7 @@ function tablaAvisos(id){
           }else{
             var estado = "";
           }
-          boton += '<label class="switch switch-text switch-success switch-pill mr-1">';
+          boton += '<label class="switch switch-text switch-success switch-pill mr-3 mt-2">';
           boton += '<input type="checkbox" class="switch-input btnEnableSystem" '+estado+'>';
           boton += '<span data-on="On" data-off="Off" class="switch-label"></span>';
           boton += '<span class="switch-handle"></span>';
@@ -555,7 +555,7 @@ function tablaPreguntas(id){
     buttons: [
         {
             text: 'Cambiar orden',
-            className:'btn btn-custom btn-rounded btn-outline-cambiar mb-4 buttonDt ml-4 mt-3',
+            className:'btn btn-custom btn-rounded btn-outline-cambiar mb-4 buttonDt ml-4 mt-3 cambiar-orden',
             action: function () {
                 $('.titulo').html('CAMBIAR ORDEN PREGUNTAS FRECUENTES: '+sis.toUpperCase());
                 listarOrden();
@@ -815,7 +815,7 @@ function listarOrden() {
         $('#modalOrden').modal('show');
       }
       for (var i = 0; i < obtener.length; i++) {
-        html += "<li class='ui-state-highlight'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>"+obtener[i].pregunta;
+        html += "<li class='ui-state-highlight mt-1'><span class='mr-3 ml-2'></span>"+obtener[i].pregunta;
         html += "<input type='hidden' class='form-control' name='idTemp' value='"+obtener[i].idPregunta+"'>";
         html += "</li>";
         html += "<input type='hidden' name='orden' class='form-control' value='"+obtener[i].orden+"'>";

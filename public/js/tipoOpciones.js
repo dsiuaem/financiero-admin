@@ -168,7 +168,7 @@ $(document).ready(function () {
                 buttons: [
                     {
                         text: 'Cambiar orden',
-                        className:'btn btn-custom btn-rounded btn-outline-cambiar mb-4 buttonDt ml-4 mt-3',
+                        className:'btn btn-custom btn-rounded btn-outline-cambiar mb-4 buttonDt ml-4 mt-3 cambiar-orden',
                         action: function () {
                             $('.titulo').html('CAMBIAR ORDEN TIPO OPCIONES');
                             listarOrden(id_opcion);
@@ -728,7 +728,7 @@ function listarOrden(id_opcion) {
         $('#modalOrden').modal('show');
       }
       for (var i = 0; i < obtener.length; i++) {
-        html += "<li class='ui-state-highlight' id='"+i+"'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>"+obtener[i].name;
+        html += "<li class='ui-state-highlight mt-1' id='"+i+"'><span class='mr-3 ml-2'></span>"+obtener[i].name;
         html += "<input type='hidden' class='form-control' name='idTemp' value='"+obtener[i].idTipoOption+"'>";
         html += "</li>";
         html += "<input type='hidden' name='orden' class='form-control' value='"+obtener[i].order+"'>";

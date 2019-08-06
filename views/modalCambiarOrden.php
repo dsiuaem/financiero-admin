@@ -6,12 +6,13 @@
                 <h4 class="modal-title w-100 font-weight-bold titulo" style="color: white;"></h4>
             </div>
             <div class="modal-body mx-3">
+              <strong>Arrastra para acomodar el orden deseado:</strong><br>
               <form id="modalCambiarOrden" action="#" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                   <div class="col-md-12 offset-md-0">
                     <div class="form-row mb-5">
                       <div class="col-md-12 mt-1">
-                        <ul id="sortable" class="connectedSortable ordenLista"></ul>
+                        <ul id="sortable" class="connectedSortable ordenLista text-center"></ul>
                       </div>
                     </div>
                   </div>
