@@ -130,9 +130,8 @@ class UsuariosController extends Controller
         $usuarioDTO = new UsuariosDTO;
         //var_dump($_POST);die();
         $usuarioDTO->idUser = $_POST['data']['idUser'];
-        $usuarioDTO->idPerfil = $_POST['data']['perfil'];
         $usuarioDTO->email = $_POST['data']['email'];
-        $usuarioDTO->actualIdPerfil=$_POST['data']['actualIdPerfil'];
+        $usuarioDTO->ip = $this->getIP();
         isset($_POST['data']['password'])?$usuarioDTO->password=$_POST['data']['password']:$usuarioDTO->password=null;
         $this->model->asignarPerfilDTO = $usuarioDTO;
         //Recupera los datos del servicio web
