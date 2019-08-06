@@ -198,9 +198,6 @@ $(document).ready(function () {
             //return false;
             tableListadoAsignacionPerfiles = $('#tableListadoAsignacionPerfiles').DataTable({
                destroy: true,
-               responsive: {
-                 details: false
-               },
                ajax: {
                   url: 'Usuarios/usuariosListTableSinPerfil',
                   type: 'POST',
@@ -233,9 +230,6 @@ $(document).ready(function () {
 
             tableListadoAsignacionPerfilesExistentes = $('#tableListadoAsignacionPerfilesExistentes').DataTable({
                 destroy: true,
-                responsive: {
-                       details: false
-                },
                 ajax: {
                     url: 'Usuarios/usuariosListTableConPerfil',
                     type: 'POST',
@@ -270,9 +264,6 @@ $(document).ready(function () {
 
             tableUsuarios = $('#tableUsuarios').DataTable({
                 destroy: true,
-                responsive: {
-                    details: false
-                },
                 ajax: {
                     url: 'Usuarios/usersListTable',
                     type: 'POST',
@@ -280,7 +271,18 @@ $(document).ready(function () {
                     dataSrc: "",
                 },
                 columns: [
-
+                    {
+                        data: "idUser",
+                        visible: false,
+                        searchable: false
+                    },
+                    {
+                     data: null,
+                     render: function (data, type, full, meta) {
+                       return data.nombre+" "+data.apPaterno+" "+data.apMaterno;
+                     }
+                   },
+                    {data: "user"},
                     {
                         data: null,
                         render: function (data, type, full, meta) {
@@ -288,22 +290,15 @@ $(document).ready(function () {
                             var checked;
                             data.enable==1?checked='checkbox':checked='';
 
-                            return '<a id="btnUpdateUser" data-toggle="modal" data-target="#modalEditarUsuario" href="" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1"><i class="fas fa-edit"></i></a> ' +
-                                '<label class="switch switch-text switch-success switch-pill">' + '<input id="btnEnableUser" type="'+checked+'" class="switch-input" checked="true" >' +
+                            return '<a id="btnUpdateUser" data-toggle="modal" data-target="#modalEditarUsuario" href="" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-2"><i class="fas fa-edit"></i></a> ' +
+                                '<label class="switch switch-text switch-success switch-pill mr-2">' + '<input id="btnEnableUser" type="'+checked+'" class="switch-input" checked="true" >' +
                                 '<span data-on="On" data-off="Off" class="switch-label"></span>' +
                                 '<span class="switch-handle"></span>' +
-                                '</label> '+'<a class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1 fas fa-plus" href="#" onclick="verUserSystemsPefil('+data.idUser+')"data-toggle="modal" data-target="#modalAdminSystems"></a>';
+                                '</label> '+'<a class="btn btn-outline-primary btn-sm btn-rounded btn-custom fas fa-plus" href="#" onclick="verUserSystemsPefil('+data.idUser+')"data-toggle="modal" data-target="#modalAdminSystems"></a>';
                                 //'<a id="btnDeleteUser" title="Eliminar concepto" href="#" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></a>';
 
                         },
-                    },
-                    {
-                        data: "idUser",
-                        visible: false,
-                        searchable: false
-                    },
-
-                    {data: "user"}
+                    }
 
                 ],
                 fixedColumns: true,
@@ -315,7 +310,9 @@ $(document).ready(function () {
 
             $('#tableUsuarios tbody').off('click', '#btnUpdateUser').on('click', '#btnUpdateUser', function () {
                 var data = tableUsuarios.row(this.closest('tr')).data();
-                console.log(data);
+                if(data==undefined){
+                  data = tableUsuarios.row( this ).data();
+                }
                 $('#idUserUpdate').val(data.idUser);
                 $('#updateCorreoUsuario').val(data.user);
                 $('#updatePassUsuario').prop('disabled',true);
@@ -354,6 +351,9 @@ $(document).ready(function () {
 
             $('#tableUsuarios tbody').off('click', '#btnEnableUser').on('click', '#btnEnableUser', function () {
                 var data = tableUsuarios.row(this.closest('tr')).data();
+                if(data==undefined){
+                  data = tableUsuarios.row( this ).data();
+                }
                 var id = data.idUser;
 
                 alertify.confirm("¿Desea cambiar el estado ?",
@@ -482,9 +482,6 @@ $(document).ready(function () {
 function verUserSystemsPefil(idUser){
     enSistemaPerfil=$('.enSistemaPerfil').DataTable({
             destroy: true,
-            responsive: {
-                details: false
-            },
             ajax: {
                 url:'Usuarios/getSystemPerfil',
                 type:'POST',
@@ -496,7 +493,7 @@ function verUserSystemsPefil(idUser){
                 { data: "perfil"},
                 { data: null, render: function(data,type, full, meta)
                    {
-                     return "<a class='btn btn-primary fa fa-edit' onclick='editarPerfilSystem("+data.idsystem+","+data.idPerfil+","+idUser+")' href='#'></a>";
+                     return "<a class='btn btn-outline-primary btn-sm btn-rounded btn-custom fas fa-edit' onclick='editarPerfilSystem("+data.idsystem+","+data.idPerfil+","+idUser+")' href='#'></a>";
                    }
                 }
             ],
@@ -508,9 +505,6 @@ function verUserSystemsPefil(idUser){
 
     sinSistemaPerfil=$('.sinSistemaPerfil').DataTable({
             destroy: true,
-            responsive: {
-                details: false
-            },
             ajax: {
                 url:'Usuarios/getOutSystemPerfil',
                 type:'POST',
@@ -522,7 +516,7 @@ function verUserSystemsPefil(idUser){
                 { data: "idSystem", render: function(data)
                    {
                      console.log(data);
-                     return "<a class='btn btn-primary fa fa-edit' onclick='addPerfil("+data+","+idUser+")' href='#'></a>";
+                     return "<a class='btn btn-outline-primary btn-sm btn-rounded btn-custom fas fa-edit' onclick='addPerfil("+data+","+idUser+")' href='#'></a>";
                    }
                 }
             ],

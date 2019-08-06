@@ -28,8 +28,8 @@
                                     <thead>
                                         <tr>
                                             <th></th>
-                                            <th>Email</th>
                                             <th>Nombre</th>
+                                            <th>Email</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -50,8 +50,8 @@
       aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar usuario</h4>
+            <div class="card-header px-3 py-4" style="background-color: #142f5a !important;">
+                <h3 style="text-align: center; color: white;"><strong>EDITAR USUARIO</strong></h3>
             </div>
             <div class="modal-body mx-3">
 
@@ -111,15 +111,15 @@
 
 <!-- FIN MODAL AGREGAR XML -->
 <div class="modal fade" id="modalAdminSystems" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-      aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      aria-hidden="true" data-backdrop="static" data-keyboard="false" style="overflow-y: scroll;">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar usuario</h4>
+            <div class="card-header px-3 py-4" style="background-color: #142f5a !important;">
+                <h3 style="text-align: center; color: white;"><strong>EDITAR USUARIO</strong></h3>
             </div>
             <div class="modal-body mx-3">
-                <br><h3 class="text-center">Sistemas actuales </h3><br>
-                <table class="table table-striped table-bordered dt-responsive nowrap enSistemaPerfil" border="1">
+                <br><h3 class="text-center">SISTEMAS ACTUALES </h3><br>
+                <table class="table table-striped table-bordered dt-responsive nowrap enSistemaPerfil" border="1" style="width: 100%;">
                     <thead>
                         <tr>
                             <th>Sistema</th>
@@ -131,8 +131,8 @@
                         
                     </tbody>
                 </table>
-                 <br><br><h3 class="text-center">Sistemas por definir</h3><br>
-                <table class="table table-striped table-bordered dt-responsive nowrap sinSistemaPerfil" border="1">
+                 <br><br><h3 class="text-center">SISTEMAS POR DEFINIR</h3><br>
+                <table class="table table-striped table-bordered dt-responsive nowrap sinSistemaPerfil" border="1" style="width: 100%;">
                     <thead>
                         <tr>
                             <th>Sistema</th>
@@ -157,8 +157,8 @@
       aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar usuario</h4>
+            <div class="card-header px-3 py-4" style="background-color: #142f5a !important;">
+                <h3 style="text-align: center; color: white;"><strong>EDITAR USUARIO</strong></h3>
             </div>
             <div class="modal-body mx-3">
 
@@ -197,8 +197,8 @@
       aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar usuario</h4>
+            <div class="card-header px-3 py-4" style="background-color: #142f5a !important;">
+                <h3 style="text-align: center; color: white;"><strong>EDITAR USUARIO</strong></h3>
             </div>
             <div class="modal-body mx-3">
 
@@ -238,8 +238,8 @@
       aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar usuario</h4>
+            <div class="card-header px-3 py-4" style="background-color: #142f5a !important;">
+                <h3 style="text-align: center; color: white;"><strong>EDITAR USUARIO</strong></h3>
             </div>
             <div class="modal-body mx-3">
 
@@ -280,8 +280,8 @@
       aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar usuario</h4>
+            <div class="card-header px-3 py-4" style="background-color: #142f5a !important;">
+                <h3 style="text-align: center; color: white;"><strong>EDITAR USUARIO</strong></h3>
             </div>
             <div class="modal-body mx-3">
 
@@ -320,8 +320,8 @@
       aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div style=" background: linear-gradient(#00448e, #001933); color:white;" class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold" style="color: white;">Editar usuario</h4>
+            <div class="card-header px-3 py-4" style="background-color: #142f5a !important;">
+                <h3 style="text-align: center; color: white;"><strong>EDITAR USUARIO</strong></h3>
             </div>
             <div class="modal-body mx-3">
 

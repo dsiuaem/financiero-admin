@@ -41,6 +41,19 @@ Notes:	decreasing heading by 0.4em with every subsequent heading level
 /*-----------------------------------------------------*/
 /* ----- Normalize ----- */
 /* Customize the label (the container) */
+@media only screen and (max-width: 1024px) {.cambiar-orden{
+    display: none !important;
+    }}
+
+li {
+    list-style: none !important;
+}
+
+.modal-content {
+    border-top-left-radius: 1.25rem !important;
+    border-top-right-radius: 1.25rem !important;
+}
+
 .btn-rounded{
     border-radius: 60px !important;
 }
