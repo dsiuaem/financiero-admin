@@ -708,8 +708,13 @@ function nuevaPregunta(){
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
                 alertify.success("Registro exitoso");
-                $('.titulo').html('LISTADO DE PREGUNTAS FRECUENTES: '+sis.toUpperCase());
-                vistaPreguntas(1,dataInfo);
+                console.log(sis);
+                if(sis!=undefined){
+                  $('.titulo').html('LISTADO DE PREGUNTAS FRECUENTES: '+sis.toUpperCase());
+                  vistaPreguntas(1,dataInfo);
+                }else{
+                  redireccionarVista(2);
+                }
             } else {
                 alertify.error("Error al registrar aviso");
             }

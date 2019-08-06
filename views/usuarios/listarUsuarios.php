@@ -234,7 +234,7 @@
     </div>
 </div>
 <!-- FIN MODAL AGREGAR XML -->
-<div class="modal fade" id="modalAdminSystems" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<!-- <div class="modal fade" id="modalAdminSystems" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
       aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -274,9 +274,9 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
-<div class="modal fade" id="modalEditarPerfilUsuario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<!-- <div class="modal fade" id="modalEditarPerfilUsuario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
       aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -355,4 +355,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
