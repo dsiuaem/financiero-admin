@@ -24,6 +24,10 @@ $(document).ready(function () {
     });
 
     $('#editUserBtn').click(function(){
+        var form = $('#actualizacionUsuario');
+  	 	 	if(!form.valid()){
+          return false;
+  			}
         var texto = $('#actualizacionUsuario').serializeArray();
         var data = {};
         $(texto ).each(function(index, obj){
@@ -51,6 +55,7 @@ $(document).ready(function () {
                   if($('#checkboxPassword').val()==1){
                      $('#checkboxPassword').click();
                   }
+                  $('#actualizacionPerfil')[0].reset();
                }else{
                   alertify.error('Algo salio mal');
                }
@@ -89,14 +94,22 @@ $(document).ready(function () {
         }
     });
 
-    $('form[id="actualizacionUsuario"]').validate({
+    $("#actualizacionUsuario").validate({
         rules: {
-            updateCorreoUsuario: 'required',
-            updatePassUsuario: 'required'
+            email: 'required',
+            updatePassUsuario: 'required',
+            password_repeat: 'required',
+            password_repeat:{
+              equalTo: "#updatePassUsuario"
+            }
         },
         messages: {
-            updateCorreoUsuario: 'Falta ingresar un correo válido',
-            updatePassUsuario: 'Falta ingresar contraseña al usuario'
+            email: 'El campo correo es requerido',
+            updatePassUsuario: 'El campo contraseña es requerido',
+            password_repeat: {
+              equalTo: 'Contraseña incorrecta',
+              password: 'contraseña no valido'
+            }
         },
         submitHandler: function () {
         }

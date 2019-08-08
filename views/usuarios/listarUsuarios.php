@@ -60,12 +60,11 @@
                     <div class="row form-group">
                         <div class="col col-md-2"></div>
                         <div class="col-12 col-md-8">
-                            <label for="updateCorreoUsuario" class="form-control-label">Correo del usuario:</label>
+                            <label class="form-control-label">Correo del usuario:</label>
                             <input type="email" id="updateCorreoUsuario" name="email" class="form-control" required>
                         </div>
                         <div class="col col-md-2"></div>
                     </div>
-
 
                     <div class="row form-group">
                         <div class="col col-md-2"></div>
@@ -75,18 +74,21 @@
                                 <input id="checkboxPassword" type="checkbox" class="switch-input" value="0">
                                 <span data-on="On" data-off="Off" class="switch-label"></span>
                                 <span class="switch-handle"></span>
-                            </label> 
+                            </label>
                         </div>
                         <div class="col col-md-2"></div>
                     </div>
-        
-        
+
                     <div class="row form-group editarPassword" style="display: none">
                         <div class="col col-md-2"></div>
                         <div class="col-12 col-md-8">
-                            <label for="updatePassUsuario" class="form-control-label">Contraseña:</label>
-                            <input type="password" id="updatePassUsuario" name="password" class="form-control">
-                            <label for="updatePassUsuario" class="form-control-label" disabled>Repetir contraseña:</label>
+                            <label class="form-control-label">Contraseña:</label>
+                            <input type="password" id="updatePassUsuario" name="updatePassUsuario" class="form-control">
+                        </div>
+                        <div class="col col-md-2"></div>
+                        <div class="col col-md-2"></div>
+                        <div class="col-12 col-md-8">
+                            <label class="form-control-label">Confirmar contraseña:</label>
                             <input type="password" id="password_repeat" name="password_repeat" class="form-control">
                         </div>
                         <div class="col col-md-2"></div>
@@ -128,7 +130,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+
                     </tbody>
                 </table>
                  <br><br><h3 class="text-center">SISTEMAS POR DEFINIR</h3><br>
@@ -140,7 +142,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+
                     </tbody>
                 </table>
                 <div class="modal-footer">
@@ -170,7 +172,7 @@
                         <div class="col-12 col-md-8">
                             <label class="form-control-label">Selecciona una perfil:</label>
                             <select class="form-control perfilEditSelect" id="perfilEditSelect" name="perfil">
-                                
+
                             </select>
                         </div>
                         <div class="col col-md-2"></div>
@@ -210,7 +212,7 @@
                         <div class="col-12 col-md-8">
                             <label class="form-control-label">Selecciona una perfil:</label>
                             <select class="form-control perfilAddSelect" id="perfilAddSelect" name="perfil">
-                                
+
                             </select>
                         </div>
                         <div class="col col-md-2"></div>
@@ -252,7 +254,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+
                     </tbody>
                 </table>
                 <table class="table table-striped table-bordered dt-responsive nowrap sinSistemaPerfil" border="1">
@@ -263,7 +265,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+
                     </tbody>
                 </table>
                 <div class="modal-footer">
@@ -293,7 +295,7 @@
                         <div class="col-12 col-md-8">
                             <label class="form-control-label">Selecciona una perfil:</label>
                             <select class="form-control perfilEditSelect" id="perfilEditSelect" name="perfil">
-                                
+
                             </select>
                         </div>
                         <div class="col col-md-2"></div>
@@ -333,7 +335,7 @@
                         <div class="col-12 col-md-8">
                             <label class="form-control-label">Selecciona una perfil:</label>
                             <select class="form-control perfilAddSelect" id="perfilAddSelect" name="perfil">
-                                
+
                             </select>
                         </div>
                         <div class="col col-md-2"></div>
