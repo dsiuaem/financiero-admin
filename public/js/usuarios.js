@@ -9,7 +9,7 @@ $(document).ready(function () {
   alertify.set('notifier', 'position', 'top-right');
   redireccionarVista(3);
     $('#checkboxPassword').click(function() {
-        // this will contain a reference to the checkbox   
+        // this will contain a reference to the checkbox
         if (this.checked) {
             $('.editarPassword').show();
             $('#updatePassUsuario').prop('disabled',false);
@@ -494,7 +494,6 @@ function verUserSystemsPefil(idUser){
                 { data: "name"},
                 { data: "idSystem", render: function(data)
                    {
-                     console.log(data);
                      return "<a class='btn btn-outline-primary btn-sm btn-rounded btn-custom fas fa-edit' onclick='addPerfil("+data+","+idUser+")' href='#'></a>";
                    }
                 }
@@ -508,11 +507,11 @@ function verUserSystemsPefil(idUser){
 }
 
 function addPerfil(id_system,idUser){
-    resetearSelect($('#perfilAddSelect'));
     $('#idUserP').val(idUser);
     $('#idSystemAdd').val(id_system);
     $('#modalSelectPerfil').modal('show');
-    
+    //resetearSelect($('#perfilAddSelect'));
+    $('#perfilAddSelect').empty();
     $.ajax({
         url: 'Perfiles/perfilesListSelect',
         type: 'POST',
@@ -522,12 +521,11 @@ function addPerfil(id_system,idUser){
             var respuesta=jQuery.parseJSON(response);
             if(respuesta.respuesta==200){
                 var perfiles=jQuery.parseJSON(respuesta.perfilesDTO);
-                var select=$('.perfilAddSelect');
                 $.each(perfiles,function(e,i){
                     console.log(i);
-                    select.append($('<option/>').val(i.idPerfil).text(i.perfil));
+                    var option = new Option(i.perfil, i.idPerfil, true, true);
+                    $("#perfilAddSelect").append(option).trigger('change');
                 });
-                select.select2();
             }else{
                 alertify.error('Algo salio mal');
             }
@@ -644,7 +642,7 @@ function cleanAgregarUser(){
     $('#registroUsuarios')[0].reset();
     //getEmpleados();
 }
- 
+
 function cleanAsignarPerfiles(){
    resetearSelect($('select[name=systemNameAsignarPerfil]'));
    resetearSelect($('#perfilUser'));
