@@ -11,8 +11,13 @@ class MenuUsuario extends Model{
     public $respuesta;
 
     function permisosMenuSistema($idUser){
-        $this->consultaService($idUser);
-        return $this->menuList;
+        // $this->consultaService($idUser);
+        // return $this->menuList;
+        if (!isset($_SESSION["menuAdmin"])) {
+          $this->consultaService($idUser);
+          $_SESSION["menuAdmin"]=$this->menuList;
+        }
+        return $_SESSION["menuAdmin"];
     }
 
     public function consultaService($idUser){
