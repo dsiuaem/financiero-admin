@@ -47,7 +47,7 @@ $(document).ready(function () {
             success: function (response) {
                var respuesta = jQuery.parseJSON(response);
                if(respuesta.respuesta==200){
-                  tableUsuarios.ajax.reload();
+                  tableUsuarios.ajax.reload(null,false);
                   alertify.success('Usuario modificado');
                   $('#modalEditarUsuario').modal('hide');
                   $('#updatePassUsuario').val('');
@@ -230,123 +230,9 @@ $(document).ready(function () {
     });
 
     $('#systemNameListarUsuarios').change(function(){
-         var id_system = $('select[name=systemNameListarUsuarios]').val();
         $('.listaUsuarios').hide();
-        if (id_system != "") {
-            $('.listaUsuarios').show();
-            // $.ajax({
-            //   url: "Usuarios/usersListTable",
-            //   type: 'POST',
-            //   data: ({id: id_system}),
-            //   success: function (response) {
-            //     var obj = jQuery.parseJSON(response);
-            //     console.log(obj);
-            //   }
-            // });
-            tableUsuarios = $('#tableUsuarios').DataTable({
-                destroy: true,
-                ajax: {
-                    url: 'Usuarios/usersListTable',
-                    type: 'POST',
-                    data: ({id: id_system}),
-                    dataSrc: "",
-                },
-                columns: [
-                    {
-                        data: "idUser",
-                        visible: false,
-                        searchable: false
-                    },
-                    {
-                     data: null,
-                     render: function (data, type, full, meta) {
-                       return data.nombre+" "+data.apPaterno+" "+data.apMaterno;
-                     }
-                   },
-                    {data: "user"},
-                    {
-                        data: null,
-                        render: function (data, type, full, meta) {
-                            var estado;
-                            data.enable==1?estado='checked':estado='';
-                            var botones='<a id="btnUpdateUser" data-toggle="modal" data-target="#modalEditarUsuario" href="" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-2"><i class="fas fa-edit"></i></a> ';
-                                if(id_system!=0){
-                                    botones=botones+' <label class="switch switch-text switch-success switch-pill">' + '<input id="btnEnableUser" type="checkbox" class="switch-input" '+estado+'>' +
-                                    '<span data-on="On" data-off="Off" class="switch-label"></span>' +
-                                    '<span class="switch-handle"></span>';
-                                }
-                                botones =botones+' </label> '+'<a class="btn btn-outline-primary btn-sm btn-rounded btn-custom ml-2 fas fa-plus" href="#" onclick="verUserSystemsPefil('+data.idUser+')"data-toggle="modal" data-target="#modalAdminSystems"></a>';
-                                //'<a id="btnDeleteUser" title="Eliminar concepto" href="#" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></a>';
-                                return botones;
-                        },
-                    }
-                ],
-                language: {
-                    "url": "public/plugins/DataTables/Spanish.json",
-                }
-            });
-
-            $('#tableUsuarios tbody').off('click', '#btnUpdateUser').on('click', '#btnUpdateUser', function () {
-                var data = tableUsuarios.row(this.closest('tr')).data();
-                if(data==undefined){
-                  data = tableUsuarios.row( this ).data();
-                }
-                $('#idUserUpdate').val(data.idUser);
-                $('#updateCorreoUsuario').val(data.user);
-                $('#updatePassUsuario').prop('disabled',true);
-                $('#password_repeat').prop('disabled',true);
-                //var idPerfilActual=data.idUser;
-                //console.log(data.idUser);
-                //var idPerfilActual = getUserPerfil(data.idUser,id_system);
-                //$('.actualIdPerfil').val(idPerfilActual);
-                //return false;
-                // $.ajax({
-                //   url: 'Perfiles/perfilesListSelect',
-                //   type: 'POST',
-                //   async:false,
-                //   data: ({data: id_system}),
-                //   success: function (response) {
-                //     var respuesta=jQuery.parseJSON(response);
-                //     if(respuesta.respuesta==200){
-                //       var perfiles=jQuery.parseJSON(respuesta.perfilesDTO);
-                //       var select=$('.perfilesEditSelect');
-                //       select.empty();
-                //       $.each(perfiles,function(e,i){
-                //         //console.log(i);
-                //         select.append($('<option/>').val(i.idPerfil).text(i.perfil));
-                //       });
-                //
-                //       select.val(idPerfilActual);
-                //       select.select2();
-                //     }else{
-                //       alertify.error('Algo salio mal');
-                //     }
-                //   },
-                //   error: function () {
-                //     alert("Error al obtener el servicio para cargar la lista");
-                //   }
-                // });
-
-            });
-
-            $('#tableUsuarios tbody').off('click', '#btnEnableUser').on('click', '#btnEnableUser', function () {
-                var data = tableUsuarios.row(this.closest('tr')).data();
-                if(data==undefined){
-                  data = tableUsuarios.row( this ).data();
-                }
-                var id = data.idUser;
-
-                alertify.confirm("¿Desea cambiar el estado ?",
-                    function(){
-                      cabiarEstado(id,id_system,data.enable);
-                    },
-                    function(){
-                     //alertify.error('Acción cancelada');
-                     tableUsuarios.ajax.reload(null,false);
-                    }
-                );
-
-            });
+        if ( this.value != "") {
+            tablaUsuarios(this.value);
         }
     });
 
@@ -411,17 +297,20 @@ $(document).ready(function () {
             data[obj.name] = obj.value;
             }
         });
+        console.log(data);
+        //return false;
 
         $.ajax({
             url: 'Usuarios/changePerfil',
             type: 'POST',
             async:false,
-            data: ({data:data}),
+            data: ({data:data, actualIdPerfiles: arrayPerfilesActuales, sistemas: sistemaSeleccionado}),
             success: function (response) {
                var respuesta= jQuery.parseJSON(response);
                if(respuesta.respuesta==200){
                   alertify.success("Perfil modificado");
-                  enSistemaPerfil.ajax.reload();
+                  enSistemaPerfil.ajax.reload(null,false);
+                  tableUsuarios.ajax.reload(null,false);
                   resetearSelect($('.perfilEditSelect'));
                   $('#actualizacionPerfil')[0].reset();
                   $('#modalEditarPerfilUsuario').modal('hide');
@@ -441,18 +330,28 @@ $(document).ready(function () {
         data[0] = $('#idUserP').val();
 
         var id_system = $('#idSystemAdd').val();
-        var id_perfil = $('#perfilAddSelect').val();
+        var id_perfil = $('.perfilAddSelect').val();
+        var form=$('#agregarPerfil').serializeArray();;
+        $(form).each(function (index, obj) {
+            if (data[obj.name] != undefined) {
+                data[obj.name] += "," + obj.value;
+            } else {
+                data[obj.name] = obj.value;
+            }
+        });
+        console.log(data);
+        // return false;
         if(id_perfil!=""){
             $.ajax({
                 url: 'Usuarios/registrarPerfil',
                 type: 'POST',
-                data: ({datos: data, id_system: id_system, id_perfil: id_perfil}),
+                data: ({datos: data, id_system: id_system}),
                 success: function (response) {
                     console.log(response);
                     var obj = jQuery.parseJSON(response);
                     if (obj.respuesta == 200) {
-                        enSistemaPerfil.ajax.reload();
-                        sinSistemaPerfil.ajax.reload();
+                        enSistemaPerfil.ajax.reload(null,false);
+                        sinSistemaPerfil.ajax.reload(null,false);
                         $('#modalSelectPerfil').modal('hide');
                         alertify.success("Perfil asignado exitosamente");
                         return false;
@@ -469,10 +368,126 @@ $(document).ready(function () {
         }
     });
 
+    $(".btn_cancel").click(function(e) {
+      tablaUsuarios.ajax.reload(null,false);
+    });
 
 });
 
+function tablaUsuarios(id_system){
+  $('.listaUsuarios').show();
+  // $.ajax({
+  //   url: "Usuarios/usersListTable",
+  //   type: 'POST',
+  //   data: ({id: id_system}),
+  //   success: function (response) {
+  //     var obj = jQuery.parseJSON(response);
+  //     console.log(obj);
+  //   }
+  // });
+  tableUsuarios = $('#tableUsuarios').DataTable({
+      destroy: true,
+      ajax: {
+          url: 'Usuarios/usersListTable',
+          type: 'POST',
+          data: ({id: id_system}),
+          dataSrc: "",
+      },
+      columns: [
+          {
+              data: "idUser"
+          },
+          {
+           data: null,
+           render: function (data, type, full, meta) {
+             if(data.nombre == null){
+               return "<lable style='color:blue;'>Usuario no registrado</label>";
+             }else{
+               return data.nombre+" "+data.apPaterno+" "+data.apMaterno;
+             }
+           }
+         },
+          {data: "user"},
+          {
+              data: null,
+              render: function (data, type, full, meta) {
+                if(data.Sistemas == null){
+                  return "<lable style='color:blue;'>Sin sistema</label>";
+                }else{
+                  return data.Sistemas;
+                }
+              }
+          },
+          {
+              data: null,
+              render: function (data, type, full, meta) {
+                  var estado;
+                  data.enable==1?estado='checked':estado='';
+                  var botones='<a id="btnUpdateUser" data-toggle="modal" data-target="#modalEditarUsuario" href="" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-2"><i class="fas fa-edit"></i></a> ';
+                      if(id_system!=0){
+                          botones=botones+' <label class="switch switch-text switch-success switch-pill">' + '<input id="btnEnableUser" type="checkbox" class="switch-input" '+estado+'>' +
+                          '<span data-on="On" data-off="Off" class="switch-label"></span>' +
+                          '<span class="switch-handle"></span>';
+                      }
+                      botones =botones+' </label> '+'<a class="btn btn-outline-primary btn-sm btn-rounded btn-custom ml-2 fas fa-plus" href="#" onclick="verUserSystemsPefil('+data.idUser+')"data-toggle="modal" data-target="#modalAdminSystems"></a>';
+                      //'<a id="btnDeleteUser" title="Eliminar concepto" href="#" class="btn btn-danger btn-sm buttonDt btn-elimina"><i class="fa fa-trash"></i></a>';
+                      return botones;
+              },
+          }
+      ],
+      language: {
+          "url": "public/plugins/DataTables/Spanish.json",
+      }
+  });
+
+  $('#tableUsuarios tbody').off('click', '#btnUpdateUser').on('click', '#btnUpdateUser', function () {
+      var data = tableUsuarios.row(this.closest('tr')).data();
+      if(data==undefined){
+        data = tableUsuarios.row( this ).data();
+      }
+      $('#idUserUpdate').val(data.idUser);
+      $('#updateCorreoUsuario').val(data.user);
+      $('#updatePassUsuario').prop('disabled',true);
+      $('#password_repeat').prop('disabled',true);
+  });
+
+  $('#tableUsuarios tbody').off('click', '#btnEnableUser').on('click', '#btnEnableUser', function () {
+      var data = tableUsuarios.row(this.closest('tr')).data();
+      if(data==undefined){
+        data = tableUsuarios.row( this ).data();
+      }
+      var id = data.idUser;
+
+      alertify.confirm("¿Desea cambiar el estado ?",
+          function(){
+            cambiarEstado(id,id_system,data.enable);
+          },
+          function(){
+           //alertify.error('Acción cancelada');
+           tableUsuarios.ajax.reload(null,false);
+          }
+      );
+
+  });
+}
+
+var perfilesActuales = [];
 function verUserSystemsPefil(idUser){
+    $.ajax({
+      url: "Usuarios/getSystemPerfil",
+      type: 'POST',
+      data: {idUser},
+      success: function (response) {
+        var obj = jQuery.parseJSON(response);
+        if(obj!=null){
+          perfilesActuales = [];
+          $.each(obj, function(e,i){
+            perfilesActuales.push(i.idPerfil);
+          });
+        }
+      }
+    });
+
     enSistemaPerfil=$('.enSistemaPerfil').DataTable({
             destroy: true,
             ajax: {
@@ -534,11 +549,14 @@ function addPerfil(id_system,idUser){
             var respuesta=jQuery.parseJSON(response);
             if(respuesta.respuesta==200){
                 var perfiles=jQuery.parseJSON(respuesta.perfilesDTO);
+                var permisos = "";
+                $('.listaPerfiles').empty();
+                permisos = permisos = "<div class='col-md-12' align='center'><label for='description' class='form-control-label'><h3>Perfiles</h3></label>";
                 $.each(perfiles,function(e,i){
-                    console.log(i);
-                    var option = new Option(i.perfil, i.idPerfil, true, true);
-                    $("#perfilAddSelect").append(option).trigger('change');
+                    permisos = permisos + "<label class='container paddingCheck'>"+ i.perfil +"<input type='checkbox' name='perfilAddSelect' class='perfilAddSelect' value='"+i.idPerfil+"'><span class='checkmarkPermisos'></span></label>";
                 });
+                permisos = permisos + "</div>";
+                $('.listaPerfiles').append(permisos);
             }else{
                 alertify.error('Algo salio mal');
             }
@@ -549,12 +567,11 @@ function addPerfil(id_system,idUser){
     });
 }
 
-
+var arrayPerfilesActuales = [];
+var sistemaSeleccionado;
 function editarPerfilSystem(id_system,idPerfil,idUser){
     $('#modalEditarPerfilUsuario').modal('show');
     $('#idUserPerfil').val(idUser);
-    $('.actualIdPerfilEdit').val(idPerfil);
-    idPerfilActual=getUserPerfil(idUser,id_system);
     resetearSelect($('.perfilEditSelect'));
     $.ajax({
         url: 'Perfiles/perfilesListSelect',
@@ -562,21 +579,29 @@ function editarPerfilSystem(id_system,idPerfil,idUser){
         async:false,
         data: ({data: id_system}),
         success: function (response) {
-            var respuesta=jQuery.parseJSON(response);
-            if(respuesta.respuesta==200){
-                var perfiles=jQuery.parseJSON(respuesta.perfilesDTO);
-                var select=$('.perfilEditSelect');
-                select.empty();
-                $.each(perfiles,function(e,i){
-                    console.log(i);
-                    select.append($('<option/>').val(i.idPerfil).text(i.perfil));
-                });
-
-                select.val(idPerfilActual);
-                select.select2();
-            }else{
-                alertify.error('Algo salio mal');
-            }
+          var respuesta=jQuery.parseJSON(response);
+          console.log(respuesta);
+          if(respuesta.respuesta==200){
+              var perfiles=jQuery.parseJSON(respuesta.perfilesDTO);
+              var permisos = "";
+              arrayPerfilesActuales = [];
+              sistemaSeleccionado = 0;
+              $('.listaEditarPerfiles').empty();
+              permisos = permisos = "<div class='col-md-12' align='center'><label for='description' class='form-control-label'><h3>Perfiles Actuales</h3></label>";
+              $.each(perfiles,function(e,i){
+                if(sistemaSeleccionado ==0 ) sistemaSeleccionado = i.idSystem;
+                  if(perfilesActuales.includes(i.idPerfil)){
+                    permisos = permisos + "<label class='container paddingCheck'>"+ i.perfil +"<input type='checkbox' name='perfilAddSelect' class='perfilAddSelect' value='"+i.idPerfil+"' checked><span class='checkmarkPermisos'></span></label>";
+                    arrayPerfilesActuales.push(i.idPerfil);
+                  }else{
+                    permisos = permisos + "<label class='container paddingCheck'>"+ i.perfil +"<input type='checkbox' name='perfilAddSelect' class='perfilAddSelect' value='"+i.idPerfil+"'><span class='checkmarkPermisos'></span></label>";
+                  }
+              });
+              permisos = permisos + "</div>";
+              $('.listaEditarPerfiles').append(permisos);
+          }else{
+              alertify.error('Algo salio mal');
+          }
         },
         error: function () {
             alert("Error al obtener el servicio para cargar la lista");
@@ -664,21 +689,18 @@ function cleanAsignarPerfiles(){
 }
 
 function cleanListarUsuarios(){
-   // resetearSelect($('select[name=systemNameListarUsuarios]'));
-   // $('.listaUsuarios').hide();
-   // showSystemsListarUsuarios();
-   resetearSelect($('select[name=systemNameListarUsuarios]'));
-  $('select[name=systemNameListarUsuarios]').append($("<option />").val(0).text("Todos los empleados"));
+  $('#systemNameListarUsuarios').empty();
+  $('#systemNameListarUsuarios').append($("<option />").val(0).text("Todos los empleados"));
+  $('#systemNameListarUsuarios').append($("<option />").val(-1).text("Sin sistema"));
   $('.listaUsuarios').hide();
   showSystemsListarUsuarios();
-   //$('select[name=systemNameListarUsuarios]').val('').trigger('change');
+  tablaUsuarios(0);
 }
 
 function resetearSelect(select){
      select.empty();
      select.append($('<option>', { value : '' , text: 'Selecciona una opción' }));
      select.select2();
-     //select.val(null).trigger('change')
 }
 
 
@@ -781,7 +803,7 @@ function estadoSwitch(id_user, estado) {
             var obj = jQuery.parseJSON(response);
             if (obj.respuesta == 200) {
                 //Función para recargar tabla
-                tableUsuarios.ajax.reload();
+                tableUsuarios.ajax.reload(null,false);
                 return false;
             } else {
                 alertify.error("Error en la acción");
@@ -862,8 +884,8 @@ function saveAsignarperfil() {
 
                 var obj = jQuery.parseJSON(response);
                 if (obj.respuesta == 200) {
-                    tableListadoAsignacionPerfiles.ajax.reload();
-                    tableListadoAsignacionPerfilesExistentes.ajax.reload();
+                    tableListadoAsignacionPerfiles.ajax.reload(null,false);
+                    tableListadoAsignacionPerfilesExistentes.ajax.reload(null,false);
                     alertify.success("Perfiles asignados exitosamente");
                     return false;
                 } else {
@@ -936,7 +958,7 @@ function getUserPerfil(idUser,idSystem){
     return idPerfil;
 }
 
-function cabiarEstado(idUser,idSystem,estado){
+function cambiarEstado(idUser,idSystem,estado){
    $.ajax({
         url: 'Usuarios/cambiarEstado',
         type: 'POST',
@@ -946,7 +968,7 @@ function cabiarEstado(idUser,idSystem,estado){
             var respuesta=jQuery.parseJSON(response);
             if(respuesta.respuesta==200){
                 alertify.success('Usuario desactivado');
-                tableUsuarios.ajax.reload();
+                tableUsuarios.ajax.reload(null,false);
             }else{
                 alertify.error('Algo salio mal');
             }

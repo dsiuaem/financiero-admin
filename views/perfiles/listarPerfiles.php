@@ -25,8 +25,9 @@
                                      cellspacing="0">
                                   <thead>
                                           <tr>
-                                              <th></th>
+                                              <th>ID</th>
                                               <th>Perfiles registrados</th>
+                                              <th>Usuarios con perfil</th>
                                               <th>Acciones</th>
                                           </tr>
                                   </thead>
@@ -45,6 +46,7 @@
           </div>
       </div>
   </div>
+
 <!-- MODAL AGREGAR XML -->
 <div class="modal fade" id="modalEditarPerfil" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      style="z-index: 1300;" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -83,3 +85,32 @@
     </div>
 </div>
 <!-- FIN MODAL AGREGAR XML -->
+
+<div class="modal fade" id="modaltableUsuarios" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true" data-backdrop="static" data-keyboard="false" style="overflow-y: scroll;">
+        <div class="modal-dialog modal-lg" style="max-width: 75%!important;" role="document">
+            <div class="modal-content">
+              <div class="card-header px-3 py-4" style="background-color: #142f5a !important;">
+                  <h3 style="text-align: center; color: white;"><strong>LISTA DE USUARIOS</strong></h3>
+              </div>
+              <div class="modal-body mx-3">
+                <table class="table table-striped table-bordered dt-responsive nowrap" id="tableUsuarios" border="1" style="width: 100%;">
+                  <thead>
+                      <tr>
+                          <th>ID</th>
+                          <th>Nombre</th>
+                          <th>Email</th>
+                          <th>Sistema</th>
+                          <th>Estatus</th>
+                      </tr>
+                  </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger">
+                    <i class="fas fa-times-circle"></i> Cancelar
+                </button>
+            </div>
+        </div>
+      </div>
+</div>

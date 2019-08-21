@@ -24,7 +24,7 @@
                                        cellspacing="0">
                                     <thead>
                                         <tr>
-                                          <th></th>
+                                          <th>ID</th>
                                           <th>Módulos registrados</th>
                                           <th>Descripción</th>
                                           <th>Módulo del menú</th>

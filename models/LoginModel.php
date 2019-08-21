@@ -19,6 +19,7 @@ class LoginModel extends Model
         $ch = curl_init();
         $jwt = new JWT();
         $data = $jwt->TokenJWT($this);
+        //var_dump($data);
         // define options
         $optArray = array(
 

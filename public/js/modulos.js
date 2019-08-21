@@ -54,11 +54,7 @@ $(document).ready(function () {
                   dataSrc: "",
               },
               columns: [
-                  {
-                      data: "idModule",
-                      visible: false,
-                      searchable: false
-                  },
+                  {data: "idModule"},
                   {data: "name"},
                   {data: "description"},
                   {data: "moduleMenu"},

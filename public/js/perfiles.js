@@ -33,16 +33,14 @@ $(document).ready(function () {
                     dataSrc: "",
                 },
                 columns: [
-                    {
-                        data: "idPerfil",
-                        visible: false,
-                        searchable: false
-                    },
+                    {data: "idPerfil"},
                     {data: "perfil"},
+                    {data: "usuarioConPerfil"},
                     {
                         data: null,
                         render: function (data, type, row) {
                             return '<button id="btnUpdatePerfil" data-toggle="modal" onclick="editarPerfil('+data.idPerfil+',\''+data.perfil+'\')" data-target="#modalEditarPerfil" class="btn btn-outline-primary btn-sm btn-rounded btn-custom mr-1 buttonDt"><i class="fas fa-edit"></i></button>'+
+                             ' <button id="btnUsuariosConPerfil" class="btn btn-outline-info btn-sm btn-rounded btn-custom"><i class="fas fa-search"></i></button>'+
                              ' <button id="btnDeletePerfil" class="btn btn-outline-danger btn-sm btn-rounded btn-custom"><i class="fas fa-trash-alt"></i></button>';
                         }
                     }
@@ -74,6 +72,17 @@ $(document).ready(function () {
                 });
 
             });
+
+            $('#tableListadoPerfiles tbody').off('click', '#btnUsuariosConPerfil').on('click', '#btnUsuariosConPerfil', function () {
+                var data = tableListadoPerfiles.row(this.closest('tr')).data();
+                if(data==undefined){
+                  data = tableListadoPerfiles.row( this ).data();
+                }
+                console.log(data);
+                tablaUsuarios(data.idSystem,data.idPerfil);
+                $('#modaltableUsuarios').modal('show');
+            });
+
 
         }
     });
@@ -437,4 +446,53 @@ function deletePerfil(idPerfil){
             alert("Error al obtener el servicio para cargar el contenido de los sistemas");
         }
     });
+}
+
+function tablaUsuarios(id_system,idPerfil){
+  // $.ajax({
+  //   url: "Usuarios/usersListTable",
+  //   type: 'POST',
+  //   data: ({id: id_system,perfil:idPerfil}),
+  //   success: function (response) {
+  //     var obj = jQuery.parseJSON(response);
+  //     console.log(obj);
+  //   }
+  // });
+  tableUsuarios = $('#tableUsuarios').DataTable({
+      destroy: true,
+      ajax: {
+          url: 'Usuarios/usersListTable',
+          type: 'POST',
+          data: ({id: id_system,perfil:idPerfil}),
+          dataSrc: "",
+      },
+      columns: [
+          {data: "idUser"},
+          {
+               data: null,
+               render: function (data, type, full, meta) {
+                 if(data.nombre == null){
+                   return "<label style='color:blue;'>Usuario no registrado</label>";
+                 }else{
+                   return data.nombre+" "+data.apPaterno+" "+data.apMaterno;
+                 }
+               }
+          },
+          {data: "user"},
+          {data: "Sistemas"},
+          {
+              data: null,
+              render: function (data, type, full, meta) {
+                if(data.Activo == "0" ){
+                  return "<label style='color:blue;'>Inactivo</label>";
+                }else{
+                  return "Activo";
+                }
+              }
+          }
+      ],
+      language: {
+          "url": "public/plugins/DataTables/Spanish.json",
+      }
+  });
 }

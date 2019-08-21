@@ -51,12 +51,12 @@ class LoginController extends Controller{
                         $this->view->render('login/index');
                     }
                 } else {
-                    $this->view->errorLogin = "Usuario incorrecto";
+                    $this->view->errorLogin = "<label style='color:red;'>Usuario incorrecto</label>";
                     $this->view->render('login/index');
                 }
                 return false;
             } else {
-                $this->view->errorLogin = "Usuario incorrecto";
+                $this->view->errorLogin = "<label style='color:red;'>Usuario incorrecto</label>";
             }
 
         }
@@ -74,6 +74,7 @@ class LoginController extends Controller{
 
             unset ($_SESSION["usuarioADMIN"]);
             unset ($_SESSION["idUsuarioADMIN"]);
+            session_destroy();
 
             $this->setPermisos(NULL);
             $this->view->render('login/index');

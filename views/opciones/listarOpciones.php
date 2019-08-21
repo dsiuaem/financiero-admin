@@ -44,7 +44,7 @@
                                        cellspacing="0">
                                     <thead>
                                     <tr>
-                                        <th></th>
+                                        <th>ID</th>
                                         <th>Opciones registradas</th>
                                         <th>Descripción</th>
                                         <th>Orden</th>

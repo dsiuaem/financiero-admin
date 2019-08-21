@@ -39,6 +39,8 @@ class UsuariosController extends Controller
         if($_POST['datos']['confirmarCorreo'] != ""){
           $registrarUsuariosDTO->user = $_POST['datos']['userNameR'];
           $registrarUsuariosDTO->email = $_POST['datos']['confirmarCorreo'];
+        }else{
+          $registrarUsuariosDTO->user = $_POST['datos']['userName'];
         }
         $registrarUsuariosDTO->ip = $this->getIP();
         $registrarUsuariosDTO->password = $_POST['datos']['userPass'];
@@ -66,14 +68,12 @@ class UsuariosController extends Controller
     {
         $asignarPerfilesDTO = new UsuariosDTO;
         $asignarPerfilesDTO->idSystem = $_POST["id"];
-        //echo $_POST['data'];
-        //exit;
+        $asignarPerfilesDTO->idPerfil = $_POST["perfil"]??0;
         $this->model->getUsuariosTableDTO = $asignarPerfilesDTO;
         //Recupera los datos del servicio web
         $this->model->obtenerUsuariosPerfilesTable();
         //Retornar el modelo con los datos recuperados del servicio web y la Respuesta de exito o error
         //echo json_encode($this->model);
-        //Para tablas según -_-
         echo $this->model->usuariosDTO;
     }
 
@@ -113,9 +113,9 @@ class UsuariosController extends Controller
     {
         //Pasar los datos del formulario al DTO
         $registrarPerfilesUsuariosDTO = new UsuariosDTO;
-        $registrarPerfilesUsuariosDTO->contenidoPerfiles = $_POST['datos'];
+        $registrarPerfilesUsuariosDTO->contenidoPerfiles = $_POST['datos']['idUserP'];
         $registrarPerfilesUsuariosDTO->idSystem = $_POST['id_system'];
-        $registrarPerfilesUsuariosDTO->idPerfil = $_POST['id_perfil'];
+        $registrarPerfilesUsuariosDTO->idPerfil = $_POST['datos']['perfilAddSelect'];
         $this->model->asignarPerfilDTO = $registrarPerfilesUsuariosDTO;
         //Recupera los datos del servicio web
 
@@ -128,11 +128,10 @@ class UsuariosController extends Controller
     {
         //Pasar los datos del formulario al DTO
         $usuarioDTO = new UsuariosDTO;
-        //var_dump($_POST);die();
-        $usuarioDTO->idUser = $_POST['data']['idUser'];
-        $usuarioDTO->email = $_POST['data']['email'];
+        $usuarioDTO->idUser = $_POST['data']['idUserUpdate'];
+        $usuarioDTO->email = $_POST['data']['updateCorreoUsuario'];
         $usuarioDTO->ip = $this->getIP();
-        isset($_POST['data']['password'])?$usuarioDTO->password=$_POST['data']['password']:$usuarioDTO->password=null;
+        isset($_POST['data']['password_repeat'])?$usuarioDTO->password=$_POST['data']['password_repeat']:$usuarioDTO->password=null;
         $this->model->asignarPerfilDTO = $usuarioDTO;
         //Recupera los datos del servicio web
 
@@ -244,8 +243,9 @@ class UsuariosController extends Controller
         $usuarioDTO = new UsuariosDTO;
         //var_dump($_POST);die();
         $usuarioDTO->idUser = $_POST['data']['idUser'];
-        $usuarioDTO->idPerfil = $_POST['data']['perfil'];
-        $usuarioDTO->actualIdPerfil=$_POST['data']['actualIdPerfil'];
+        $usuarioDTO->idPerfil = $_POST['data']['perfilAddSelect']??0;
+        $usuarioDTO->actualIdPerfil = $_POST['actualIdPerfiles'];
+        $usuarioDTO->idSystem = $_POST['sistemas'];
         $this->model->empleado = $usuarioDTO;
         //Recupera los datos del servicio web
         $this->model->editPerfilUser();

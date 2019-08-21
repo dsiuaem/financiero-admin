@@ -111,11 +111,7 @@ $(document).ready(function () {
                 }
             ],
             columns: [
-            {
-                data: "idSubModule",
-                visible: false,
-                searchable: false
-            },
+            {data: "idSubModule"},
             {data: "name"},
             {data: "controller"},
             {data: "order"},

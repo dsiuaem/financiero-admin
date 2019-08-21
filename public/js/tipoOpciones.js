@@ -177,10 +177,7 @@ $(document).ready(function () {
                     }
                 ],
                 columns: [
-                  {
-                      data: "idTipoOption",
-                      visible: false
-                  },
+                  {data: "idTipoOption"},
                   {data: "name"},
                   {data: "tipo"},
                   {data: "order"},

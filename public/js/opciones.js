@@ -145,11 +145,7 @@ $(document).ready(function () {
                     }
                 ],
                 columns: [
-                  {
-                      data: "idModuleOption",
-                      visible: false,
-                      searchable: false
-                  },
+                  {data: "idModuleOption"},
                   {data: "name"},
                   {data: "description"},
                   {data: "order"},

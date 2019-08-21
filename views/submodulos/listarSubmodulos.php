@@ -32,6 +32,7 @@
                                    cellspacing="0">
                                 <thead>
                                   <tr>
+                                      <th>ID</th>
                                       <th>Editar</th>
                                       <th>Submódulos registrados</th>
                                       <th>Controlador</th>
