@@ -101,7 +101,7 @@ function systemsTable() {
         columns: [
             {
                 data: "idSystem",
-                visible: false
+                visible: true
             },
             {
                 data: "name"

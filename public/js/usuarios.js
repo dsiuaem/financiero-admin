@@ -248,8 +248,8 @@ $(document).ready(function () {
             success: function (response) {
                 if(response.respuesta==200){
                     var empleado=jQuery.parseJSON(response.empleadoList);
-                    $('#userNameR').val(empleado.email);
-                    $('#userName').val(empleado.email);
+                    $('#userNameR').val(empleado[0].email);
+                    $('#userName').val(empleado[0].email);
                     $('.divName').show();
                     $('.divPassword').show();
                     if($('#userNameR').val()==""){

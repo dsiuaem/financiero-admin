@@ -339,7 +339,7 @@ class UsuariosModel extends Model
         // define options
         $jwt = new JWT();
         $optArray = array(
-            CURLOPT_URL => constant('API_URL_SIA').'resource/empleados',
+            CURLOPT_URL => constant('API_URL_SIA').'resource/empleadosVigentes',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST=>'GET',
             CURLOPT_HTTPHEADER=>array('Content-type: text/plain')

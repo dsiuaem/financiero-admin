@@ -296,8 +296,10 @@ function editarPerfil(idPerfil,perfil){
         $('#modulospoEditar').empty();
         $('.idPerfilEdit').val(idPerfil);
         var opciones=getOpciones(idPerfil);
+        console.log(opciones);
         if(opciones!=null){
           opciones=obtenerArrayOpciones(opciones);
+          console.log(opciones);
         }
         var dropdownModulos = $("#modulospoEditar");
         despliege(id_sistema,dropdownModulos,opciones);

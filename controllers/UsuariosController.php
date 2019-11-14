@@ -169,6 +169,7 @@ class UsuariosController extends Controller
      function getEmpleado(){
         $usuarioDTO = new UsuariosDTO;
         $usuarioDTO->id=$_POST['idEmpleado'];
+        $usuarioDTO->tipo = 1;
         $this->model->empleado = $usuarioDTO;
         //Recupera los datos del servicio web
         $this->model->getEmpleado();
