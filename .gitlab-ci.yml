@@ -1,7 +1,7 @@
 stages:
   - deploy
 
-admin_pruebas:
+api_admin_pruebas:
   stage: deploy
   script: 
     - chmod og= $ID_RSA
@@ -10,7 +10,7 @@ admin_pruebas:
   only:
      - pruebas
 
-admin_capacitacion:
+api_admin_capacitacion:
   stage: deploy
   script: 
     - chmod og= $ID_RSA_CAP
